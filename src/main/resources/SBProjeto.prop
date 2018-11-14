@@ -1,0 +1,11 @@
+VERSAO=${pom.version}
+NOME_PROJETO=${pom.artifactId}
+NOME_SOCIAL=${pom.name}
+#PODE SER BIBLIOTECA, MOBILE, DESKTOP, OU WEB
+TIPO_PROJETO=${pom.packaging}
+ENDERECO_WEB=http://salviof.github.io/SuperBits_FrameWork
+NOME_CLIENTE=Super_Bits
+GRUPO_PROJETO=SB_FRAMEWORK
+DIRETORIO_BASE=SuperBits_FrameWork
+NOME_BANCO=${projetoSB.nomeBanco}
+

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <artifactId>SBPersistencia</artifactId>
+    <packaging>jar</packaging>
+    <name>SBPersistencia</name>
+    <groupId>br.org.coletivoJava.fw</groupId>
+    <version>1.0RC-SNAPSHOT</version>
+    <properties>
+        <projetoSB.cliente>coletivoJava</projetoSB.cliente>
+        <projetoSB.grupoProjeto>SBPersistencia</projetoSB.grupoProjeto>
+        <projetoSB.nomeBanco>bancoModelo</projetoSB.nomeBanco>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+
+
+    <description>
+        Sistema para manipulação de dados utilizando JPA2 com Hibernate
+        Possui:
+
+        Classes de axilio para pojo + querys
+        Dao Generico Tipado
+        Metodos estáticos para opeções em banco de dados
+        Classes genericas de Entidade com metodos uteis como loadByID
+        Classes genericas para entidades comuns especificas como: endereco, grafico  e outros
+        Anotações para campo avançadas como Configuração de mascara
+
+        * Super-Bits.com CODE CNPJ 20.019.971/0001-90
+    </description>
+
+
+
+    <repositories>
+
+
+
+
+
+
+
+
+    </repositories>
+
+
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+        </dependency>
+
+        <dependency>
+
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>editorImagem</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBCore</artifactId>
+            <version>1.0RC-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+
+            <groupId>br.org.coletivoJava.fw</groupId>
+            <artifactId>SBTestes</artifactId>
+            <version>1.0RC-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.3.3.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.3.3.Final</version>
+        </dependency>
+        <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.3.3.Final</version>
+        </dependency>
+
+
+    </dependencies>
+
+
+    <build>
+        <plugins>
+
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                    <archiveClasses>true</archiveClasses>
+                </configuration>
+            </plugin>
+        </plugins>
+
+
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.prop</include>
+                </includes>
+            </resource>
+        </resources>
+
+
+
+    </build>
+
+
+
+
+
+</project>

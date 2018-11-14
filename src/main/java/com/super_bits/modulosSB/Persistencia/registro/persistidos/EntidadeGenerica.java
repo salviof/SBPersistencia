@@ -1,0 +1,271 @@
+package com.super_bits.modulosSB.Persistencia.registro.persistidos;
+
+import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributosSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCaminhoCampoNaoExiste;
+import com.super_bits.modulosSB.SBCore.modulos.fonteDados.ItfCentralAtributosDeObjetos;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.UtilSBCoreReflecaoIEstruturaEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemGenerico;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
+
+public abstract class EntidadeGenerica extends ItemGenerico implements Serializable {
+
+    protected Field searchCampoIdentificacao() {
+
+        Class classeDoCampo = this.getClass();
+        Field campo;
+        campo = UtilSBCoreReflexaoCaminhoCampo.getSBCampobyTipoCampo(classeDoCampo, FabTipoAtributoObjeto.ID);
+
+        if (campo == null) {
+            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByClasseAnotacao(classeDoCampo, Id.class);
+        }
+
+        return campo;
+    }
+
+    @Override
+    protected final void adcionaCampoEsperado(CampoEsperado pCampo) {
+        Field campo;
+        if (pCampo.equals("id")) {
+            campo = searchCampoIdentificacao();
+            pCampo.setAnotacaoObrigatoria(true);
+        } else {
+            super.adcionaCampoEsperado(pCampo);
+        }
+    }
+
+    @Override
+    protected ItfCentralAtributosDeObjetos getCentraldeAtributosDoObjeto(Field pCampo) {
+        return new CentralAtributosSBPersistencia();
+    }
+
+    @Override
+    protected Field getCampoByAnotacao(FabTipoAtributoObjeto pNomedaAnotacao) {
+
+        if (pNomedaAnotacao == FabTipoAtributoObjeto.ID) {
+            return searchCampoIdentificacao();
+        }
+
+        return super.getCampoByAnotacao(pNomedaAnotacao);
+    }
+
+    protected EntityManager getEm() {
+        return UtilSBPersistencia.getNovoEM();
+        //BeansUtil.getAppBean("dados")).getEm();
+    }
+
+    public void loadByID(int pId) {
+
+        Object resultado = UtilSBPersistencia.getRegistroByID(this.getClass(), pId);
+        System.out.println("ATENÇÃO O METODO LOAD BY ID AINDA NÃO SUPORTA CLASSES COM POLIMORFISMO DE ENTIDADE");
+        //todo compativel com Extenção de classe
+        if (resultado != null) {
+            copiaDados(resultado);
+        }
+
+    }
+
+    public void loadByID(int pId, EntityManager pEM) {
+
+        Object resultado = UtilSBPersistencia.getRegistroByID(this.getClass(), pId, pEM);
+        System.out.println("ATENÇÃO O METODO LOAD BY ID AINDA NÃO SUPORTA CLASSES COM POLIMORFISMO DE ENTIDADE");
+        //todo compativel com Extenção de classe
+        if (resultado != null) {
+            copiaDados(resultado);
+        }
+
+    }
+
+    public static Object createByID(int pId) {
+        Class currentClass = new Object() {
+        }.getClass().getEnclosingClass();
+        System.out.println("classe clinica" + currentClass.getSimpleName());
+
+        String classe = Thread.currentThread().getStackTrace()[1].getClassName();
+
+        // return UtilSBPersistencia.getRegistroByID(currentClass, pId);
+        throw new UnsupportedOperationException("Recurso para criar entidade via reflexão em método estático, ainda não foi desenvolvido, motivo:"
+                + "this.getClass não é suportado,  gabiarras precisam ser descobertas para obter a classe e vai ser nescessário "
+                + " adcionar o loadByID na interface de entidade ");
+
+    }
+
+    protected EntidadeGenerica() {
+        super();
+    }
+
+    protected List<Field> getCamposUmParaMuitos() {
+        List<Field> resposta = new ArrayList<>();
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            OneToMany campoAnotado = field.getAnnotation(OneToMany.class);
+
+            if (campoAnotado != null) {
+                resposta.add(field);
+            }
+        }
+        return resposta;
+    }
+
+    protected List<Field> getCamposMuitosParaUm() {
+        List<Field> resposta = new ArrayList<>();
+        Field[] fields = this.getClass().getDeclaredFields();
+
+        for (Field field : fields) {
+            ManyToOne campoAnotado = field.getAnnotation(ManyToOne.class);
+            if (campoAnotado != null) {
+                resposta.add(field);
+            }
+        }
+        return resposta;
+    }
+
+    @Override
+    public String getImgPequena() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    protected List getListaDaEtidade(boolean pAtualizarSempre) {
+
+        String nomeCampo;
+        String nomeMetodo = "Metodo não encontrado (este metodo só deve ser chamado dentro metodo get padrão pojo ex:   entidade.getValorDoCalculo();";
+        try {
+
+            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+
+            nomeMetodo = stackTraceElements[2].getMethodName();
+            nomeCampo = nomeMetodo.substring(3);
+            nomeCampo = nomeCampo.substring(0, 1).toLowerCase() + nomeCampo.substring(1);
+
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro localizando atributo de  lista atravez do metodo " + nomeMetodo + " na classe " + this.getClass().getSimpleName(), t);
+            return null;
+        }
+
+        Field campo;
+
+        try {
+
+            ItfListas lista;
+
+            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByCaminho(new CaminhoCampoReflexao(nomeCampo, this.getClass()));
+            if (campo == null) {
+                throw new UnsupportedOperationException("o campo " + nomeCampo + "não foi encontrado");
+            }
+            lista = UtilSBCoreReflecaoIEstruturaEntidade.getListaByField(campo);
+            if (lista == null) {
+                throw new UnsupportedOperationException("é nessessário anotar o campo do método com o enum de fabrica da lista");
+            }
+            List valorAnteriorLista = (List) campo.get(this);
+
+            if (valorAnteriorLista == null || valorAnteriorLista.isEmpty() || pAtualizarSempre) {
+                campo.set(this, lista.getLista(this));
+                return (List) campo.get(this);
+            } else {
+                return (List) campo.get(this);
+            }
+
+        } catch (Throwable ex) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro configurando calculo para o campo" + nomeCampo + " na tabela " + this.getClass().getSimpleName(), ex);
+            return new ArrayList();
+        }
+
+    }
+
+    /**
+     *
+     * Este metodo deve ser chamado em metodos padrão POJO do tipo get, ele
+     * buscará o atributo referente ao método, e atravéz
+     *
+     * @return
+     */
+    protected Object getRetornoCalculo() {
+        // Obtem a anotação por reflexao do nome do metodo por atributo
+        // seta o valor no atrbuto, e retorna o valor obtido
+        String nomeCampo;
+        String nomeMetodo = "Metodo não encontrado (este metodo só deve ser chamado dentro metodo get padrão pojo ex:   entidade.getValorDoCalculo();";
+        try {
+
+            StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+
+            nomeMetodo = stackTraceElements[2].getMethodName();
+            if (nomeMetodo.startsWith("get")) {
+                nomeCampo = nomeMetodo.substring(3);
+                nomeCampo = nomeCampo.substring(0, 1).toLowerCase() + nomeCampo.substring(1);
+            } else if (nomeMetodo.startsWith("is")) {
+                nomeCampo = nomeMetodo.substring(2);
+                nomeCampo = nomeCampo.substring(0, 1).toLowerCase() + nomeCampo.substring(1);
+            } else {
+                //TODO implementação extra pojo...
+                nomeCampo = nomeMetodo.substring(3);
+                nomeCampo = nomeCampo.substring(0, 1).toLowerCase() + nomeCampo.substring(1);
+            }
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro localizando atributo de  calculo atravez do metodo " + nomeMetodo + " na classe " + this.getClass().getSimpleName(), t);
+            return null;
+        }
+
+        Field campo;
+        try {
+
+            ItfCalculos calculo;
+            CaminhoCampoReflexao caminhoCampo = null;
+
+            caminhoCampo = new CaminhoCampoReflexao(nomeCampo, UtilSBCoreReflexaoObjeto.getClassExtraindoProxy(this.getClass().getSimpleName()));
+            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByCaminho(caminhoCampo);
+
+            calculo = UtilSBCoreReflecaoIEstruturaEntidade.getCalculoByField(campo);
+            try {
+
+                campo.set(this, calculo.getValor(this));
+            } catch (IllegalAccessException | IllegalArgumentException t) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "O calor do campo  " + campo.getName() + " não pode ser configurado por reflexão, o valor enviado foi" + calculo + " o erro que aconteceu foi: " + t.getMessage(), t);
+
+            }
+
+            return campo.get(this);
+        } catch (SecurityException | IllegalArgumentException | ErroCaminhoCampoNaoExiste | IllegalAccessException ex) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro configurando calculo para o campo" + nomeCampo + " na tabela " + this.getClass().getSimpleName(), ex);
+            return null;
+        }
+
+    }
+
+    private class CampoEntidadeGenericaInstanciada extends CampoIntemGenericoInstanciado implements ItfCampoInstanciado {
+
+        public CampoEntidadeGenericaInstanciada(Field pCampoReflection) {
+            super(pCampoReflection);
+        }
+
+        @Override
+        public List<ItfBeanSimples> getListaDeOpcoes() {
+            return super.getListaDeOpcoes(); //To change body of generated methods, choose Tools | Templates.
+        }
+
+    }
+
+    @Override
+    protected ItfCampoInstanciado instanciarnovoCampo(Field pCampoReflexao) {
+        return new CampoEntidadeGenericaInstanciada(pCampoReflexao);
+    }
+
+}

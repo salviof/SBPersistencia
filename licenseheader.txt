@@ -1,0 +1,8 @@
+<#if licenseFirst??> 
+${licenseFirst} 
+</#if> 
+${licensePrefix} Desenvolvido pela equipe Super-Bits.com CNPJ 20.019.971/0001-90 
+
+<#if licenseLast??> 
+${licenseLast} 
+</#if> 
