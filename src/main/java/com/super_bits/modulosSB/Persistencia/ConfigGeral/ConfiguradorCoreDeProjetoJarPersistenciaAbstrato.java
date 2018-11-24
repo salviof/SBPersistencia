@@ -29,6 +29,9 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
     @Override
     public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao); //To change body of generated methods, choose Tools | Templates.
+        setIgnorarConfiguracaoPermissoes(false);
+        setIgnorarConfiguracaoAcoesDoSistema(false);
+
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);
         pConfiguracao.setCentralDeLocalizacao(CentralLocalizacaoSBPersistencia.class);
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);

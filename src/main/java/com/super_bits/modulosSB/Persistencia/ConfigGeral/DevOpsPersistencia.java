@@ -15,6 +15,8 @@ import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivo
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +25,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
+
+import org.apache.logging.log4j.core.LoggerContext;
+
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
@@ -426,19 +432,24 @@ public class DevOpsPersistencia {
         //Habilita funcionamento do lasy com persistencia fechada, foge do padrão da JCP,
         //TODO: analizar qual deve ser o padrão, e se deve fazer parte do config de persistencia
         ///propriedades.put("hibernate.enable_lazy_load_no_trans", true);
-        List<Logger> loggers = Collections.<Logger>list(LogManager.getCurrentLoggers());
-        loggers.add(LogManager.getRootLogger());
+
+        LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+        Collection<Logger> logColection = ctx.getLoggers();
+
+        List<Logger> loggers = new ArrayList<>();
+        logColection.stream().forEach(loggers::add);
+//        loggers.add(LogManager.getRootLogger());
         if (SBCore.isEmModoDesenvolvimento()) {
             for (Logger loggerAtual : loggers) {
                 if (loggerAtual.getName().contains("hibernate")) {
-                    loggerAtual.setLevel(org.apache.log4j.Level.INFO);
+                    loggerAtual.setLevel(Level.INFO);
                 }
 
             }
         } else {
             for (Logger loggerAtual : loggers) {
                 if (loggerAtual.getName().contains("hibernate")) {
-                    loggerAtual.setLevel(org.apache.log4j.Level.ERROR);
+                    loggerAtual.setLevel(Level.ERROR);
                 }
 
             }
