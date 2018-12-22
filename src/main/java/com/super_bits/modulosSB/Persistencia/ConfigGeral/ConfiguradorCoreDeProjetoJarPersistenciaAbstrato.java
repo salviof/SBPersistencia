@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributos
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreDeProjetoJarAbstrato;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.FabTipoProjeto;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoApenasLogs;
 
 /**
  *

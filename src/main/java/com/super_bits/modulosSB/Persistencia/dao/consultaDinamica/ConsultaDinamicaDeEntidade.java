@@ -44,7 +44,9 @@ public class ConsultaDinamicaDeEntidade {
     }
 
     public ConsultaDinamicaDeEntidade addCondicaoManyToOneContemNoIntervalo(String pCaminhoCampoCondicao, List<? extends ItfBeanSimples> pEtidadesManyToOne) {
-
+        if (pEtidadesManyToOne.isEmpty()) {
+            return this;
+        }
         CondicaoConsulta condicaoManyToOneIn = new CondicaoConsulta(this, FabTipoCondicaoJPQL.MANY_TO_ONE_NESTE_INTERVALO);
         condicaoManyToOneIn.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
         condicaoManyToOneIn.setValorParametro(pEtidadesManyToOne);

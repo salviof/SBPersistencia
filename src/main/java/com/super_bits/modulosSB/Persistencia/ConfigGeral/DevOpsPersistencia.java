@@ -14,10 +14,10 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreShellBasico;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivoTexto;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.testes.UtilSBCoreTestes;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +98,18 @@ public class DevOpsPersistencia {
     private final String DESTINO_ARQUIVO_CONFIGURACOES;
     private final String DESTINO_ARQUIVO_HASH_BANCO;
 
+    public DevOpsPersistencia() {
+
+        this.nomeArquivoPersistencia = null;
+        this.configurador = null;
+        this.DESTINO_ARQUIVO_SCRIPT_FINAL = null;
+        this.DESTINO_ARQUIVO_CARREGA_BANCO = null;
+        this.DESTINO_ARQUIVO_COMPILA_BANCO = null;
+        this.DESTINO_ARQUIVO_APAGA_BANCO = null;
+        this.DESTINO_ARQUIVO_CONFIGURACOES = null;
+        this.DESTINO_ARQUIVO_HASH_BANCO = null;
+    }
+
     public DevOpsPersistencia(ItfConfigSBPersistencia pConfig) {
         nomeArquivoPersistencia = pConfig.bancoPrincipal();
         configurador = pConfig;
@@ -162,7 +174,7 @@ public class DevOpsPersistencia {
             throw new UnsupportedOperationException("O arquivo de script para compilar o banco não foi encontrado em " + script);
         }
 
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
+        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
         String retornoCompilaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_COMPILA_BANCO);
         UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, hashBancoGerado);
         System.out.println("Retorno Compila Banco->" + retornoCompilaBanco);
@@ -186,17 +198,17 @@ public class DevOpsPersistencia {
         if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_APAGA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo apagar banco executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_APAGA_BANCO, linha, 1);
+        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_APAGA_BANCO, linha, 2);
         UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResCompilaBanco, DESTINO_ARQUIVO_COMPILA_BANCO);
         if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_COMPILA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo compilabanco executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, linha, 1);
+        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, linha, 2);
         UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResCarregaBanco, DESTINO_ARQUIVO_CARREGA_BANCO);
         if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_CARREGA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo carrega executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, linha, 1);
+        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, linha, 2);
 
         //UtilSBCoreShellBasico.executeCommand(false, "chmod u+x " + SBPersistencia.getPastaExecucaoScriptsSQL()+"/*.sh");
         //System.out.println("Retorno CHNOD   "+ getPastaExecucaoScriptsSQL() + "/*.sh>>" + retorno);
@@ -232,6 +244,20 @@ public class DevOpsPersistencia {
         execScriptFinal();
     }
 
+    public void carregaBancoSeBancoVazio() {
+        File script = new File(DESTINO_ARQUIVO_CARREGA_BANCO);
+        //if (!testeConexao()) {
+
+        //}
+        if (!script.exists()) {
+            throw new UnsupportedOperationException("O arquivo de script para carregar banco não foi encontrado em " + script);
+        }
+        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
+        String retornoCarrregaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_CARREGA_BANCO);
+        System.out.println("Retorno Carrega Banco" + retornoCarrregaBanco);
+        execScriptFinal();
+    }
+
     public void limparBanco() {
 
         if (SBCore.getEstadoAPP() != SBCore.ESTADO_APP.DESENVOLVIMENTO) {
@@ -244,7 +270,7 @@ public class DevOpsPersistencia {
         }
         String retornoApagaBanco = "";
         try {
-            UtilSBCoreArquivoTexto.substituirEstaLinha(caminhosScript, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
+            UtilSBCoreArquivoTexto.substituirEstaLinha(caminhosScript, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
             retornoApagaBanco = UtilSBCoreShellBasico.executeCommand(caminhosScript);
         } catch (Throwable t) {
             if (!t.getMessage().contains("doesn't exist")) {
@@ -337,7 +363,7 @@ public class DevOpsPersistencia {
          * time-out com uma SQLException depois de passada a quantidade
          * especificada # de milisegundos.
          */
-        pPropriedades.put("hibernate.c3p0.checkoutTimeout", 15000);
+        pPropriedades.put("hibernate.c3p0.checkoutTimeout", 5000);
         /**
          * Tempo em milisegundos que o c3p0 irá esperar entre tentivas de
          * aquisição.
@@ -420,25 +446,67 @@ public class DevOpsPersistencia {
 
     }
 
+    public void carregarConfiguracaoBasicaPadraoMysql(Map<String, Object> pPropriedades) {
+        pPropriedades.put("javax.persistence.sharedCache.mode", "NONE");
+        pPropriedades.put("org.hibernate.cacheable", "false");
+        pPropriedades.put("hibernate.cache.use_query_cache", "false");
+        pPropriedades.put("hibernate.cache.use_second_level_cache", "false");
+        pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
+    }
+
+    public void carregarDadosConexaoPadrao(Map<String, Object> pPropriedades) {
+        if (SBCore.isEmModoProducao()) {
+
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + SBPersistencia.getNomeBancoPadrao() + "." + SBCore.getGrupoProjeto() + "." + SBCore.DOMINIO_FICTICIO_INTRANET_DOCKER + "/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.password", "senhaEspacoDockerProtegido");
+        } else {
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.password", "");
+        }
+    }
+
+    public void carregarAutoLoadPadrao(Map<String, Object> pPropriedades) {
+        if (SBCore.isEmModoDesenvolvimento()) {
+            // desabilitando criação de banco de dados no início caso o banco seja o mesmo
+            pPropriedades.put("hibernate.hbm2ddl.auto", null);
+            // Mostrar SQL
+            pPropriedades.put("hibernate.show_sql", true);
+            //Mostrar SQL formatado
+            pPropriedades.put("hibernate.format_sql", true);
+            //Mostrar comentários explicativos
+            pPropriedades.put("hibernate.use_sql_comments", true);
+
+        } else {
+
+            // desabilitando hbm2dllauto por segurança
+            pPropriedades.put("hibernate.hbm2ddl.auto", null);
+            // Mostrar SQL
+            pPropriedades.put("hibernate.show_sql", false);
+            //Mostrar SQL formatado
+            pPropriedades.put("hibernate.format_sql", false);
+            //Mostrar comentários explicativos
+            pPropriedades.put("hibernate.use_sql_comments", false);
+            // Cofiguracoes de C3p0
+        }
+    }
+
     public void iniciarBanco(boolean pRecriarBanco) {
 
         Map<String, Object> propriedades = new HashMap<>();
-        propriedades.put("javax.persistence.sharedCache.mode", "NONE");
-        propriedades.put("org.hibernate.cacheable", "false");
-        propriedades.put("hibernate.cache.use_query_cache", "false");
-        propriedades.put("hibernate.cache.use_second_level_cache", "false");
-        propriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
-        propriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+        carregarConfiguracaoBasicaPadraoMysql(propriedades);
+        carregarDadosConexaoPadrao(propriedades);
+
         //Habilita funcionamento do lasy com persistencia fechada, foge do padrão da JCP,
         //TODO: analizar qual deve ser o padrão, e se deve fazer parte do config de persistencia
         ///propriedades.put("hibernate.enable_lazy_load_no_trans", true);
-
         LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
         Collection<Logger> logColection = ctx.getLoggers();
 
         List<Logger> loggers = new ArrayList<>();
         logColection.stream().forEach(loggers::add);
 //        loggers.add(LogManager.getRootLogger());
+
+        carregarAutoLoadPadrao(propriedades);
         if (SBCore.isEmModoDesenvolvimento()) {
             for (Logger loggerAtual : loggers) {
                 if (loggerAtual.getName().contains("hibernate")) {
@@ -454,29 +522,6 @@ public class DevOpsPersistencia {
 
             }
 
-        }
-
-        if (SBCore.isEmModoDesenvolvimento()) {
-            // desabilitando criação de banco de dados no início caso o banco seja o mesmo
-            propriedades.put("hibernate.hbm2ddl.auto", null);
-            // Mostrar SQL
-            propriedades.put("hibernate.show_sql", true);
-            //Mostrar SQL formatado
-            propriedades.put("hibernate.format_sql", true);
-            //Mostrar comentários explicativos
-            propriedades.put("hibernate.use_sql_comments", true);
-
-        } else {
-
-            // desabilitando hbm2dllauto por segurança
-            propriedades.put("hibernate.hbm2ddl.auto", null);
-            // Mostrar SQL
-            propriedades.put("hibernate.show_sql", false);
-            //Mostrar SQL formatado
-            propriedades.put("hibernate.format_sql", false);
-            //Mostrar comentários explicativos
-            propriedades.put("hibernate.use_sql_comments", false);
-            // Cofiguracoes de C3p0
         }
 
         if (SBCore.isEmModoDesenvolvimento() && pRecriarBanco) {
@@ -511,7 +556,9 @@ public class DevOpsPersistencia {
                     UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
 
                     primeiraConexao = UtilSBPersistencia.getNovoEM();
-
+                    if (SBCore.isEmModoDesenvolvimento()) {
+                        UtilSBCoreTestes.emContextoTEste = UtilSBPersistencia.getEntyManagerPadraoNovo();
+                    }
                     if (configurador.fabricasRegistrosIniciais() != null) {
                         for (Class classe : configurador.fabricasRegistrosIniciais()) {
                             try {

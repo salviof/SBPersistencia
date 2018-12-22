@@ -38,7 +38,7 @@ public class TestesFWPersistencia extends TesteJunitSBPersistencia {
             EstruturaCampo teste = MapaObjetosProjetoAtual.getEstruturaCampoPorCaminhoCompleto("RegistroTesteSimples.objetoTeste.nome");
             System.out.println(estrutura);
 
-            List<RegistroTesteSimples> listagem = UtilSBPersistencia.getListaTodos(RegistroTesteSimples.class, getEmTeste());
+            List<RegistroTesteSimples> listagem = UtilSBPersistencia.getListaTodos(RegistroTesteSimples.class, getEMTeste());
             ItfCampoInstanciado campoInstanciado = listagem.get(0).getCampoInstanciadoByNomeOuAnotacao("id");
             SBCore.getCentralDados().selecaoRegistros(null, null,
                     "from " + campoInstanciado.getNomeClasseOrigemAtributo() + " where " + campoInstanciado.getNome() + " = ?", 1, MapaObjetosProjetoAtual.getClasseDoObjetoByNome(campoInstanciado.getNomeClasseOrigemAtributo()), FabTipoSelecaoRegistro.NOMECURTO, 1);
