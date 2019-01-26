@@ -6,6 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
 import java.util.logging.Level;
@@ -23,10 +24,12 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
     private boolean executarAoConstruir = true;
     private boolean executouAcoesFinais = false;
 
-    public void execucaoPadraoComLancaMentoDeErro() throws ErroEmBancoDeDados {
+    public void execucaoPadraoComLancaMentoDeErro() throws ErroEmBancoDeDados, ErroRegraDeNegocio {
         try {
             executarAcoesIniciais();
+
             regraDeNegocio();
+
             executarAcoesFinais();
 
         } finally {
@@ -35,12 +38,10 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
     }
 
     @Override
-    public void executarAcao() {
-        try {
-            execucaoPadraoComLancaMentoDeErro();
-        } catch (ErroEmBancoDeDados ex) {
-            Logger.getLogger(ExecucaoComGestaoEntityManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void executarAcao() throws ErroEmBancoDeDados, ErroRegraDeNegocio {
+
+        execucaoPadraoComLancaMentoDeErro();
+
     }
 
     public ExecucaoComGestaoEntityManager() {

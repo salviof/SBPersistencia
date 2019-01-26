@@ -1,7 +1,9 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.GrupoUsuariosDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabGruposPadrao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanNormal;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanPermisionado;
@@ -82,7 +84,9 @@ public abstract class EntidadeNormal extends EntidadeSimples implements ItfBeanN
             setValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_DATAINSERCAO, new Date());
         }
         if (getCampoByAnotacao(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO) != null) {
-            setValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO, SBCore.getUsuarioLogado());
+            if (!SBCore.getUsuarioLogado().getGrupo().equals(new GrupoUsuariosDoSistema())) {
+                setValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO, SBCore.getUsuarioLogado());
+            }
         }
 
     }
@@ -95,7 +99,9 @@ public abstract class EntidadeNormal extends EntidadeSimples implements ItfBeanN
         }
 
         if (getCampoByAnotacao(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO) != null) {
-            setValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO, SBCore.getUsuarioLogado());
+            if (!SBCore.getUsuarioLogado().getGrupo().equals(new GrupoUsuariosDoSistema())) {
+                setValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO, SBCore.getUsuarioLogado());
+            }
         }
     }
 

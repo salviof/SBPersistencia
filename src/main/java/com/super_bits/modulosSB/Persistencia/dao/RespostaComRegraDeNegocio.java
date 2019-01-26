@@ -13,6 +13,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.permissoes.ItfAcaoFormulario;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -41,7 +42,7 @@ public abstract class RespostaComRegraDeNegocio implements ItfRespostaComExecuca
     }
 
     @Override
-    public void executarAcao() {
+    public void executarAcao() throws ErroEmBancoDeDados, ErroRegraDeNegocio {
         execucaoRegraDENegocio.executarAcao();
     }
 

@@ -5,6 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import javax.persistence.EntityManager;
 
 /**
@@ -13,12 +14,12 @@ import javax.persistence.EntityManager;
  */
 public interface ItfExecucaoRegraDeNegocio {
 
-    public abstract void regraDeNegocio();
+    public abstract void regraDeNegocio() throws ErroRegraDeNegocio;
 
     /**
      * Executa a ação de gestão de Entity Manager
      */
-    public void executarAcao();
+    public void executarAcao() throws ErroEmBancoDeDados, ErroRegraDeNegocio;
 
     /**
      * Executa as operções finais, e

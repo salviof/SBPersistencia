@@ -8,6 +8,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanEnderecavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import static java.lang.Thread.sleep;
@@ -192,7 +193,12 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
             try {
                 if (isSucesso()) {
                     executarAcoesIniciais();
-                    regraDeNegocio();
+                    try {
+                        regraDeNegocio();
+                    } catch (ErroRegraDeNegocio pRegraDeNegocio) {
+                        addErro(pRegraDeNegocio.getMessage());
+                    }
+
                     executarAcoesFinais();
                 }
 

@@ -101,9 +101,9 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public void setNome(String nome) {
-
-        this.nome = nome;
+    public void setNome(String pNome) {
+        pNome = pNome.replace("_", " ");
+        this.nome = pNome;
         configIDPeloNome();
 
     }

@@ -17,8 +17,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import org.hibernate.hql.internal.ast.tree.OrderByClause;
 
 /**
  *
@@ -33,6 +35,7 @@ public class ConsultaDinamicaDeEntidade {
     private final Map<String, Object> valoresParametro = new HashMap<>();
     private final List<Predicate> predicadosCriteriaAPIGerados = new ArrayList<>();
     private EntityManager em;
+    private boolean ordemreversa = false;
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal, EntityManager pEm) {
         this.entidadePrincipal = entidadePrincipal;
@@ -41,6 +44,19 @@ public class ConsultaDinamicaDeEntidade {
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal) {
         this.entidadePrincipal = entidadePrincipal;
+    }
+
+    /**
+     * Ainda não implmentado
+     *
+     * @param pOrdemReversa
+     * @return
+     * @deprecated
+     */
+    @Deprecated
+    public ConsultaDinamicaDeEntidade setOrDemReversa(boolean pOrdemReversa) {
+        ordemreversa = pOrdemReversa;
+        return this;
     }
 
     public ConsultaDinamicaDeEntidade addCondicaoManyToOneContemNoIntervalo(String pCaminhoCampoCondicao, List<? extends ItfBeanSimples> pEtidadesManyToOne) {
@@ -92,10 +108,6 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
-    public void addCondicaoManyToOneIgualAEspecico(String pValor, ItfBeanSimples pEtidadeManyToOne) {
-
-    }
-
     public long resultadoSomarQuantidade() {
         try {
             tipoCalculo = FabTipoFiltroCalculo.SOMA_QTD;
@@ -129,7 +141,11 @@ public class ConsultaDinamicaDeEntidade {
                 criteriosDaconsulta.where(predicadosCriteriaAPIGerados.toArray(new Predicate[]{}));
 
             }
+            if (ordemreversa) {
+                if (criteriosDaconsulta.getOrderList().isEmpty()) {
 
+                }
+            }
             Query consulta = em.createQuery(criteriosDaconsulta);
 
             consulta.getParameters().forEach(pr

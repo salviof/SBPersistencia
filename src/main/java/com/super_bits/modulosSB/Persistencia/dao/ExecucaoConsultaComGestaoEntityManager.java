@@ -6,6 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
@@ -24,6 +25,10 @@ public abstract class ExecucaoConsultaComGestaoEntityManager extends GestaoEntit
     @Override
     public void executarAcoesIniciais() throws ErroEmBancoDeDados {
         getEm();
+    }
+
+    public EntityManager getEmConsultaComGEstao() {
+        return getEm();
     }
 
     @Override

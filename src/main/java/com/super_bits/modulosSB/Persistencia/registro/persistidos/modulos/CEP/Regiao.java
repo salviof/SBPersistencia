@@ -45,7 +45,7 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)", obrigatorio = true)
     private String nomeRegiao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Cidade", descricao = "Lista das cidades que compõem o estado selecionado")

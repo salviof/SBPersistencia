@@ -7,6 +7,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -59,9 +60,12 @@ public abstract class GestaoEntityManagerAbstrata implements ItfExecucaoRegraDeN
                 executarAcoesIniciais();
                 regraDeNegocio();
                 executarAcoesFinais();
+
+            } catch (ErroRegraDeNegocio pErro) {
+                SBCore.enviarMensagemUsuario(pErro.getMessage(), FabMensagens.ERRO);
             } catch (ErroEmBancoDeDados pErro) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, pErro.getMensagemProgrador(), pErro);
-                SBCore.enviarMensagemUsuario(pErro.getMensagemUsuario(), FabMensagens.AVISO);
+                SBCore.enviarMensagemUsuario(pErro.getMensagemUsuario(), FabMensagens.ERRO);
             } catch (Throwable t) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Inexperado executando ação com gestao automatica de entity manager", t);
             }
