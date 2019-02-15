@@ -8,8 +8,11 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
 import java.util.Date;
+import java.util.Map;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
@@ -17,12 +20,29 @@ import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 
 /**
  *
  * @author desenvolvedor
  */
 public class ListenerEntidadePadrao {
+
+    @Transient
+    private transient Map<String, Object> propriedadesEstadoAnterior;
+
+    @PostLoad
+    private void objetoEstadoAnterior(ItfBeanSimples pEntidade) {
+
+        if (pEntidade instanceof ItfBeanComStatus) {
+            ItfBeanComStatus bst = (ItfBeanComStatus) pEntidade;
+            ItfBeanStatus sts = bst.getStatusPrincipal();
+            propriedadesEstadoAnterior.put(sts.getClass().getSimpleName(), sts);
+            String campoId = pEntidade.getNomeCampo(FabTipoAtributoObjeto.ID);
+            propriedadesEstadoAnterior.put(campoId, pEntidade.getNome());
+        }
+
+    }
 
     @PrePersist
     public void acaoAntesDePersistir(ItfBeanSimples pEntidade) {
@@ -36,11 +56,6 @@ public class ListenerEntidadePadrao {
                 pEntidade.getCampoInstanciadoByNomeOuAnotacao(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO.name()).setValor(SBCore.getUsuarioLogado());
             }
         }
-
-    }
-
-    @PostPersist
-    public void acaoAposPersistir(ItfBeanSimples emp) {
 
     }
 
@@ -58,7 +73,16 @@ public class ListenerEntidadePadrao {
 
     @PostUpdate
     public void acaoAposAtualizar(ItfBeanSimples emp) {
+        if (emp instanceof ItfBeanComStatus) {
+            //disparar eventos de alteração de Status, como eventos de comunicação
+        }
+    }
 
+    @PostPersist
+    public void acaoAposPersistir(ItfBeanSimples emp) {
+        if (emp instanceof ItfBeanComStatus) {
+            //disparar eventos de alteração de Status, como eventos de comunicação
+        }
     }
 
     @PreRemove

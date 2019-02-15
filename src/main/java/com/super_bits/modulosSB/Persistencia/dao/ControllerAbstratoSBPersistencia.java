@@ -41,17 +41,21 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
      * @return
      */
     protected static ItfRespostaAcaoDoSistema getNovaRespostaAutorizaChecaNulo(ItfBeanSimples pEntidade) {
+        try {
+            if (pEntidade == null) {
+                throw new UnsupportedOperationException("Entidade não enviada para execução de atividade");
+            }
+            RespostaAcaoDoSistema resp = new RespostaAcaoDoSistema(pEntidade, UtilSBController.getAcaoByMetodo(getMetodoChamado(), true));
 
-        RespostaAcaoDoSistema resp = new RespostaAcaoDoSistema(null, UtilSBController.getAcaoByMetodo(getMetodoChamado(), true));
+            resp.setTipoRetorno(pEntidade.getClass());
+            addMensagemDeAutorizacao(resp);
 
-        if (pEntidade == null) {
-
-            return (ItfRespostaAcaoDoSistema) resp.addErro("Erro, detectado, tentativa de cadastrar um registo nulo");
+            return resp;
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro criando objeto de resposta padrão", t);
+            return new RespostaAcaoDoSistema(UtilSBController.getAcaoByMetodo(getMetodoChamado(), true)).addErro("Erro inesperado executando "
+                    + UtilSBController.getAcaoByMetodo(getMetodoChamado(), true).getNomeAcao());
         }
-        resp.setTipoRetorno(pEntidade.getClass());
-        addMensagemDeAutorizacao(resp);
-
-        return resp;
     }
 
     protected static void persistirTodasEntidadesVinculadas(ItfResposta pResp, ItfBeanSimples pEntidade, EntityManager pEM) {
