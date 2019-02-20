@@ -5,9 +5,9 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanEnderecavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
@@ -21,10 +21,46 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  */
 public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeNegocio implements ItfRespostaComGestaoDeEntityManager {
 
+    public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp, ItfExecucaoRegraDeNegocio pMetodologiaExecucaoAlternativa, boolean executarAcaoAoCriar) {
+
+        super(pResp, pMetodologiaExecucaoAlternativa);
+        if (executarAcaoAoCriar) {
+            if (isSucesso()) {
+                executarAcao();
+            }
+        }
+
+    }
+
+    public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp, boolean executarAcaoAoCriar) {
+
+        super(pResp, new ExecucaoComGestaoEntityManager(false) {
+            @Override
+            public void regraDeNegocio() {
+
+            }
+
+            @Override
+            public void executarAcao() {
+
+            }
+        });
+        if (executarAcaoAoCriar) {
+            if (isSucesso()) {
+                executarAcao();
+            }
+        }
+
+    }
+
+    public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp) {
+        this(pResp, true);
+    }
+
     public Object atualizarEntidade(Object pObjeto) {
         try {
 
-            return getExecucaoGestaoEM().atualizarEntidade(pObjeto);
+            return getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
         } catch (ErroEmBancoDeDados ex) {
             addErro(ex.getMensagemUsuario());
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, ex.getMensagemProgrador(), ex);
@@ -35,7 +71,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
     public Object atualizarEntidadeConfigRetorno(Object pObjeto) {
         try {
 
-            Object registroAtualizado = getExecucaoGestaoEM().atualizarEntidade(pObjeto);
+            Object registroAtualizado = getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
             if (registroAtualizado != null) {
                 setRetorno(registroAtualizado);
             }
@@ -66,7 +102,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
         try {
             if (isSucesso()) {
-                return getExecucaoGestaoEM().remover(pObjeto);
+                return getExecucaoGestaoEMCompleta().remover(pObjeto);
             }
         } catch (ErroEmBancoDeDados ex) {
             addErro(ex.getMensagemUsuario());
@@ -162,31 +198,6 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
     }
 
-    public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp, boolean executarAcaoAoCriar) {
-
-        super(pResp, new ExecucaoComGestaoEntityManager(false) {
-            @Override
-            public void regraDeNegocio() {
-
-            }
-
-            @Override
-            public void executarAcao() {
-
-            }
-        });
-        if (executarAcaoAoCriar) {
-            if (isSucesso()) {
-                executarAcao();
-            }
-        }
-
-    }
-
-    public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp) {
-        this(pResp, true);
-    }
-
     @Override
     public final void executarAcao() {
         try {
@@ -232,8 +243,12 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
         return getExecucaoGestaoEM().getEm();
     }
 
-    public ExecucaoComGestaoEntityManager getExecucaoGestaoEM() {
-        return (ExecucaoComGestaoEntityManager) getExecucao();
+    public ExecucaoComGestaoEntityManager getExecucaoGestaoEMCompleta() {
+        return (ExecucaoComGestaoEntityManager) getExecucaoGestaoEM();
+    }
+
+    public ItfExecucaoRegraDeNegocioComGestaodeEntityManager getExecucaoGestaoEM() {
+        return (ItfExecucaoRegraDeNegocioComGestaodeEntityManager) getExecucao();
     }
 
     public RespostaComGestaoEntityManager getRespostaComGestao() {

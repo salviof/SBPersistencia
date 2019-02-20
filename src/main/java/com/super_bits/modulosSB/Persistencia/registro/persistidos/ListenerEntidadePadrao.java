@@ -95,8 +95,4 @@ public class ListenerEntidadePadrao {
 
     }
 
-    @PostLoad
-    public void acaoAposCarregar(ItfBeanSimples emp) {
-
-    }
 }

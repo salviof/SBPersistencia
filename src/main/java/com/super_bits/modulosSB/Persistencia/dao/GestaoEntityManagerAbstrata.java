@@ -26,7 +26,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @author SalvioF
  */
-public abstract class GestaoEntityManagerAbstrata implements ItfExecucaoRegraDeNegocio {
+public abstract class GestaoEntityManagerAbstrata implements ItfExecucaoRegraDeNegocio, ItfExecucaoRegraDeNegocioComGestaodeEntityManager {
 
     private EntityManager em;
     private boolean emFoiCricado = false;
@@ -75,7 +75,8 @@ public abstract class GestaoEntityManagerAbstrata implements ItfExecucaoRegraDeN
 
     }
 
-    protected void fecharEntityManagerEmSeguranca() {
+    @Override
+    public void fecharEntityManagerEmSeguranca() {
         if (em != null) {
             if (getEm().getTransaction().isActive()) {
                 try {

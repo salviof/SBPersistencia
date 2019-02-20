@@ -94,20 +94,6 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
 
     }
 
-    public static Object createByID(int pId) {
-        Class currentClass = new Object() {
-        }.getClass().getEnclosingClass();
-        System.out.println("classe clinica" + currentClass.getSimpleName());
-
-        String classe = Thread.currentThread().getStackTrace()[1].getClassName();
-
-        // return UtilSBPersistencia.getRegistroByID(currentClass, pId);
-        throw new UnsupportedOperationException("Recurso para criar entidade via reflexão em método estático, ainda não foi desenvolvido, motivo:"
-                + "this.getClass não é suportado,  gabiarras precisam ser descobertas para obter a classe e vai ser nescessário "
-                + " adcionar o loadByID na interface de entidade ");
-
-    }
-
     protected EntidadeGenerica() {
         super();
     }
