@@ -14,6 +14,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -46,6 +47,7 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     private int id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)", obrigatorio = true)
+    @Column(unique = true)
     private String nomeRegiao;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Cidade", descricao = "Lista das cidades que compõem o estado selecionado")
