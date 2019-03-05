@@ -4,6 +4,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -11,6 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoA
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfRegiao;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -131,6 +133,9 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     }
 
     public int getQuantidadeCidades() {
+        if (quantidadeCidades == 0) {
+            quantidadeCidades = ((BigInteger) UtilSBPersistencia.getRegistroBySQL("select count(cidade_id)  from regiao_cidades where regiao_id=" + getId(), UtilSBPersistencia.getEntyManagerPadraoNovo())).intValue();
+        }
         return quantidadeCidades;
     }
 
