@@ -7,31 +7,26 @@ package com.super_bits.modulosSB.Persistencia.dao.DriversConexao;
 
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.FabInfoPersistirEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.Persistencia.dao.InfoPerisistirEntidade;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.finalizarTransacao;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.getNovoEM;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.iniciarTransacao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanContatoCorporativo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanContatoPessoa;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CacheRetrieveMode;
-import javax.persistence.CacheStoreMode;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
-
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
-import org.hibernate.CacheMode;
 import org.hibernate.exception.JDBCConnectionException;
-import org.hibernate.jpa.AvailableSettings;
 
 /**
  *
@@ -114,16 +109,16 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             i++;
                         }
                     }
-                    consulta.setHint(AvailableSettings.SHARED_CACHE_RETRIEVE_MODE, CacheRetrieveMode.BYPASS);
-                    consulta.setHint(AvailableSettings.SHARED_CACHE_STORE_MODE, CacheStoreMode.BYPASS);
-                    consulta.setHint(AvailableSettings.SHARED_CACHE_MODE, CacheMode.IGNORE);
-                    consulta.setHint("org.hibernate.cacheable", false);
+                    //consulta.setHint(AvailableSettings.SHARED_CACHE_RETRIEVE_MODE, CacheRetrieveMode.BYPASS);
+                    //consulta.setHint(AvailableSettings.SHARED_CACHE_STORE_MODE, CacheStoreMode.BYPASS);
+                    //consulta.setHint(AvailableSettings.SHARED_CACHE_MODE, CacheMode.IGNORE);
+                    //consulta.setHint("org.hibernate.cacheable", false);
                     //    consulta.setCacheMode(CacheMode.REFRESH);
                     //   consulta.setCacheable(false);
 
                     List resultado = consulta.getResultList();
                     if (resultado.size() > SBPersistencia.getMAXIMO_REGISTROS()) {
-                        System.out.println("este select retorna mais de" + SBPersistencia.getMAXIMO_REGISTROS() + "o sistema não deixará de executar, mas não posso deixar de perguntar Isto está certo ??");
+                        System.out.println("este select retorna mais de" + SBPersistencia.getMAXIMO_REGISTROS() + "o sistema não deixará de executar, mas não posso deixar de perguntar Isto está certo ?? se estiver, você pode ativar o Cache com as anotações @Cacheable e @cache, para otimizar recursos");
                         System.out.println("sql");
                     }
                     return resultado;

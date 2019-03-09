@@ -4,13 +4,13 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
@@ -163,7 +163,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
                 if (fabrica == null) {
                     throw new UnsupportedOperationException(" Erro criando EntityFactury" + pNomeBanco, null);
                 } else {
-                    fabrica.getCache().evictAll();
+                    //  fabrica.getCache().evictAll();
                     BANCO_EXTRA.put(pNomeBanco, fabrica);
                     return fabrica.createEntityManager();
                 }
@@ -200,7 +200,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             if (emFacturePadrao == null) {
 
                 emFacturePadrao = Persistence.createEntityManagerFactory(SBPersistencia.getNomeBancoPadrao(), configuracoesPeristenciaPadrao);
-                emFacturePadrao.getCache().evictAll();
+                //         emFacturePadrao.getCache().evictAll();
 
             }
         } catch (Exception e) {
@@ -238,7 +238,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             }
 
         } finally {
-            emFacturePadrao.getCache().evictAll();
+            //   emFacturePadrao.getCache().evictAll();
         }
     }
 
@@ -386,7 +386,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
         if (emFacturePadrao == null) {
             emFacturePadrao = Persistence.createEntityManagerFactory(SBPersistencia.getNomeBancoPadrao());
-            emFacturePadrao.getCache().evictAll();
+            //   emFacturePadrao.getCache().evictAll();
         }
 
     }
@@ -398,7 +398,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     public static EntityManagerFactory getEmfabricaPadrao() {
         if (emFacturePadrao == null) {
             emFacturePadrao = Persistence.createEntityManagerFactory(SBPersistencia.getNomeBancoPadrao());
-            emFacturePadrao.getCache().evictAll();
+            //   emFacturePadrao.getCache().evictAll();
         }
 
         return emFacturePadrao;
