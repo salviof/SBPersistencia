@@ -20,6 +20,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Cacheable;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -35,7 +36,7 @@ import org.hibernate.exception.JDBCConnectionException;
 public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
     @Override
-    public List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer maximo, Class tipoRegisto, UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
+    public List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer maximo, Class pClasseEntidade, UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
         // todo Se origem for uma MBPAGINA  utilizar o EntityManager da pagina
         // StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 
@@ -43,6 +44,12 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
         //String nomeClasse = stackTraceElements[3].getClassName();
         if (maximo == null) {
             maximo = -1;
+        }
+        boolean usarCache = false;
+        if (pClasseEntidade != null) {
+            if (pClasseEntidade.isAnnotationPresent(Cacheable.class)) {
+                usarCache = true;
+            }
         }
         try {
             Boolean entityManagerPaiEnviado = false;
@@ -66,7 +73,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     String sql = "";
                     switch (pTipoSelecao) {
                         case LIKENOME:
-                            sql = getJPSQL(pTipoSelecao, tipoRegisto, parametros);
+                            sql = getJPSQL(pTipoSelecao, pClasseEntidade, parametros);
                             numeroParamentrosNativos = 1;
                             break;
                         case JPQL:
@@ -76,7 +83,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             sql = pSQL;
                             break;
                         case TODOS:
-                            sql = getJPSQL(pTipoSelecao, tipoRegisto, parametros);
+                            sql = getJPSQL(pTipoSelecao, pClasseEntidade, parametros);
                             break;
                         default:
                             break;
@@ -95,6 +102,10 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         //   sessaoSQLHibernate.setCacheMode(CacheMode.REFRESH);
                         // consulta = sessaoSQLHibernate.createQuery(sql);
                         consulta = em.createQuery(sql);
+                    }
+                    if (usarCache) {
+                        consulta.setHint("org.hibernate.cacheable", true);
+                        consulta.setHint("javax.persistence.cache.retrieveMode", "USE");
                     }
 
                     if (maximo != -1 && maximo != 0) {
@@ -335,9 +346,11 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
             } else {
                 em = getNovoEM();
             }
+
             try {
                 try {
                     Query consulta;
+
                     String sql = "";
                     switch (pTipoSelecao) {
                         case ID:

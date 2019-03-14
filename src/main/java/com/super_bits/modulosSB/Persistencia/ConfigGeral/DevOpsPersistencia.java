@@ -289,8 +289,7 @@ public class DevOpsPersistencia {
         // desabilitando hbm2dllauto por segurança
         //pPropriedades.put("javax.persistence.sharedCache.mode", "NONE");
 
-        pPropriedades.put("hibernate.cache.use_query_cache", "false");
-
+        //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
         //TEntativa de diminuir utilização de memória baseado em https://stackoverflow.com/questions/24359088/high-memory-usage-when-using-hibernate
         pPropriedades.put("hibernate.query.plan_cache_max_soft_references", 2048);
@@ -450,6 +449,7 @@ public class DevOpsPersistencia {
         //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         //pPropriedades.put("hibernate.cache.use_second_level_cache", "false");
         pPropriedades.put("org.hibernate.cacheable", true);
+        pPropriedades.put("hibernate.cache.use_query_cache", true);
         pPropriedades.put("hibernate.cache.use_second_level_cache", true);
         pPropriedades.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
         pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
