@@ -8,8 +8,8 @@ package com.super_bits.modulosSB.Persistencia.dao.consultaDinamica;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.LigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.Optional;
 
@@ -57,7 +57,7 @@ public class CondicaoConsulta {
                 EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
                 ItfBeanSimples beanParametro = (ItfBeanSimples) pValorParametro;
                 if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
-                    Optional<LigacaoMuitosParaUm> pesquisa = est.getMuitosParaUm().stream().filter((relacao)
+                    Optional<ItfLigacaoMuitosParaUm> pesquisa = est.getMuitosParaUm().stream().filter((relacao)
                             -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(),
                                     relacao.getClasseObjetoVinculado()))).findFirst();
                     if (pesquisa.isPresent()) {

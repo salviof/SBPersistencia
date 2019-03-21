@@ -11,6 +11,7 @@ import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaCamp
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfEstruturaCampoEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public abstract class UtilSBPersistenciaValidacao {
             Class classeVinculada = pObjeto.getClass();
             EstruturaDeEntidade esEntidade = MapaObjetosProjetoAtual.getEstruturaObjeto(classeVinculada);
 
-            for (EstruturaCampo estCampo : esEntidade.getCampos()) {
+            for (ItfEstruturaCampoEntidade estCampo : esEntidade.getCampos()) {
                 if (estCampo.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.OBJETO_DE_UMA_LISTA)
                         || (estCampo.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
                         || (estCampo.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES)))) {

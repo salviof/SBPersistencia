@@ -10,8 +10,8 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.InfoLista;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.LigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public interface ItfListasJPA extends ItfListas {
                 }
                 if (classePesquisa != null) {
                     EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(classePrincipal);
-                    for (LigacaoMuitosParaUm relacao : est.getMuitosParaUm()) {
+                    for (ItfLigacaoMuitosParaUm relacao : est.getMuitosParaUm()) {
                         if (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(), relacao.getClasseObjetoVinculado())) {
 
                             String nomecampoPesquisa = relacao.getNomeDeclarado();
