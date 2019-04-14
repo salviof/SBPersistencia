@@ -463,7 +463,7 @@ public class DevOpsPersistencia {
             pPropriedades.put("javax.persistence.jdbc.password", "senhaEspacoDockerProtegido#123");
         } else {
             pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
-            pPropriedades.put("javax.persistence.jdbc.password", "");
+            pPropriedades.put("javax.persistence.jdbc.password", "senhaDev#123");
         }
     }
 

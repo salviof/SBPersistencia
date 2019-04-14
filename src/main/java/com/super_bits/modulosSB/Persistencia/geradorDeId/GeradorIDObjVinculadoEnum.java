@@ -26,7 +26,7 @@ public class GeradorIDObjVinculadoEnum implements IdentifierGenerator {
             return UtilSBCoreGeradorDeID.gerarIdUnicoObejtoVinculadoAFabrica(objVinculado);
 
         } catch (Throwable t) {
-            throw new HibernateException("Erro gerando id do objeto" + pObj + t.getMessage());
+            throw new HibernateException("Erro gerando id do objeto" + pObj + t.getMessage()+"--"+t.getMessage());
         }
 
     }
