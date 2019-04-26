@@ -206,13 +206,15 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     }
 
     @Override
+    @Deprecated
     public boolean validar() {
         return UtilSBCoreComunicacao.isTemMensagemComErro(validarComMensagens());
     }
 
     @Override
+    @Deprecated
     public List<ItfMensagem> validarComMensagens() {
-        System.out.println("Nenhuma validação para" + this.getClass().getSimpleName());
+
         return new ArrayList<>();
     }
 
