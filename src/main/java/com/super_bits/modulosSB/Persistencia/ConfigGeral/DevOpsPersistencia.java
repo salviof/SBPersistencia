@@ -449,8 +449,10 @@ public class DevOpsPersistencia {
         //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         //pPropriedades.put("hibernate.cache.use_second_level_cache", "false");
         pPropriedades.put("org.hibernate.cacheable", true);
+
         pPropriedades.put("hibernate.cache.use_query_cache", true);
-        pPropriedades.put("hibernate.cache.use_second_level_cache", true);
+        /// Cuidado com este cara, ele faz entityanager.refresh deixar de atualizar a entidade pelo banco
+        pPropriedades.put("hibernate.cache.use_second_level_cache", false);
         pPropriedades.put("hibernate.cache.region.factory_class", "org.hibernate.cache.ehcache.EhCacheRegionFactory");
         pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
     }

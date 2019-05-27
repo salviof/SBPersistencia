@@ -3,10 +3,13 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributosSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCaminhoCampoNaoExiste;
+import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoAtributoDeObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ItfCentralAtributosDeObjetos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
@@ -19,12 +22,16 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemGenerico;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import org.coletivojava.fw.utilCoreBase.UtilSBCoreReflexaoAtributoDeObjetoSimples;
 
 public abstract class EntidadeGenerica extends ItemGenerico implements Serializable {
 
@@ -39,6 +46,41 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
         }
 
         return campo;
+    }
+    @Transient
+    private Map<FabTipoAtributoObjeto, String> mapaTipoCampoAutoDetect = null;
+
+    @Override
+    public ItfCampoInstanciado getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto pTipocampo) {
+
+        if (pTipocampo.equals(FabTipoAtributoObjeto.ID)) {
+            ItfCampoInstanciado cp = super.getCampoInstanciadoByAnotacao(pTipocampo); //chamada super do metodo (implementação classe pai)
+            if (cp != null) {
+                return cp;
+            }
+            if (mapaTipoCampoAutoDetect != null) {
+                String cpstr = mapaTipoCampoAutoDetect.get(FabTipoAtributoObjeto.ID);
+                if (cpstr != null) {
+                    cp = super.getCampoInstanciadoByNomeOuAnotacao(cpstr);
+                    return cp;
+                }
+            }
+            List<Class> classs = UtilSBCoreReflexao.getClasseESubclassesAteClasseBaseDeEntidade(this.getClass());
+            for (Class classe : classs) {
+                for (Field campo : classe.getDeclaredFields()) {
+                    if (campo.isAnnotationPresent(Id.class)) {
+                        cp = super.getCampoInstanciadoByNomeOuAnotacao(campo.getName());
+                        if (mapaTipoCampoAutoDetect == null) {
+                            mapaTipoCampoAutoDetect = new HashMap<>();
+                        }
+                        mapaTipoCampoAutoDetect.put(FabTipoAtributoObjeto.ID, campo.getName());
+                        return cp;
+                    }
+                }
+            }
+
+        }
+        return super.getCampoInstanciadoByAnotacao(pTipocampo); //chamada super do metodo (implementação classe pai)
     }
 
     @Override

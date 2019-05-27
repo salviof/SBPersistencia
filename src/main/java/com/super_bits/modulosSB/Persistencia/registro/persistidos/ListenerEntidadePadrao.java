@@ -12,6 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
@@ -29,10 +30,10 @@ import javax.persistence.Transient;
 public class ListenerEntidadePadrao {
 
     @Transient
-    private transient Map<String, Object> propriedadesEstadoAnterior;
+    protected transient Map<String, Object> propriedadesEstadoAnterior = new HashMap<>();
 
     @PostLoad
-    private void objetoEstadoAnterior(ItfBeanSimples pEntidade) {
+    protected void objetoEstadoAnterior(ItfBeanSimples pEntidade) {
 
         if (pEntidade instanceof ItfBeanComStatus) {
             ItfBeanComStatus bst = (ItfBeanComStatus) pEntidade;

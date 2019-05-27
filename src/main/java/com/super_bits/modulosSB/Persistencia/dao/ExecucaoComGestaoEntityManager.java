@@ -163,7 +163,9 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
 
         try {
             pObjeto = UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) pObjeto, getEm());
-            getEm().remove(pObjeto);
+            if (pObjeto != null) {
+                getEm().remove(pObjeto);
+            }
             return true;
 
         } catch (Throwable t) {
