@@ -63,11 +63,6 @@ public abstract class EntidadeNormal extends EntidadeSimples implements ItfBeanN
     }
 
     @Override
-    public String toString() {
-        return super.toString(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public Date getDataHoraAlteracao() {
         return (Date) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_DATAALTERACAO);
     }
