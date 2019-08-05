@@ -584,7 +584,7 @@ public class DevOpsPersistencia {
                 } catch (Throwable t) {
                     UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, String.valueOf(0000));
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao construir banco de dados", t);
-                    throw new UnsupportedOperationException("Impossível carregar o banco pela primeira vez, cheque as configurações do entityManager");
+                    throw new UnsupportedOperationException("Impossível carregar o banco pela primeira vez, cheque as configurações do entityManager" + t.getMessage());
                 }
 
                 //senão houve alterção no banco

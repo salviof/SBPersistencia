@@ -10,7 +10,8 @@ import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributos
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreDeProjetoJarAbstrato;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.FabTipoProjeto;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoApenasLogs;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktop;
 
 /**
  *
@@ -32,7 +33,10 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
         super.defineClassesBasicas(pConfiguracao); //To change body of generated methods, choose Tools | Templates.
         setIgnorarConfiguracaoPermissoes(false);
         setIgnorarConfiguracaoAcoesDoSistema(false);
-
+        if (SBCore.isEmModoDesenvolvimento()) {
+            pConfiguracao.setCentralComunicacao(CentralComunicacaoDesktop.class);
+        }
+        pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);
         pConfiguracao.setCentralDeLocalizacao(CentralLocalizacaoSBPersistencia.class);
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);

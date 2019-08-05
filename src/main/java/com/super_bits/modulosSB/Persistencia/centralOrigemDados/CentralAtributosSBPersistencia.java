@@ -16,6 +16,7 @@ import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.F
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_FABRICA_DE_REGISTROS;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_LISTAGEM_DE_ENTIDADE;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -93,6 +94,13 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
             return new ArrayList();
         }
 
+    }
+
+    @Override
+    public int getNumeroMaximoRegistros(ItfCampoInstanciado pCampoInstanciado) {
+        Class classe = pCampoInstanciado.getPropriedadesRefexao().getClasseDeclaracaoAtributo();
+
+        return UtilSBPersistencia.getQuantidadeRegistrosNaTabela(classe, SBCore.getCentralDados().getAcessoDadosDoContexto().getEntitiManager()).intValue();
     }
 
     @Override

@@ -6,6 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 
 /**
  *
@@ -48,5 +49,8 @@ public abstract class ConfigPersistenciaPadrao implements ItfConfigSBPersistenci
     public void criarBancoInicial() {
         //configure aqui os comando de SQL que devem ser executados no momento do start da aplicação
     }
+
+    @Override
+    public abstract Class<? extends ItfFabrica>[] fabricasRegistrosIniciais();
 
 }

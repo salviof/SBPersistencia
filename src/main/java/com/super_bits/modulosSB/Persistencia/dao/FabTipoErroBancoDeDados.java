@@ -8,6 +8,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListas;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilSBCoreErros;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
@@ -19,6 +20,7 @@ import java.util.List;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.hibernate.PropertyValueException;
+import org.hibernate.TransientPropertyValueException;
 import org.hibernate.exception.ConstraintViolationException;
 
 /**
@@ -35,7 +37,8 @@ public enum FabTipoErroBancoDeDados {
     INFORMACAO_DUPLICADA,
     EXCEDEU_TAMANHO_MAXIMO,
     TIPO_INVALIDO,
-    INDEFINIDO;
+    INDEFINIDO,
+    OBJETO_FILHO_TRANSIENT;
 
     public static FabTipoErroBancoDeDados getTipoErroViaMensagem(Throwable erro) {
         Throwable causaInicial = erro.getCause();
@@ -65,6 +68,7 @@ public enum FabTipoErroBancoDeDados {
                 return CHAVE_EXTRANGEIRA;
 
             }
+
         }
 
         Throwable causa = ExceptionUtils.getRootCause(erro);
@@ -74,6 +78,11 @@ public enum FabTipoErroBancoDeDados {
                 MySQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (MySQLIntegrityConstraintViolationException) causa;
                 System.out.println(erroChaveExtrangeiraNativo);
                 return CHAVE_EXTRANGEIRA_MYSQL_NATIVO;
+            }
+
+            if (causa instanceof TransientPropertyValueException) {
+                return OBJETO_FILHO_TRANSIENT;
+
             }
 
             if (classeCausa.getSimpleName().equals(NotSerializableException.class.getSimpleName())) {
@@ -88,7 +97,15 @@ public enum FabTipoErroBancoDeDados {
     public String getMensagemUsuario(Throwable erro, ItfBeanSimples entidade) {
         switch (this) {
             case ERRO_DE_CONEXAO:
-                break;
+                String nomePropriedade = "indefinido";
+                try {
+                    TransientPropertyValueException t = (TransientPropertyValueException) UtilSBCoreErros.getCausaRaiz(erro);
+                    nomePropriedade = t.getPropertyName();
+                } catch (Throwable tt) {
+
+                }
+                return "Os dados referentes ao " + nomePropriedade + " são inválidos ";
+
             case CHAVE_EXTRANGEIRA:
                 return "Um valor de campo incompatível foi configurado";
 
@@ -138,6 +155,8 @@ public enum FabTipoErroBancoDeDados {
                 Throwable causaDuplicado = ExceptionUtils.getRootCause(erro);
                 List<String> campoDuplicado = UtilSBPersistenciaMysql.colunasVinculadas_erro_chaveDB(causaDuplicado.getMessage());
                 return "Já existe um " + campoDuplicado + " com este valor registrado no sistema.";
+            case OBJETO_FILHO_TRANSIENT:
+                break;
 
             default:
                 throw new AssertionError(this.name());
@@ -187,6 +206,15 @@ public enum FabTipoErroBancoDeDados {
             case INFORMACAO_DUPLICADA:
                 Throwable causaDadoDuplicado = ExceptionUtils.getRootCause(erro);
                 return causaDadoDuplicado.getMessage();
+            case OBJETO_FILHO_TRANSIENT:
+                String nomePropriedade = "indefinido";
+                try {
+                    TransientPropertyValueException t = (TransientPropertyValueException) UtilSBCoreErros.getCausaRaiz(erro);
+                    nomePropriedade = t.getPropertyName() + " do tipo" + t.getTransientEntityName() + " no objeto " + t.getPropertyOwnerEntityName();
+                } catch (Throwable tt) {
+
+                }
+                return "Erro tipo " + TransientPropertyValueException.class.getSimpleName() + ",Causa comum: o objeto filho: [" + nomePropriedade + "] não existe no banco , ou um objeto filho declarado na entidade sem as anotacoes devidas como manytoone ou transient";
 
             default:
                 throw new AssertionError(this.name());
