@@ -86,6 +86,11 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
         return nomeRegiao;
     }
 
+    @Override
+    public String getNome() {
+        return nomeRegiao;
+    }
+
     public void setNomeRegiao(String nomeRegiao) {
         this.nomeRegiao = nomeRegiao;
     }
