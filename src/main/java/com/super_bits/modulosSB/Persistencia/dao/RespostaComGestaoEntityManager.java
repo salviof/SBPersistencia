@@ -57,10 +57,10 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
         this(pResp, true);
     }
 
-    public Object atualizarEntidade(Object pObjeto) {
+    public <T> T atualizarEntidade(T pObjeto) {
         try {
 
-            return getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
+            return (T) getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
         } catch (ErroEmBancoDeDados ex) {
             addErro(ex.getMensagemUsuario());
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, ex.getMensagemProgrador(), ex);
