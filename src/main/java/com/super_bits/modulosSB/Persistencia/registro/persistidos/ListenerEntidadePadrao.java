@@ -7,13 +7,17 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCriptrografia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
+import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.PostLoad;
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
@@ -22,6 +26,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  *
@@ -41,6 +46,35 @@ public class ListenerEntidadePadrao {
             propriedadesEstadoAnterior.put(sts.getClass().getSimpleName(), sts);
             String campoId = pEntidade.getNomeCampo(FabTipoAtributoObjeto.ID);
             propriedadesEstadoAnterior.put(campoId, pEntidade.getNome());
+        }
+
+    }
+
+    public void protegerSenhas(ItfBeanSimples pEntidade) {
+        FabTipoAtributoObjeto campoSenha = null;
+        if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA)) {
+            campoSenha = FabTipoAtributoObjeto.SENHA;
+        }
+        if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA)) {
+            campoSenha = FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA;
+        }
+        if (campoSenha != null) {
+            String strcampoSenha = pEntidade.getNomeCampo(campoSenha);
+
+            try {
+                Field cp = pEntidade.getClass().getDeclaredField(strcampoSenha);
+
+                String senha = (String) cp.get(pEntidade);
+                if (senha != null && senha.length() < 40) {
+                    cp.setAccessible(true);
+                    String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
+
+                    cp.set(pEntidade, senhaCriptografada);
+                }
+
+            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro adicionando criptografia na senha", ex);
+            }
         }
 
     }

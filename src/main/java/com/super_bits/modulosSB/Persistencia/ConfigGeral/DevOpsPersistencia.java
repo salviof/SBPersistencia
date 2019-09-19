@@ -460,9 +460,18 @@ public class DevOpsPersistencia {
     public void carregarDadosConexaoPadrao(Map<String, Object> pPropriedades) {
         if (SBCore.isEmModoProducao()) {
 
-            String nomeSlugLegado = SBPersistencia.getNomeBancoPadrao() + "." + SBCore.getGrupoProjeto() + "." + SBCore.DOMINIO_FICTICIO_INTRANET_DOCKER + "/" + SBPersistencia.getNomeBancoPadrao();
-            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://banco_rel_intranet/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
-            pPropriedades.put("javax.persistence.jdbc.password", "senhaEspacoDockerProtegido#123");
+            String senhaBanco = "senhaEspacoDockerProtegido";
+            String hostBanco = "banco_rel_intranet";
+            if (System.getenv("JAVA_EE_BANCO_SENHA") != null) {
+                senhaBanco = System.getenv("JAVA_EE_BANCO_SENHA");
+            }
+            if (System.getenv("JAVA_EE_BANCO_HOST") != null) {
+                hostBanco = System.getenv("JAVA_EE_BANCO_HOST");
+            }
+
+            //String nomeSlugLegado = SBPersistencia.getNomeBancoPadrao() + "." + SBCore.getGrupoProjeto() + "." + SBCore.DOMINIO_FICTICIO_INTRANET_DOCKER + "/" + SBPersistencia.getNomeBancoPadrao();
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + hostBanco + "/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.password", senhaBanco);
         } else {
             pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
             pPropriedades.put("javax.persistence.jdbc.password", "senhaDev#123");
