@@ -839,8 +839,8 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pEM
      * @return
      */
-    public static Object getRegistroByPrimeiro(Class pClasse, EntityManager pEM) {
-        return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.PRIMEIRO_REGISTRO, null);
+    public static <I extends ItfBeanSimples> I getRegistroByPrimeiro(Class pClasse, EntityManager pEM) {
+        return (I) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.PRIMEIRO_REGISTRO, null);
 
     }
 

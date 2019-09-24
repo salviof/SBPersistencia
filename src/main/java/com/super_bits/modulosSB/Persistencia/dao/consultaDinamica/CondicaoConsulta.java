@@ -57,9 +57,13 @@ public class CondicaoConsulta {
                 EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
                 ItfBeanSimples beanParametro = (ItfBeanSimples) pValorParametro;
                 if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
-                    Optional<ItfLigacaoMuitosParaUm> pesquisa = est.getMuitosParaUm().stream().filter((relacao)
-                            -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(),
-                                    relacao.getClasseObjetoVinculado()))).findFirst();
+                    Optional<ItfLigacaoMuitosParaUm> pesquisa = est
+                            .getMuitosParaUm()
+                            .stream()
+                            .filter((relacao)
+                                    -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(),
+                                    relacao.getClasseObjetoVinculado())))
+                            .findFirst();
                     if (pesquisa.isPresent()) {
                         setCaminhoCampoCondicao(pesquisa.get().getNomeDeclarado());
                     } else {
