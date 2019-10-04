@@ -462,6 +462,7 @@ public class DevOpsPersistencia {
 
             String senhaBanco = "senhaEspacoDockerProtegido";
             String hostBanco = "banco_rel_intranet";
+
             if (System.getenv("JAVA_EE_BANCO_SENHA") != null) {
                 senhaBanco = System.getenv("JAVA_EE_BANCO_SENHA");
             }
@@ -469,8 +470,12 @@ public class DevOpsPersistencia {
                 hostBanco = System.getenv("JAVA_EE_BANCO_HOST");
             }
 
+            String nomeBanco = SBPersistencia.getNomeBancoPadrao();
+            if (System.getenv("JAVA_EE_BANCO_NOME") != null) {
+                nomeBanco = System.getenv("JAVA_EE_BANCO_NOME");
+            }
             //String nomeSlugLegado = SBPersistencia.getNomeBancoPadrao() + "." + SBCore.getGrupoProjeto() + "." + SBCore.DOMINIO_FICTICIO_INTRANET_DOCKER + "/" + SBPersistencia.getNomeBancoPadrao();
-            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + hostBanco + "/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + hostBanco + "/" + nomeBanco + "?createDatabaseIfNotExist=true&useSSL=false");
             pPropriedades.put("javax.persistence.jdbc.password", senhaBanco);
         } else {
             pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
