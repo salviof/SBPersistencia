@@ -8,6 +8,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCriptrografia;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
@@ -59,20 +60,19 @@ public class ListenerEntidadePadrao {
             campoSenha = FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA;
         }
         if (campoSenha != null) {
-            String strcampoSenha = pEntidade.getNomeCampo(campoSenha);
 
             try {
-                Field cp = pEntidade.getClass().getDeclaredField(strcampoSenha);
-
+                Field cp = pEntidade.getCampoReflexaoByAnotacao(campoSenha);
+                cp.setAccessible(true);
                 String senha = (String) cp.get(pEntidade);
-                if (senha != null && senha.length() < 40) {
-                    cp.setAccessible(true);
+                if (senha != null && senha.length() < 60) {
+
                     String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
 
                     cp.set(pEntidade, senhaCriptografada);
                 }
 
-            } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException | SecurityException ex) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro adicionando criptografia na senha", ex);
             }
         }
@@ -82,7 +82,7 @@ public class ListenerEntidadePadrao {
     @PrePersist
     public void acaoAntesDePersistir(ItfBeanSimples pEntidade) {
         System.out.println("Ação Automatica Antes de Persistir");
-
+        protegerSenhas(pEntidade);
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_DATAINSERCAO)) {
             pEntidade.getCampoInstanciadoByNomeOuAnotacao(FabTipoAtributoObjeto.REG_DATAINSERCAO.name()).setValor(new Date());
         }
@@ -96,6 +96,7 @@ public class ListenerEntidadePadrao {
 
     @PreUpdate
     public void acaoAntesDeAtualizar(ItfBeanSimples pEntidade) {
+        protegerSenhas(pEntidade);
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_DATAALTERACAO)) {
             pEntidade.getCampoInstanciadoByNomeOuAnotacao(FabTipoAtributoObjeto.REG_DATAALTERACAO.name()).setValor(new Date());
         }
