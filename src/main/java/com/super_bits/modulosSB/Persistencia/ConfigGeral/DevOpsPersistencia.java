@@ -460,7 +460,7 @@ public class DevOpsPersistencia {
     public void carregarDadosConexaoPadrao(Map<String, Object> pPropriedades) {
         if (SBCore.isEmModoProducao()) {
 
-            String senhaBanco = "senhaEspacoDockerProtegido";
+            String senhaBanco = "senhaEspacoDockerProtegido#123";
             String hostBanco = "banco_rel_intranet";
             if (System.getenv("JAVA_EE_BANCO_SENHA") != null) {
                 senhaBanco = System.getenv("JAVA_EE_BANCO_SENHA");
