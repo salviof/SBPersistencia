@@ -122,7 +122,7 @@ public class ConsultaDinamicaDeEntidade {
     private Object obterResultado() {
         boolean entityEnviado = true;
         if (em == null) {
-            em = UtilSBPersistencia.getNovoEM();
+            em = UtilSBPersistencia.getEMDoContexto();
             entityEnviado = false;
         }
         try {
