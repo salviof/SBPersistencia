@@ -9,7 +9,7 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabUnidadesFederativas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCEP;
+
 import com.super_bits.modulosSB.SBCore.modulos.localizacao.ItfCentralLocalizacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanLocalizavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
@@ -97,7 +97,8 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
 
     @Override
     public void configurarCep(ItfLocal pLocal) {
-        UtilSBCoreCEP.cepsEncontrados(pLocal.getComoLocalPostavel().getCep());
+        SBCore.getServicoLocalizacao().getImplementacaoPadraoApiCep().getImplementacaoDoContexto().cepsPorEndereco(pLocal.toString());
+
     }
 
     @Override

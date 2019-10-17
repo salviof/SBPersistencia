@@ -25,10 +25,10 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
 
     @Id
     @GenericGenerator(
-            name = "geradorIdNomeUnico",
-            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico"
+            name = "geradorIdBairro",
+            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdBairro"
     )
-    @GeneratedValue(generator = "geradorIdNomeUnico")
+    @GeneratedValue(generator = "geradorIdBairro")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
 
@@ -56,8 +56,8 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     }
 
     @Override
-    public void setId(int id) {
-        configIDPeloNome();
+    public void setId(int pid) {
+        id = pid;
 
     }
 
@@ -91,6 +91,11 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     @Override
     public void setCidade(ItfCidade pCidade) {
         cidade = (Cidade) pCidade;
+    }
+
+    @Override
+    public int configIDPeloNome() {
+        return super.configIDPeloNome(); //chamada super do metodo (implementação classe pai)
     }
 
 }

@@ -35,10 +35,10 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
 
     @Id
     @GenericGenerator(
-            name = "geradorIdNomeUnico",
-            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico"
+            name = "geradorIdCidade",
+            strategy = "com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdCidade"
     )
-    @GeneratedValue(generator = "geradorIdNomeUnico")
+    @GeneratedValue(generator = "geradorIdCidade")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
 
@@ -91,8 +91,8 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public void setId(int id) {
-        configIDPeloNome();
+    public void setId(int pId) {
+        id = pId;
     }
 
     @Override

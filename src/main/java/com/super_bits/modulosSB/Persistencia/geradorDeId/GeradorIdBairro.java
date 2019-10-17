@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -14,29 +14,28 @@ import org.hibernate.id.IdentifierGenerator;
 
 /**
  *
- * @author desenvolvedor
+ * @author desenvolvedorninja01
+ * @since 17/10/2019
+ * @version 1.0
  */
-public class GeradorIdCidade implements IdentifierGenerator {
+public class GeradorIdBairro implements IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
 
         try {
-            ItfCidade cidade = (ItfCidade) object;
-            if (cidade == null) {
+            ItfBairro bairro = (ItfBairro) object;
+            if (bairro == null) {
                 throw new UnsupportedOperationException("Enviado objeto nulo");
             }
-            if (cidade.getUnidadeFederativa() == null) {
-                throw new UnsupportedOperationException("Unidade Federativa não definida para " + cidade.getNome());
-            }
-            int id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(cidade.getNome() + cidade.getUnidadeFederativa().getSigla());
-            cidade.setId(id);
+            int id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(bairro.getNome() + bairro.getCidade().getNome() + bairro.getCidade().getUnidadeFederativa().getSigla());
+            bairro.setId(id);
+
             return id;
         } catch (ClassCastException c) {
-            throw new HibernateException("O gerador de Id de cidade precisa implementar ItfCidade", c);
+            throw new HibernateException("O gerador de Id de cidade precisa implementar ItfBairro", c);
         } catch (Throwable t) {
             throw new HibernateException("Erro gerando Chave da cidade", t);
         }
     }
-
 }
