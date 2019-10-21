@@ -1,6 +1,9 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdBairro;
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdCidade;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import java.util.List;
@@ -14,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
  * The persistent class for the bairro database table.
@@ -95,7 +99,15 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
 
     @Override
     public int configIDPeloNome() {
-        return super.configIDPeloNome(); //chamada super do metodo (implementação classe pai)
+        try {
+            GeradorIdBairro gerador = new GeradorIdBairro();
+            gerador.generate(null, this);
+            return id;
+        } catch (Throwable t) {
+
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A identificação única do bairro não pôde ser gerada neste momento", t);
+            return -1;
+        }
     }
 
 }

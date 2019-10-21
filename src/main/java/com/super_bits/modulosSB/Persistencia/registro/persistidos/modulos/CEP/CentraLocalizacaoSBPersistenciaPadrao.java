@@ -8,6 +8,8 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 import com.super_bits.modulosSB.Persistencia.centralLocalizacao.CentralLocalizacaoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.localizacao.ItfCentralLocalizacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanLocalizavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
@@ -33,13 +35,12 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
         List<UnidadeFederativa> lista;
 
         if (emLocalizacao == null) {
-            emLocalizacao = UtilSBPersistencia.getNovoEM();
+            emLocalizacao = UtilSBPersistencia.getEMDoContexto();
         }
         try {
             lista = UtilSBPersistencia.getListaTodos(UnidadeFederativa.class, emLocalizacao);
         } catch (Throwable t) {
-            emLocalizacao.close();
-            emLocalizacao = UtilSBPersistencia.getNovoEM();
+
             lista = UtilSBPersistencia.getListaTodos(UnidadeFederativa.class, emLocalizacao);
         }
 
@@ -50,7 +51,7 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
     public List<ItfCidade> gerarListaDeCidades(String pNomePesquisa, ItfUnidadeFederativa pUnidadeFederativa) {
         try {
 
-            EntityManager em = UtilSBPersistencia.getNovoEM();
+            emLocalizacao = UtilSBPersistencia.getEMDoContexto();
             if (pUnidadeFederativa == null) {
                 return new ArrayList<>();
             }
@@ -59,8 +60,8 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
                 return new ArrayList<>();
             }
             List<ItfCidade> todasCidades = uf.getCidades();
-            UtilSBPersistencia.fecharEM(em);
-            return todasCidades;
+
+            return UtilSBCoreListasObjeto.filtrarOrdenandoMaisParecidos(todasCidades, pNomePesquisa, 5);
 
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro pesquisando cidades da unidade federativa", t);

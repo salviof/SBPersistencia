@@ -1,6 +1,8 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdCidade;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
@@ -23,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -190,6 +193,25 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
 
     public void setRegioes(List<Regiao> regioes) {
         this.regioes = regioes;
+    }
+
+    @Override
+    public int configIDPeloNome() {
+        try {
+            GeradorIdCidade gerador = new GeradorIdCidade();
+            gerador.generate(null, this);
+            return id;
+        } catch (Throwable t) {
+
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A identificação única da cidade não pôde ser gerada neste momento", t);
+            return -1;
+        }
+
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(getId());
     }
 
 }
