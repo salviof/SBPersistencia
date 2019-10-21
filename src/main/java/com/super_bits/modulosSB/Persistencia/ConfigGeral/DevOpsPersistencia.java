@@ -292,8 +292,8 @@ public class DevOpsPersistencia {
         //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
         //TEntativa de diminuir utilização de memória baseado em https://stackoverflow.com/questions/24359088/high-memory-usage-when-using-hibernate
-        pPropriedades.put("hibernate.query.plan_cache_max_soft_references", 2048);
-        pPropriedades.put("hibernate.query.plan_cache_max_strong_references", 128);
+        //pPropriedades.put("hibernate.query.plan_cache_max_soft_references", 2048);
+        //pPropriedades.put("hibernate.query.plan_cache_max_strong_references", 128);
         // Número de conexõs que o pool tentará adiquirur durante a inicialização. Deve
         // ser um número entre  minPoolSize e maxPoolSize.
         pPropriedades.put("hibernate.c3p0.initialPoolSize", 2);

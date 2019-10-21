@@ -106,6 +106,9 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     if (usarCache) {
                         consulta.setHint("org.hibernate.cacheable", true);
                         consulta.setHint("javax.persistence.cache.retrieveMode", "USE");
+                    } else {
+                        consulta.setHint("org.hibernate.cacheable", false);
+                        consulta.setHint("javax.persistence.cache.retrieveMode", "BYPASS");
                     }
 
                     if (maximo != -1 && maximo != 0) {
