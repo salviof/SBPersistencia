@@ -5,9 +5,11 @@
  */
 package com.super_bits.modulosSB.Persistencia.centralLocalizacao;
 
+import br.org.coletivoJava.fw.api.erp.codigoPostal.br.ERPCodigoPostalBR;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabUnidadesFederativas;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 
 import com.super_bits.modulosSB.SBCore.modulos.localizacao.ItfCentralLocalizacao;
@@ -28,7 +30,8 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
 
     @Override
     public List<ItfUnidadeFederativa> getUnidadesFederativas() {
-        return (List) FabUnidadesFederativas.getTodos();
+
+        return (List) UtilSBPersistencia.getListaTodos(UnidadeFederativa.class, UtilSBPersistencia.getEMDoContexto());
     }
 
     @Override
@@ -103,7 +106,7 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
 
     @Override
     public void configurarEndereco(String cep, ItfLocal pLocal) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        getImplementacaoPadraoApiCep().getImplementacaoDoContexto().configuraEndereco(cep, pLocal);
     }
 
     @Override
@@ -119,6 +122,11 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
         novoBairro.configIDPeloNome();
 
         return novoBairro;
+    }
+
+    @Override
+    public ERPCodigoPostalBR getImplementacaoPadraoApiCep() {
+        return ERPCodigoPostalBR.API_FREE_REDUNTANTE;
     }
 
 }

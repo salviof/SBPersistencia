@@ -7,6 +7,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
@@ -25,7 +26,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -52,13 +55,24 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     @Column(unique = true)
     private String nomeRegiao;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Cidade", descricao = "Lista das cidades que compõem o estado selecionado")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Cidade", descricao = "Lista das cidades que compõem o estado selecionado",
+            caminhoParaLista = "cidadesDisponiveis"
+    )
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "regiao_cidades",
             joinColumns = @JoinColumn(name = "regiao_id"),
             inverseJoinColumns = @JoinColumn(name = "cidade_id"))
     @InfoGrupoCampo(camposDeclarados = {"unidadeFederativa", "nome"})
     private List<Cidade> cidades;
+
+    @ManyToOne(targetEntity = UnidadeFederativa.class)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LC_UNIDADE_FEDERATIVA)
+    private UnidadeFederativa unidadeFederativa;
+
+    @Transient
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS)
+    @InfoCampoValorLogico(nomeCalculo = "cidades disponiveis")
+    private List<Cidade> cidadesDisponiveis;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PUBLICOS, label = "Bairros", descricao = "Bairros de uma dada região")
     @ManyToMany
@@ -201,6 +215,22 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
         }
         return false;
 
+    }
+
+    public UnidadeFederativa getUnidadeFederativa() {
+        return unidadeFederativa;
+    }
+
+    public void setUnidadeFederativa(UnidadeFederativa unidadeFederativa) {
+        this.unidadeFederativa = unidadeFederativa;
+    }
+
+    public List<Cidade> getCidadesDisponiveis() {
+        return cidadesDisponiveis;
+    }
+
+    public void setCidadesDisponiveis(List<Cidade> cidadesDisponiveis) {
+        this.cidadesDisponiveis = cidadesDisponiveis;
     }
 
 }

@@ -34,9 +34,8 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
     public List<ItfUnidadeFederativa> getUnidadesFederativas() {
         List<UnidadeFederativa> lista;
 
-        if (emLocalizacao == null) {
-            emLocalizacao = UtilSBPersistencia.getEMDoContexto();
-        }
+        emLocalizacao = UtilSBPersistencia.getEMDoContexto();
+
         try {
             lista = UtilSBPersistencia.getListaTodos(UnidadeFederativa.class, emLocalizacao);
         } catch (Throwable t) {
