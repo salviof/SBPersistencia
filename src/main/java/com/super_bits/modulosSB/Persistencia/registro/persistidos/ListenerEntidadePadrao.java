@@ -53,28 +53,31 @@ public class ListenerEntidadePadrao {
 
     public void protegerSenhas(ItfBeanSimples pEntidade) {
         FabTipoAtributoObjeto campoSenha = null;
+
+        if (!(pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA) || pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA))) {
+            return;
+        }
+
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA)) {
             campoSenha = FabTipoAtributoObjeto.SENHA;
         }
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA)) {
             campoSenha = FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA;
         }
-        if (campoSenha != null) {
 
-            try {
-                Field cp = pEntidade.getCampoReflexaoByAnotacao(campoSenha);
-                cp.setAccessible(true);
-                String senha = (String) cp.get(pEntidade);
-                if (senha != null && senha.length() < 60) {
+        try {
+            Field cp = pEntidade.getCampoReflexaoByAnotacao(campoSenha);
+            cp.setAccessible(true);
+            String senha = (String) cp.get(pEntidade);
+            if (senha != null && senha.length() < 60) {
 
-                    String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
+                String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
 
-                    cp.set(pEntidade, senhaCriptografada);
-                }
-
-            } catch (IllegalAccessException | IllegalArgumentException | SecurityException ex) {
-                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro adicionando criptografia na senha", ex);
+                cp.set(pEntidade, senhaCriptografada);
             }
+
+        } catch (IllegalAccessException | IllegalArgumentException | SecurityException ex) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro adicionando criptografia na senha", ex);
         }
 
     }

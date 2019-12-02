@@ -30,9 +30,6 @@ public abstract class RespostaComRegraDeNegocio implements ItfRespostaComExecuca
 
         this.resposta = resposta;
         this.execucaoRegraDENegocio = rexecucaoRegraDENegocio;
-        Thread t = Thread.currentThread();
-
-        System.out.println(t.getId());
 
     }
 
