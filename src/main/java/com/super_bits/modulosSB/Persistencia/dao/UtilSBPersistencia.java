@@ -1039,6 +1039,10 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return new ConsultaDinamicaDeEntidade(pEntidade);
     }
 
+    public static ConsultaDinamicaDeEntidade gerarConsultaDeEntidade(Class pEntidade, EntityManager em) {
+        return new ConsultaDinamicaDeEntidade(pEntidade, em);
+    }
+
     public EntityManager getEntityManagerDoContexto() {
         return SBCore.getCentralDados().getAcessoDadosDoContexto().getEntitiManager();
     }
