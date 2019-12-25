@@ -87,6 +87,10 @@ public class ConsultaDinamicaDeEntidade {
     }
 
     public ConsultaDinamicaDeEntidade addcondicaoCampoIgualA(String pCampo, Object pValor) {
+        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_IGUAL_VALOR);
+        condicaoSimples.setCaminhoCampoCondicao(pCampo);
+        condicaoSimples.setValorParametro(pValor);
+        condicoes.add(condicaoSimples);
         return this;
     }
 

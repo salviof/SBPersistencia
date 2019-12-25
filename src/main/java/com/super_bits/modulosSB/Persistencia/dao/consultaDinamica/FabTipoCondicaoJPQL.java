@@ -68,19 +68,24 @@ public enum FabTipoCondicaoJPQL {
 
             case CAMINHO_CAMPO_IGUAL_VALOR:
 
-                Object caminhoCampoIgual = pCondicao.getValorParametro();
+                Object valorParametro = pCondicao.getValorParametro();
 
                 ParameterExpression prCampo = null;
 
-                if (caminhoCampoIgual instanceof Integer) {
+                if (valorParametro instanceof Integer) {
                     prCampo = pBuilder.parameter(Integer.class, nomeCampoPesquisa);
 
                     Predicate condicaoCaminhoCampoIgualValor = pBuilder.equal(entidadePrincipal.get(nomeCampoPesquisa), prCampo);
 
-                    pCondicao.getConsulta().getValoresParametro().put(nomeCampoPesquisa, caminhoCampoIgual);
+                    pCondicao.getConsulta().getValoresParametro().put(nomeCampoPesquisa, valorParametro);
+                    pCondicao.getConsulta().adicionarPredicado(condicaoCaminhoCampoIgualValor);
+                } else if (valorParametro instanceof String) {
+                    prCampo = pBuilder.parameter(String.class, nomeCampoPesquisa);
+                    Predicate condicaoCaminhoCampoIgualValor = pBuilder.equal(entidadePrincipal.get(nomeCampoPesquisa), prCampo);
+                    pCondicao.getConsulta().getValoresParametro().put(nomeCampoPesquisa, valorParametro);
                     pCondicao.getConsulta().adicionarPredicado(condicaoCaminhoCampoIgualValor);
                 } else {
-                    throw new UnsupportedOperationException("a consulta ainda não suporta parametros do tipo " + caminhoCampoIgual.getClass().getSimpleName());
+                    throw new UnsupportedOperationException("a consulta ainda não suporta parametros do tipo " + valorParametro.getClass().getSimpleName());
                 }
 
                 break;
