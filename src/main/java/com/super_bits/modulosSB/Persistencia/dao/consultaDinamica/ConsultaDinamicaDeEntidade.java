@@ -86,6 +86,14 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
+    public ConsultaDinamicaDeEntidade addCondicaoManyToManyContendoObjeto(String pCaminhoCampoCondicao, ItfBeanSimples pEtidadeManyToOne) {
+        CondicaoConsulta condManyToOneAutoConfig = new CondicaoConsulta(this, FabTipoCondicaoJPQL.MANY_TO_MANY_CONTEM_OBJETO);
+        condManyToOneAutoConfig.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
+        condManyToOneAutoConfig.setValorParametro(pEtidadeManyToOne);
+        condicoes.add(condManyToOneAutoConfig);
+        return this;
+    }
+
     public ConsultaDinamicaDeEntidade addcondicaoCampoIgualA(String pCampo, Object pValor) {
         CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_IGUAL_VALOR);
         condicaoSimples.setCaminhoCampoCondicao(pCampo);

@@ -13,10 +13,13 @@ import java.util.Collection;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.SetJoin;
 
 /**
  *
@@ -26,28 +29,9 @@ public enum FabTipoCondicaoJPQL {
 
     MANY_TO_ONE_IGUAL_AUTO,
     MANY_TO_ONE_NESTE_INTERVALO,
+    MANY_TO_MANY_CONTEM_OBJETO,
     CAMINHO_CAMPO_IGUAL_VALOR,
     VALOR_POSITIVO;
-
-    private Path getPachCampoCondicao(Root pEntidade, String pCaminho) {
-        String[] etapasCaminhoCampo = pCaminho.split("\\.");
-        Path expressao = pEntidade;
-        int i = 0;
-        if (etapasCaminhoCampo.length > 1) {
-
-            for (String etapaCaminho : etapasCaminhoCampo) {
-                i++;
-                if (i == etapasCaminhoCampo.length) {
-                    expressao = expressao.get(etapaCaminho).get("id");
-                } else {
-                    expressao = expressao.get(etapaCaminho);
-                }
-            }
-        } else {
-            expressao = pEntidade.get(pCaminho).get("id");
-        }
-        return expressao;
-    }
 
     public void aplicar(CriteriaQuery pCriterio, CondicaoConsulta pCondicao, CriteriaBuilder pBuilder) {
         EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(pCondicao.getConsulta().getEntidadePrincipal());
@@ -128,10 +112,40 @@ public enum FabTipoCondicaoJPQL {
                 pCondicao.getConsulta().adicionarPredicado(condicaoIn);
 
                 break;
+            case MANY_TO_MANY_CONTEM_OBJETO:
+                ItfBeanSimples beanParametroMC = (ItfBeanSimples) pCondicao.getValorParametro();
+
+                Join join = entidadePrincipal.join(nomeCampoPesquisa, JoinType.INNER);
+                Path<Long> campoIdObjetos = join.get("id");
+
+                Predicate predPets = campoIdObjetos.in(beanParametroMC.getId());
+                pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), beanParametroMC);
+                pCondicao.getConsulta().adicionarPredicado(predPets);
+
+                break;
             default:
                 throw new AssertionError(this.name());
 
         }
     }
 
+    private Path getPachCampoCondicao(Root pEntidade, String pCaminho) {
+        String[] etapasCaminhoCampo = pCaminho.split("\\.");
+        Path expressao = pEntidade;
+        int i = 0;
+        if (etapasCaminhoCampo.length > 1) {
+
+            for (String etapaCaminho : etapasCaminhoCampo) {
+                i++;
+                if (i == etapasCaminhoCampo.length) {
+                    expressao = expressao.get(etapaCaminho).get("id");
+                } else {
+                    expressao = expressao.get(etapaCaminho);
+                }
+            }
+        } else {
+            expressao = pEntidade.get(pCaminho).get("id");
+        }
+        return expressao;
+    }
 }

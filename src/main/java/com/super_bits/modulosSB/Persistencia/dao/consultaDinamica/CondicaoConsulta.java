@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfListaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.Optional;
 
@@ -77,6 +78,29 @@ public class CondicaoConsulta {
             case CAMINHO_CAMPO_IGUAL_VALOR:
                 break;
             case VALOR_POSITIVO:
+                break;
+            case MANY_TO_MANY_CONTEM_OBJETO:
+                if (!(pValorParametro instanceof ItfBeanSimples)) {
+                    throw new UnsupportedOperationException();
+                }
+                EstruturaDeEntidade estObjPaiDosAtributos = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
+                ItfBeanSimples beanP = (ItfBeanSimples) pValorParametro;
+                if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
+                    Optional<ItfListaDeEntidade> pesquisa = estObjPaiDosAtributos
+                            .getListas()
+                            .stream()
+                            .filter((relacao)
+                                    -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanP.getClass(),
+                                    MapaObjetosProjetoAtual.getClasseDoObjetoByNome(relacao.getNomeEntidade()))))
+                            .findFirst();
+                    if (pesquisa.isPresent()) {
+                        setCaminhoCampoCondicao(pesquisa.get().getNomeDeclaracao());
+                    } else {
+                        throw new UnsupportedOperationException("Não foi possível encontrar um manyToone do tipo  " + estObjPaiDosAtributos.getNomeEntidade() + " você precisa declarar o caminho do campo para executar esta consulta.");
+                    }
+
+                }
+
                 break;
             default:
                 throw new AssertionError(tipoCondicao.name());
