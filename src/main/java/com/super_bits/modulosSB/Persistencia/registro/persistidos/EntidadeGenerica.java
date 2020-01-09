@@ -106,11 +106,6 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
         return super.getCampoByAnotacao(pNomedaAnotacao);
     }
 
-    protected EntityManager getEm() {
-        return UtilSBPersistencia.getNovoEM();
-        //BeansUtil.getAppBean("dados")).getEm();
-    }
-
     public void loadByID(int pId) {
 
         Object resultado = UtilSBPersistencia.getRegistroByID(this.getClass(), pId);
