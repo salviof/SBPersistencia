@@ -96,6 +96,13 @@ public class DevOpsPersistencia {
     private final String DESTINO_ARQUIVO_CONFIGURACOES;
     private final String DESTINO_ARQUIVO_HASH_BANCO;
 
+    /**
+     *
+     * @deprecated Apenas para compatibilidade para análise e reflexão da
+     * classe, favor usar outro constructor
+     */
+    @Deprecated
+
     public DevOpsPersistencia() {
 
         this.nomeArquivoPersistencia = null;
@@ -165,7 +172,7 @@ public class DevOpsPersistencia {
         if (SBCore.getEstadoAPP() != SBCore.ESTADO_APP.DESENVOLVIMENTO) {
             throw new UnsupportedOperationException("A compilação do banco só pode ser realizada em modo desenvolvimento");
         }
-        //  IO.co tring teste;
+
         File script = new File(DESTINO_ARQUIVO_COMPILA_BANCO);
 
         if (!script.exists()) {
@@ -173,9 +180,7 @@ public class DevOpsPersistencia {
         }
 
         UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
-        String retornoCompilaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_COMPILA_BANCO);
         UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, hashBancoGerado);
-        System.out.println("Retorno Compila Banco->" + retornoCompilaBanco);
 
     }
 

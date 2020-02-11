@@ -5,9 +5,7 @@
 package config;
 
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ItfConfigSBPersistencia;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabCidades;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.testes.FabEntidadeSimplesInicio;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 

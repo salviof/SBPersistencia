@@ -5,37 +5,20 @@
  */
 package com.super_bits.modulosSB.Persistencia.util;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.testes.RegistroTesteSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
 /**
  *
  * @author sfurbino
  */
-public enum FabTeste implements ItfFabrica {
+public enum FabTeste implements ItfFabricaComPersistencia {
+    @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, id = 4, nomeObjeto = "Teste quatro")
+    TIPO1,
+    @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, id = 5, nomeObjeto = "Teste cinco")
+    TIPO2,
+    @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, nomeObjeto = "teste seis")
+    TIPO3;
 
-    tipo1 {
-
-        @Override
-        public ItemTeste getRegistro() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    }, tipo2 {
-
-        @Override
-        public ItemTeste getRegistro() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    }, tipo3 {
-
-        @Override
-        public ItemTeste getRegistro() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-        }
-
-    };
-
-    @Override
-    public abstract ItemTeste getRegistro();
 }
