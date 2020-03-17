@@ -174,6 +174,7 @@ public class ConsultaDinamicaDeEntidade {
                     return consulta.getSingleResult();
 
                 case REGISTRO_UNICO:
+                    consulta.setMaxResults(1);
                     return consulta.getSingleResult();
 
                 case MAIOR:
@@ -208,6 +209,12 @@ public class ConsultaDinamicaDeEntidade {
         } catch (Throwable t) {
             return new ArrayList();
         }
+    }
+
+    public Object getPrimeiroRegistro() {
+
+        throw new UnsupportedOperationException("Não implementado -> nos ajude em coletivojava.com.br, Você pode utilizar UtilSBPersistencia.getRegistroByJPQL(pSQL) ou UtilSBPersistencia.getRegistroBySQL(pSQL)");
+
     }
 
     public Map<String, Object> getValoresParametro() {
