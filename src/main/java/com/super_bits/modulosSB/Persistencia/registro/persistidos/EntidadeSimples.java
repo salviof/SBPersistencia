@@ -30,9 +30,8 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
         //adcionaCampoEsperado(new CampoEsperado(TC.IMG_PEQUENA, CInfo.SITE_URL
         //CInfo.pastaImagens + "/SBPequeno.jpg"));
-        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.AAA_NOME), true);
-        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.ID), true);
-
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.AAA_NOME), true);
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.ID), true);
     }
 
     @Override

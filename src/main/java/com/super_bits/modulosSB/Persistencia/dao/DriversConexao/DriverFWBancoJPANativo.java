@@ -5,6 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao.DriversConexao;
 
+import com.super_bits.modulosSB.Persistencia.ConfigGeral.DevOpsPersistencia;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.FabInfoPersistirEntidade;
 import com.super_bits.modulosSB.Persistencia.dao.InfoPerisistirEntidade;
