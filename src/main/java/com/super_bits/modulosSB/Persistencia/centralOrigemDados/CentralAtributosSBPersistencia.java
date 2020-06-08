@@ -16,7 +16,6 @@ import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.F
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_FABRICA_DE_REGISTROS;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_LISTAGEM_DE_ENTIDADE;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -26,7 +25,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @author desenvolvedor
  */
-public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ItfCentralAtributosDeObjetos {
+public abstract class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ItfCentralAtributosDeObjetos {
 
     private EntityManager em;
 
@@ -36,6 +35,15 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
     public CentralAtributosSBPersistencia(EntityManager pEM) {
         em = pEM;
     }
+
+    public EntityManager getEm() {
+        if (em == null || !em.isOpen()) {
+            em = obterEntityManagerLasyMode();
+        }
+        return em;
+    }
+
+    public abstract EntityManager obterEntityManagerLasyMode();
 
     @Override
     public List getListaOpcoesCampo(ItfPropriedadesReflexaoCampos pPropriedades) {
@@ -52,10 +60,10 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
                 throw new UnsupportedOperationException("Para listar a partir de sublista, é nescessário utilizar um campo instanciado");
 
             case LISTA_POR_ENTIDADE:
-                return UtilSBPersistencia.getListaTodos(pPropriedades.getClasseDeclaracaoAtributo(), em);
+                return UtilSBPersistencia.getListaTodos(pPropriedades.getClasseDeclaracaoAtributo(), getEm());
 
             case LISTA_POR_LISTAGEM_DE_ENTIDADE:
-                return UtilSBPersistencia.getListaTodos(pPropriedades.getEntidadeLista(), em);
+                return UtilSBPersistencia.getListaTodos(pPropriedades.getEntidadeLista(), getEm());
             default:
                 throw new AssertionError(tipoLista.name());
 
@@ -111,13 +119,13 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
 
             case LISTA_POR_ENTIDADE:
                 try {
-                    for (String campo : pCampos) {
+                for (String campo : pCampos) {
 
-                    }
-                } catch (Throwable t) {
-                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao pesquisar por campos", t);
                 }
-                return UtilSBPersistencia.getListaRegistrosLikeNomeCurto(pFiltro, propAtributoReflexao.getEntidadeLista(), em);
+            } catch (Throwable t) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao pesquisar por campos", t);
+            }
+            return UtilSBPersistencia.getListaRegistrosLikeNomeCurto(pFiltro, propAtributoReflexao.getEntidadeLista(), em);
             case LISTA_POR_LISTAGEM_DE_ENTIDADE:
                 throw new UnsupportedOperationException("");
 

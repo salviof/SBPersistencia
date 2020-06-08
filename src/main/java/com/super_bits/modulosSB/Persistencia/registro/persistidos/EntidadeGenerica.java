@@ -93,7 +93,13 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
 
     @Override
     protected ItfCentralAtributosDeObjetos getCentraldeAtributosDoObjeto(Field pCampo) {
-        return new CentralAtributosSBPersistencia();
+        return new CentralAtributosSBPersistencia() {
+            @Override
+            public EntityManager obterEntityManagerLasyMode() {
+                return UtilSBPersistencia.getEMDoContexto();
+
+            }
+        };
     }
 
     @Override

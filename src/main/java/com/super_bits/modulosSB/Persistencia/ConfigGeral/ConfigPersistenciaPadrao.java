@@ -7,6 +7,8 @@ package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
  *
@@ -16,7 +18,20 @@ public abstract class ConfigPersistenciaPadrao implements ItfConfigSBPersistenci
 
     @Override
     public String bancoPrincipal() {
-        return SBCore.getGrupoProjeto() + "Model";
+        Properties proppriedadesBasicas = new Properties();
+        InputStream stream = this.getClass().getResourceAsStream("SBProjeto.prop");
+        try {
+            if (stream == null) {
+                return SBCore.getGrupoProjeto() + "Model";
+
+            }
+            proppriedadesBasicas.load(stream);
+            stream.close();
+        } catch (Throwable t) {
+            return SBCore.getGrupoProjeto() + "Model";
+        }
+        return proppriedadesBasicas.getProperty("NOME_BANCO");
+
     }
 
     @Override

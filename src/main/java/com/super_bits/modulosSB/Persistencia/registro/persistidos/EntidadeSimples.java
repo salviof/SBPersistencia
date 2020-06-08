@@ -250,7 +250,8 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     @Override
     public boolean isTemImagemPequenaAdicionada() {
-        return new File(SBCore.getCentralDeArquivos().getEndrLocalImagem(this, FabTipoAtributoObjeto.IMG_PEQUENA)).exists();
+
+        return SBCore.getServicoArquivosDeEntidade().isTemImagem(this, FabTipoAtributoObjeto.IMG_PEQUENA);
     }
 
     @Override

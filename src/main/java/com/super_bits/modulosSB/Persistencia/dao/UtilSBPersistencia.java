@@ -1001,7 +1001,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             }
             return true;
         } catch (Exception e) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL", e);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
             return false;
         }
     }
