@@ -1,6 +1,10 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Cidade;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.LocalizacaoPostavel;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -103,6 +107,14 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
     public void setLocalizacao(ItfLocalPostagem pLocal) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOCALIZACAO, pLocal);
 
+    }
+
+    @Override
+    public void instanciarNovoEndereco() {
+        setLocalizacao(new LocalizacaoPostavel());
+        getLocalizacao().setBairro(new Bairro());
+        getLocalizacao().getBairro().setCidade(new Cidade());
+        getLocalizacao().getBairro().getCidade().setUnidadeFederativa(new UnidadeFederativa());
     }
 
     /**
