@@ -58,7 +58,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
             }
             return nomeCurto;
         } catch (Throwable t) {
-            SBCore.RelatarErro(FabErro.PARA_TUDO, "Erro Obtendo o campo nome da classe" + this.getClass().getSimpleName() + " certifique que o nome tenha sido anotado, e que o tipo retornado seja String", t);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo o campo nome da classe" + this.getClass().getSimpleName() + " certifique que o nome tenha sido anotado, e que o tipo retornado seja String", t);
         }
         return null;
     }
@@ -196,7 +196,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     @Override
     public String getNomeUnicoSlug() {
-        return getNomeCurto() + "-" + getId();
+        return getNome() + "-" + getId();
     }
 
     @Override
