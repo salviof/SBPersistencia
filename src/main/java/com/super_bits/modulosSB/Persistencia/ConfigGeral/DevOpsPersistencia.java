@@ -530,7 +530,7 @@ public class DevOpsPersistencia {
 //        loggers.add(LogManager.getRootLogger());
 
         carregarAutoLoadPadrao(propriedades);
-        if (SBCore.isEmModoDesenvolvimento()) {
+        if (!SBCore.isEmModoProducao()) {
             for (Logger loggerAtual : loggers) {
                 if (loggerAtual.getName().contains("hibernate")) {
                     loggerAtual.setLevel(Level.INFO);

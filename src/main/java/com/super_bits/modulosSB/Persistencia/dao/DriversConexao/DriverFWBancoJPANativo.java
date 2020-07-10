@@ -113,7 +113,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     }
 
                     if (maximo != -1 && maximo != 0) {
-                        System.out.println("SetMaximo=" + maximo);
+                        //   System.out.println("SetMaximo=" + maximo);
                         consulta.setMaxResults(maximo);
                     }
 
@@ -266,16 +266,16 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             case MERGE:
                                 try {
 
-                                    novoRegistro = em.merge(entidade);
+                                novoRegistro = em.merge(entidade);
 
-                                } catch (EntityExistsException tt) {
+                            } catch (EntityExistsException tt) {
 
-                                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Entidade já existe, para executar um novo merge, é nescessário criar um novo entityManager, ou utilizar a entidade gerenciada obtida anteriormente, caso exista uma transação ativa, o JPA obrigará execução do roolback", tt);
+                                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Entidade já existe, para executar um novo merge, é nescessário criar um novo entityManager, ou utilizar a entidade gerenciada obtida anteriormente, caso exista uma transação ativa, o JPA obrigará execução do roolback", tt);
 
-                                }
-                                entidade = novoRegistro;
-                                sucesso = true;
-                                break;
+                            }
+                            entidade = novoRegistro;
+                            sucesso = true;
+                            break;
                             default:
                                 break;
 
