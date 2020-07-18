@@ -73,7 +73,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     @Override
     public void setNome(String nome) {
         this.nome = nome;
-        configIDPeloNome();
+
     }
 
     public String getUF() {
@@ -82,6 +82,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
 
     public void setUF(String UF) {
         this.UF = UF;
+        configIDPeloNome();
     }
 
     @Override
