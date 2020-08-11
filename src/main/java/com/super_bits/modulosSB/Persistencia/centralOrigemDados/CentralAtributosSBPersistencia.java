@@ -76,27 +76,29 @@ public abstract class CentralAtributosSBPersistencia extends CentralAtributosDeO
         try {
 
             FabTipoLisgagemOpcoesCampo tipoLista = pCampoInstanciado.getPropriedadesRefexao().getTipoListagem();
-            switch (tipoLista) {
-                case LISTAR_POR_SUBLISTA:
-                    String caminho = pCampoInstanciado.getPropriedadesRefexao().getCaminhoListagemOpcoes();
-                    ItfCampoInstanciado campoInstanciado = pCampoInstanciado.getObjetoDoAtributo().getCampoInstanciadoByNomeOuAnotacao(caminho);
-                    if (campoInstanciado.isCampoNaoInstanciado()) {
-                        return new ArrayList();
-                    } else {
-                        return (List) campoInstanciado.getValor();
-                    }
-                case LISTA_POR_LISTAGEM_DE_ENTIDADE:
+            if (tipoLista != null) {
+                switch (tipoLista) {
+                    case LISTAR_POR_SUBLISTA:
+                        String caminho = pCampoInstanciado.getPropriedadesRefexao().getCaminhoListagemOpcoes();
+                        ItfCampoInstanciado campoInstanciado = pCampoInstanciado.getObjetoDoAtributo().getCampoInstanciadoByNomeOuAnotacao(caminho);
+                        if (campoInstanciado.isCampoNaoInstanciado()) {
+                            return new ArrayList();
+                        } else {
+                            return (List) campoInstanciado.getValor();
+                        }
+                    case LISTA_POR_LISTAGEM_DE_ENTIDADE:
 
-                case LISTA_POR_FABRICA_DE_REGISTROS:
+                    case LISTA_POR_FABRICA_DE_REGISTROS:
 
-                case LISTA_POR_ENTIDADE:
-                    return getListaOpcoesCampo(pCampoInstanciado.getPropriedadesRefexao());
+                    case LISTA_POR_ENTIDADE:
+                        return getListaOpcoesCampo(pCampoInstanciado.getPropriedadesRefexao());
 
-                default:
-                    return getListaOpcoesCampo(pCampoInstanciado.getPropriedadesRefexao());
+                    default:
+                        return getListaOpcoesCampo(pCampoInstanciado.getPropriedadesRefexao());
 
+                }
             }
-
+            return new ArrayList();
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "erro Obtendo lista de opções do campo instanciado", t);
             return new ArrayList();

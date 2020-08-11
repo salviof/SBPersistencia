@@ -12,6 +12,7 @@ import java.util.List;
  *
  * @author desenvolvedor
  */
+@Deprecated
 public class TipoPolimorfismoObjetoRegraDeNegocio {
 
     private int id;

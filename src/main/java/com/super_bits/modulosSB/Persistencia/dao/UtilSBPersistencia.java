@@ -988,7 +988,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
                     em.getTransaction().begin();
                 }
                 Query q = em.createNativeQuery(pSQl);
-                q.executeUpdate();
+                int resgistrosAlterados = q.executeUpdate();
                 if (!entityManagerEnviado) {
                     em.getTransaction().commit();
                 }

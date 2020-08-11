@@ -9,6 +9,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.polimofirsmoR
  *
  * @author desenvolvedor
  */
+@Deprecated
 public interface ItfTipoObjetoRegraDeNegocio {
 
 }
