@@ -113,10 +113,10 @@ public class ConsultaDinamicaDeEntidade {
 
     @SuppressWarnings({"BooleanConstructorCall", "UnnecessaryBoxing"})
     public ConsultaDinamicaDeEntidade addCondicaoNegativo(String pCampo) {
-        CondicaoConsulta condPositivo = new CondicaoConsulta(this, FabTipoCondicaoJPQL.VALOR_POSITIVO);
-        condPositivo.setCaminhoCampoCondicao(pCampo);
-        condPositivo.setValorParametro(new Boolean(false));
-        condicoes.add(condPositivo);
+        CondicaoConsulta condNegativo = new CondicaoConsulta(this, FabTipoCondicaoJPQL.VALOR_POSITIVO);
+        condNegativo.setCaminhoCampoCondicao(pCampo);
+        condNegativo.setValorParametro(new Boolean(false));
+        condicoes.add(condNegativo);
         return this;
     }
 

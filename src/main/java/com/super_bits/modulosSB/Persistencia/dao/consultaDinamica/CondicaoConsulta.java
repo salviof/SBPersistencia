@@ -72,7 +72,7 @@ public class CondicaoConsulta {
                     }
 
                 }
-
+                break;
             case MANY_TO_ONE_NESTE_INTERVALO:
                 break;
             case CAMINHO_CAMPO_IGUAL_VALOR:
