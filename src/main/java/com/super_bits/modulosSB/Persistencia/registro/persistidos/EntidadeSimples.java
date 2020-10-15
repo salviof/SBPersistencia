@@ -219,7 +219,13 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     @Override
     public boolean uploadArquivoDeEntidade(ItfCampoInstanciado prcampo, byte[] pStream, String pNomeArquivo) {
-        return SBCore.getCentralDeArquivos().salvarArquivo(prcampo, pStream, pNomeArquivo);
+        if (SBCore.getCentralDeArquivos().salvarArquivo(prcampo, pStream, pNomeArquivo)) {
+            prcampo.setValor(pNomeArquivo);
+            return true;
+        }
+
+        return false;
+
     }
 
     @Override
