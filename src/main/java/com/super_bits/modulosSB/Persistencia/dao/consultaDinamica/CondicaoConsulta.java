@@ -51,7 +51,20 @@ public class CondicaoConsulta {
         }
         switch (tipoCondicao) {
             case MANY_TO_ONE_IGUAL_AUTO:
+                if (pValorParametro instanceof FabCondicaoEspecialSql) {
+                    FabCondicaoEspecialSql condica = (FabCondicaoEspecialSql) pValorParametro;
+                    switch (condica) {
+                        case IS_NOT_NULL:
 
+                        case IS_NULL:
+                            valorParametro = pValorParametro;
+                            return;
+
+                        default:
+                            throw new AssertionError(condica.name());
+
+                    }
+                }
                 if (!(pValorParametro instanceof ItfBeanSimples)) {
                     throw new UnsupportedOperationException();
                 }

@@ -39,13 +39,44 @@ public enum FabTipoCondicaoJPQL {
         String nomeCampoPesquisa = pCondicao.getCaminhoCampoCondicao();
         switch (this) {
             case MANY_TO_ONE_IGUAL_AUTO:
-                ItfBeanSimples beanParametro = (ItfBeanSimples) pCondicao.getValorParametro();
-
+                ItfBeanSimples beanParametro = null;
+                FabCondicaoEspecialSql condicaoEspecial = null;
+                if (pCondicao.getValorParametro() instanceof FabCondicaoEspecialSql) {
+                    condicaoEspecial = (FabCondicaoEspecialSql) pCondicao.getValorParametro();
+                } else {
+                    beanParametro = (ItfBeanSimples) pCondicao.getValorParametro();
+                }
+                Predicate condicao = null;
                 ParameterExpression<Integer> prQuery = pBuilder.parameter(Integer.class, pCondicao.getNomeParametro());
-                pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), beanParametro.getId());
-                Path caminhoCondicacaoManyToOneIgual = getPachCampoCondicao(entidadePrincipal, nomeCampoPesquisa);
-                Predicate condicao = pBuilder.equal(caminhoCondicacaoManyToOneIgual, prQuery);
 
+                if (condicaoEspecial != null) {
+                    switch (condicaoEspecial) {
+                        case IS_NOT_NULL:
+                            pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), null);
+                            Path caminhoCondicacaoManIsNotNull = getPachCampoCondicao(entidadePrincipal, nomeCampoPesquisa);
+                            condicao = pBuilder.isNotNull(caminhoCondicacaoManIsNotNull);
+                            break;
+                        case IS_NULL:
+                            pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), null);
+                            Path caminhoCondicacaoManyToOneISNULL = getPachCampoCondicao(entidadePrincipal, nomeCampoPesquisa);
+                            condicao = pBuilder.isNull(caminhoCondicacaoManyToOneISNULL);
+                            break;
+                        default:
+                            throw new AssertionError(condicaoEspecial.name());
+
+                    }
+                } else {
+
+                    if (beanParametro == null) {
+                        pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), null);
+                        Path caminhoCondicacaoManyToOneIgual = getPachCampoCondicao(entidadePrincipal, nomeCampoPesquisa);
+                        condicao = pBuilder.isNull(caminhoCondicacaoManyToOneIgual);
+                    } else {
+                        pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), beanParametro.getId());
+                        Path caminhoCondicacaoManyToOneIgual = getPachCampoCondicao(entidadePrincipal, nomeCampoPesquisa);
+                        condicao = pBuilder.equal(caminhoCondicacaoManyToOneIgual, prQuery);
+                    }
+                }
                 pCondicao.getConsulta().adicionarPredicado(condicao);
 
                 break;

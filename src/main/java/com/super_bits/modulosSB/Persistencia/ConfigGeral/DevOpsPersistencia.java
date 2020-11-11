@@ -327,7 +327,7 @@ public class DevOpsPersistencia {
          * podem achar mais intuitivo o uso do parâmetro
          * maxStatementsPerConnection.
          */
-        pPropriedades.put("hibernate.c3p0.max_statements", 0);//100
+        pPropriedades.put("hibernate.c3p0.max_statements", 100);//100
         /**
          * # O número de PreparedStatements que o c3p0 irá colocar em cache,
          * para cada conexão # do pool. Se ambos maxStatements e
