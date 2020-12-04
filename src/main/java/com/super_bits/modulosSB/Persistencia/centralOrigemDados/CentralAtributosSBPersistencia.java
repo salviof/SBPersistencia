@@ -25,9 +25,19 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @author desenvolvedor
  */
-public abstract class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ItfCentralAtributosDeObjetos {
+public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ItfCentralAtributosDeObjetos {
 
     private EntityManager em;
+
+    /**
+     * TODO deeria ter uma interface para represenar esta classe, extendendo a
+     * implementação e adicionando este método
+     *
+     * @return
+     */
+    public EntityManager obterEntityManagerLasyMode() {
+        return UtilSBPersistencia.getEMDoContexto();
+    }
 
     public CentralAtributosSBPersistencia() {
     }
@@ -42,8 +52,6 @@ public abstract class CentralAtributosSBPersistencia extends CentralAtributosDeO
         }
         return em;
     }
-
-    public abstract EntityManager obterEntityManagerLasyMode();
 
     @Override
     public List getListaOpcoesCampo(ItfPropriedadesReflexaoCampos pPropriedades) {
