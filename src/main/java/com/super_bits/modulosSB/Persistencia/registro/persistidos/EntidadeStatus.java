@@ -5,10 +5,12 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabricaStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
+import java.util.List;
 
 /**
  *
@@ -29,6 +31,10 @@ public class EntidadeStatus extends EntidadeSimples implements ItfBeanStatus {
     @Override
     public void setStatusEnum(ItfFabricaStatus pFab) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.STATUS_ENUM, pFab);
+    }
+
+    public List<ItfAcaoDoSistema> getAcoesDisponiveis() {
+        return getStatusEnum().opcoesPorStatus();
     }
 
 }
