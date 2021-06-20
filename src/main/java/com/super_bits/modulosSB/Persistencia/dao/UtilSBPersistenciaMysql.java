@@ -57,7 +57,13 @@ public abstract class UtilSBPersistenciaMysql {
      */
     public static List<String> tabelaVinculadasAChaveExtrangeira(String pMensagemErroChave) {
 
-        Pattern p = Pattern.compile("(FK\\S*)");
+        Pattern p;
+
+        if (pMensagemErroChave.contains("UK")) {
+            p = Pattern.compile("(UK\\S*)");
+        } else {
+            p = Pattern.compile("(FK\\S*)");
+        }
 
         Matcher m = p.matcher(pMensagemErroChave);
         m.find();
@@ -73,8 +79,14 @@ public abstract class UtilSBPersistenciaMysql {
                     "SELECT * FROM information_schema.KEY_COLUMN_USAGE where CONSTRAINT_NAME=\"" + codigo + "\"", 0);
             Object[] teste = (Object[]) resp.get(0);
             List<String> resposta = new ArrayList<>();
-            if (teste[10] != null) {
-                resposta.add((String) teste[5]);
+            if (pMensagemErroChave.contains("UK")) {
+                if (teste[5] != null) {
+                    resposta.add((String) teste[5]);
+                }
+            } else {
+                if (teste[10] != null) {
+                    resposta.add((String) teste[5]);
+                }
             }
             return resposta;
         } else {

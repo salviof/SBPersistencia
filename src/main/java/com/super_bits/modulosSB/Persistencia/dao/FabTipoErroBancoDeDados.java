@@ -75,6 +75,14 @@ public enum FabTipoErroBancoDeDados {
         if (causa != null) {
             Class classeCausa = causa.getClass();
             if (causa instanceof MySQLIntegrityConstraintViolationException) {
+                if (causa.getMessage() != null) {
+                    String mensagemBancoDeDados = causa.getMessage();
+                    if (mensagemBancoDeDados.contains("Duplicate entry") && mensagemBancoDeDados.contains("UK_")) {
+                        return INFORMACAO_DUPLICADA;
+
+                    }
+                }
+
                 MySQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (MySQLIntegrityConstraintViolationException) causa;
                 System.out.println(erroChaveExtrangeiraNativo);
                 return CHAVE_EXTRANGEIRA_MYSQL_NATIVO;
