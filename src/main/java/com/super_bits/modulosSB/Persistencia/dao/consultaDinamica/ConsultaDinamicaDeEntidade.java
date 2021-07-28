@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.Persistencia.dao.calculosListagens.FabTipoFiltro
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,10 +18,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
-import org.hibernate.hql.internal.ast.tree.OrderByClause;
 
 /**
  *
@@ -103,6 +102,24 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
+    public ConsultaDinamicaDeEntidade addCondicaoDataHoraMaiorOuIgualA(String pCaminhoCampoCondicao, Date pDataHora) {
+        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.DATA_HORA_MAIOR_OU_IGUAL);
+        condicaoSimples.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
+        condicaoSimples.setValorParametro(pDataHora);
+        condicoes.add(condicaoSimples);
+        return this;
+
+    }
+
+    public ConsultaDinamicaDeEntidade addCondicaoDataHoraMenorOuIgualA(String pCaminhoCampoCondicao, Date pDataHora) {
+        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.DATA_HORA_MENUR_OU_IGUAL);
+        condicaoSimples.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
+        condicaoSimples.setValorParametro(pDataHora);
+        condicoes.add(condicaoSimples);
+        return this;
+
+    }
+
     public ConsultaDinamicaDeEntidade addcondicaoCampoIgualA(String pCampo, Object pValor) {
         CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_IGUAL_VALOR);
         condicaoSimples.setCaminhoCampoCondicao(pCampo);
@@ -172,7 +189,10 @@ public class ConsultaDinamicaDeEntidade {
             consulta.getParameters().forEach(pr
                     -> {
                 try {
-                    consulta.setParameter(pr.getName(), valoresParametro.get(pr.getName()));
+
+                    String nomeParametro = pr.getName();
+                    Object valor = valoresParametro.get(nomeParametro);
+                    consulta.setParameter(nomeParametro, valor);
                 } catch (Throwable t) {
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro aplicando parametros", t);
                 }

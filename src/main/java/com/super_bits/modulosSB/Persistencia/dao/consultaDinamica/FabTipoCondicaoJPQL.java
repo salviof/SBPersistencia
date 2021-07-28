@@ -10,6 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -31,6 +32,8 @@ public enum FabTipoCondicaoJPQL {
     MANY_TO_ONE_NESTE_INTERVALO,
     MANY_TO_MANY_CONTEM_OBJETO,
     CAMINHO_CAMPO_IGUAL_VALOR,
+    DATA_HORA_MAIOR_OU_IGUAL,
+    DATA_HORA_MENUR_OU_IGUAL,
     VALOR_POSITIVO;
 
     public void aplicar(CriteriaQuery pCriterio, CondicaoConsulta pCondicao, CriteriaBuilder pBuilder) {
@@ -38,6 +41,24 @@ public enum FabTipoCondicaoJPQL {
         Root entidadePrincipal = (Root) pCriterio.getRoots().iterator().next();
         String nomeCampoPesquisa = pCondicao.getCaminhoCampoCondicao();
         switch (this) {
+            case DATA_HORA_MAIOR_OU_IGUAL:
+                Date dataHora = (Date) pCondicao.getValorParametro();
+
+                ParameterExpression<Date> prCampoDataHora = pBuilder.parameter(Date.class, pCondicao.getNomeParametro());
+                Predicate condicaoDataHoraMaior = null;
+                pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), dataHora);
+                condicaoDataHoraMaior = pBuilder.greaterThanOrEqualTo(entidadePrincipal.get(nomeCampoPesquisa), prCampoDataHora);
+                pCondicao.getConsulta().adicionarPredicado(condicaoDataHoraMaior);
+                break;
+            case DATA_HORA_MENUR_OU_IGUAL:
+
+                Date dataHoramenorIgualQue = (Date) pCondicao.getValorParametro();
+                ParameterExpression<Date> prCampoDataHoraMenorIgual = pBuilder.parameter(Date.class, pCondicao.getNomeParametro());
+                pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), dataHoramenorIgualQue);
+                Predicate condicaoDataHoraMenorIgual = pBuilder.lessThanOrEqualTo(entidadePrincipal.get(nomeCampoPesquisa), prCampoDataHoraMenorIgual);
+                pCondicao.getConsulta().adicionarPredicado(condicaoDataHoraMenorIgual);
+
+                break;
             case MANY_TO_ONE_IGUAL_AUTO:
                 ItfBeanSimples beanParametro = null;
                 FabCondicaoEspecialSql condicaoEspecial = null;
@@ -154,6 +175,7 @@ public enum FabTipoCondicaoJPQL {
                 pCondicao.getConsulta().adicionarPredicado(predPets);
 
                 break;
+
             default:
                 throw new AssertionError(this.name());
 

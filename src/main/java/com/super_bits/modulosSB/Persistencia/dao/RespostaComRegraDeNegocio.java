@@ -146,7 +146,7 @@ public abstract class RespostaComRegraDeNegocio implements ItfRespostaComExecuca
     }
 
     @Override
-    public ItfResposta setProximoFormulario(ItfAcaoFormulario pFormulario) {
+    public ItfRespostaAcaoDoSistema setProximoFormulario(ItfAcaoFormulario pFormulario) {
         return resposta.setProximoFormulario(pFormulario);
     }
 

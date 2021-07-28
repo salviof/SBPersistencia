@@ -43,7 +43,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     @Override
     public String getNomeCurto() {
         try {
-            String nome = (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.AAA_NOME);
+            String nome = (String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.AAA_NOME).getValor();
             String nomeCurto = "";
             nome = nome.replace("-", " ");
             nome = nome.replace(".", " ");

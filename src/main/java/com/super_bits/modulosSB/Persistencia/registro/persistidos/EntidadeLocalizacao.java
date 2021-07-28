@@ -5,7 +5,6 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
@@ -19,9 +18,9 @@ public class EntidadeLocalizacao extends EntidadeSimples implements ItfLocal {
 
     public EntidadeLocalizacao() {
         super();
-        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.LATITUDE), true);
-        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.Longitude), true);
-        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.LC_BAIRRO), true);
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.LATITUDE), true);
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.Longitude), true);
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.LC_BAIRRO), true);
 
     }
 

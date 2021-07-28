@@ -115,6 +115,10 @@ public class CondicaoConsulta {
                 }
 
                 break;
+            case DATA_HORA_MAIOR_OU_IGUAL:
+                break;
+            case DATA_HORA_MENUR_OU_IGUAL:
+                break;
             default:
                 throw new AssertionError(tipoCondicao.name());
 
@@ -140,7 +144,7 @@ public class CondicaoConsulta {
                 nomeParametro = getCaminhoCampoCondicao().replace(".", "");
             }
         }
-        return nomeParametro;
+        return nomeParametro + tipoCondicao;
     }
 
     public void setNomeParametro(String pNomeParametro) {
