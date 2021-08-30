@@ -293,9 +293,10 @@ public class DevOpsPersistencia {
     }
 
     public void loadC3p0(Map<String, Object> pPropriedades) {
-        // desabilitando hbm2dllauto por segurança
-        //pPropriedades.put("javax.persistence.sharedCache.mode", "NONE");
 
+        /// Creditos para esta configuração cuidadosamente comentada
+        //  para: http://www.guj.com.br/users/rollei/summary e-amil rollei2004@yahoo.com.br
+        //pPropriedades.put("javax.persistence.sharedCache.mode", "NONE");
         //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         pPropriedades.put("hibernate.event.merge.entity_copy_observer", "allow");
         //TEntativa de diminuir utilização de memória baseado em https://stackoverflow.com/questions/24359088/high-memory-usage-when-using-hibernate
@@ -624,8 +625,10 @@ public class DevOpsPersistencia {
             // TODO remover essa caixa alta..
         } else {
             loadC3p0(propriedades);
-            /// Creditos para esta configuração impecável e cuidadosamente comentada
-            //  para: http://www.guj.com.br/users/rollei/summary
+            if (houveAlteracaoHomologacaoBanco(configurador)) {
+                // propriedades.put("hibernate.hbm2ddl.auto", "update");
+            }
+
             EntityManagerFactory emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
             UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
         }
