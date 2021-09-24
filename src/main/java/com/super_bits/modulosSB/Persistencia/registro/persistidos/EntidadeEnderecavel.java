@@ -89,7 +89,16 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
 
     @Override
     public String getTelefone() {
-        return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL);
+        if (isTemCampoAnotado(FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL)) {
+            return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL);
+        }
+        if (isTemCampoAnotado(FabTipoAtributoObjeto.TELEFONE_GENERICO)) {
+            return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.TELEFONE_GENERICO);
+        }
+        if (isTemCampoAnotado(FabTipoAtributoObjeto.TELEFONE_FIXO_INTERNACIONAL)) {
+            return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.TELEFONE_FIXO_INTERNACIONAL);
+        }
+        return null;
     }
 
     @Override
