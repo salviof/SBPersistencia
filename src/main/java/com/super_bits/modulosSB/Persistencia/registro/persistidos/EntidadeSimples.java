@@ -43,19 +43,8 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     @Override
     public String getNomeCurto() {
         try {
-            String nome = (String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.AAA_NOME).getValor();
-            String nomeCurto = "";
-            nome = nome.replace("-", " ");
-            nome = nome.replace(".", " ");
-            for (String parte : nome.split(" ")) {
-                if (nomeCurto.length() < 15) {
-                    if (nomeCurto.length() > 0) {
-                        nomeCurto = nomeCurto + " " + parte;
-                    } else {
-                        nomeCurto = nomeCurto + parte;
-                    }
-                }
-            }
+            String nomeCurto = UtilSBCoreStringFiltros.getNomeReduzido((String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.AAA_NOME).getValor());
+
             return nomeCurto;
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo o campo nome da classe" + this.getClass().getSimpleName() + " certifique que o nome tenha sido anotado, e que o tipo retornado seja String", t);

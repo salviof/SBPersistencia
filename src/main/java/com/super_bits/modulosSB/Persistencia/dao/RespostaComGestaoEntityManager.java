@@ -75,6 +75,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
             if (registroAtualizado != null) {
                 setRetorno(registroAtualizado);
             }
+            return registroAtualizado;
         } catch (ErroEmBancoDeDados ex) {
             addErro(ex.getMensagemUsuario());
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, ex.getMensagemProgrador(), ex);

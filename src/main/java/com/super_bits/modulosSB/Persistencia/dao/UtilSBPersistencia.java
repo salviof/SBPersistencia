@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnitUtil;
 import javax.persistence.Query;
@@ -1000,6 +1001,12 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
                 }
             }
             return true;
+        } //catch (Op e) {
+        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+        //      return false;
+        //  }
+        catch (OptimisticLockException esperavaumRegsitro) {
+            return false;
         } catch (Exception e) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
             return false;

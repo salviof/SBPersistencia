@@ -49,6 +49,41 @@ public abstract class UtilSBPersistenciaFabricas {
         return listaRegistros(pFabrica);
     }
 
+    public static void persistirRegistrosDaFabricaSeNaoExistir(Class pFabrica, EntityManager pEM, TipoOrdemGravacao pTipoOrdem) {
+        if (pFabrica.getEnumConstants() == null) {
+            ItfMensagem msg = FabMensagens.ERRO.getMsgSistema("Nenum Enum foi encontrado para persistir nesta fabrica" + pFabrica.getSimpleName());
+            SBCore.getCentralDeMensagens().enviaMensagem(msg);
+            return;
+        }
+
+        switch (pTipoOrdem) {
+            case ORDERNAR_POR_ID:
+                for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
+                    if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
+                        persistir(entidade, pEM, pFabrica);
+                    }
+
+                }
+                break;
+            case ORDERNAR_POR_ORDEM_DE_DECLARCAO:
+                for (Object entidade : listaRegistros(pFabrica)) {
+                    try {
+                        if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
+                            persistir(entidade, pEM, pFabrica);
+                        }
+
+                    } catch (Throwable t) {
+                        throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + entidade, t);
+                    }
+                }
+
+                break;
+            default:
+                throw new AssertionError(pTipoOrdem.name());
+
+        }
+    }
+
     /**
      *
      * Realiza a persistencia de todos os registros obtidos com getRegistro da

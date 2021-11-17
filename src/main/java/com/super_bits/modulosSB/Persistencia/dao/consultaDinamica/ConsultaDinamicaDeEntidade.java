@@ -19,6 +19,7 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
@@ -34,7 +35,6 @@ public class ConsultaDinamicaDeEntidade {
     private final Map<String, Object> valoresParametro = new HashMap<>();
     private final List<Predicate> predicadosCriteriaAPIGerados = new ArrayList<>();
     private EntityManager em;
-    private boolean ordemreversa = false;
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal, EntityManager pEm) {
         this.entidadePrincipal = entidadePrincipal;
@@ -43,19 +43,6 @@ public class ConsultaDinamicaDeEntidade {
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal) {
         this.entidadePrincipal = entidadePrincipal;
-    }
-
-    /**
-     * Ainda não implmentado
-     *
-     * @param pOrdemReversa
-     * @return
-     * @deprecated
-     */
-    @Deprecated
-    public ConsultaDinamicaDeEntidade setOrDemReversa(boolean pOrdemReversa) {
-        ordemreversa = pOrdemReversa;
-        return this;
     }
 
     public ConsultaDinamicaDeEntidade addCondicaoManyToOneContemNoIntervalo(String pCaminhoCampoCondicao, List<? extends ItfBeanSimples> pEtidadesManyToOne) {
@@ -157,6 +144,21 @@ public class ConsultaDinamicaDeEntidade {
         }
     }
 
+    private boolean ordemIDReversa = false;
+    private boolean ordemCampoPersonalizado = false;
+    private String campoOrdemPersonalizada;
+
+    public ConsultaDinamicaDeEntidade setOrdemIdReversa() {
+        ordemIDReversa = true;
+        return this;
+    }
+
+    public ConsultaDinamicaDeEntidade setOrdemCampoPersonalizado(String pCampo) {
+        ordemCampoPersonalizado = true;
+        campoOrdemPersonalizada = pCampo;
+        return this;
+    }
+
     private Object obterResultado() {
         boolean entityEnviado = true;
         if (em == null) {
@@ -179,10 +181,13 @@ public class ConsultaDinamicaDeEntidade {
                 criteriosDaconsulta.where(predicadosCriteriaAPIGerados.toArray(new Predicate[]{}));
 
             }
-            if (ordemreversa) {
-                if (criteriosDaconsulta.getOrderList().isEmpty()) {
 
-                }
+            if (ordemIDReversa) {
+                Root raizSql = (Root) criteriosDaconsulta.getRoots().stream().findFirst().get();
+                criteriosDaconsulta.select(raizSql).orderBy(construtorDeConsulta.desc(raizSql.get("id")));
+            } else if (ordemCampoPersonalizado) {
+                Root raizSql = (Root) criteriosDaconsulta.getRoots().stream().findFirst().get();
+                criteriosDaconsulta.select(raizSql).orderBy(construtorDeConsulta.asc(raizSql.get(campoOrdemPersonalizada)));
             }
             Query consulta = em.createQuery(criteriosDaconsulta);
 
@@ -212,6 +217,10 @@ public class ConsultaDinamicaDeEntidade {
                 case MENOR:
                     return consulta.getSingleResult();
                 case LISTAGENS:
+                    if (listarApenasUmRegistro) {
+                        return consulta.getSingleResult();
+                    }
+
                     return consulta.getResultList();
 
                 default:
@@ -239,10 +248,12 @@ public class ConsultaDinamicaDeEntidade {
             return new ArrayList();
         }
     }
+    boolean listarApenasUmRegistro = false;
 
     public Object getPrimeiroRegistro() {
 
-        throw new UnsupportedOperationException("Não implementado -> nos ajude em coletivojava.com.br, Você pode utilizar UtilSBPersistencia.getRegistroByJPQL(pSQL) ou UtilSBPersistencia.getRegistroBySQL(pSQL)");
+        listarApenasUmRegistro = true;
+        return resultadoRegistros();
 
     }
 
