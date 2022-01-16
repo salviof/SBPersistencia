@@ -577,14 +577,14 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return selecaoRegistros(pEM, null, null, null, pClasse, TIPO_SELECAO_REGISTROS.LIKENOME, pNomeCurto);
     }
 
-    public static List getListaTodos(Class pClasse) {
+    public static <T> List<T> getListaTodos(Class<T> pClasse) {
 
         if (pClasse == null) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A classe não foi especificada em getLista Todos", null);
             return null;
         }
 
-        return selecaoRegistros(null, null, null, null, pClasse, TIPO_SELECAO_REGISTROS.TODOS);
+        return (List<T>) selecaoRegistros(null, null, null, null, pClasse, TIPO_SELECAO_REGISTROS.TODOS);
     }
 
     public static <T> List<T> getListaTodos(Class<T> pClasse, EntityManager pEm) {
