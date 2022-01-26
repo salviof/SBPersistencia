@@ -39,7 +39,6 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
         pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);
         pConfiguracao.setCentralDeLocalizacao(CentralLocalizacaoSBPersistencia.class);
-
         pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
         pConfiguracao.setTipoProjeto(FabTipoProjeto.MODEL_E_CONTROLLER);
 
