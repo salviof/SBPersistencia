@@ -102,7 +102,6 @@ public class DevOpsPersistencia {
      * classe, favor usar outro constructor
      */
     @Deprecated
-
     public DevOpsPersistencia() {
 
         this.nomeArquivoPersistencia = null;
