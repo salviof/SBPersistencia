@@ -101,6 +101,14 @@ public class ListenerEntidadePadrao {
     @PreUpdate
     public void acaoAntesDeAtualizar(ItfBeanSimples pEntidade) {
         protegerSenhas(pEntidade);
+
+        if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.EMAIL)) {
+            String valorEmail = (String) pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.EMAIL).getValor();
+            valorEmail = valorEmail.replace(" ", "");
+            valorEmail = valorEmail.toLowerCase();
+            pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.EMAIL).setValor(valorEmail);
+        }
+
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_DATAALTERACAO)) {
             if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
                 pEntidade.getCampoInstanciadoByNomeOuAnotacao(FabTipoAtributoObjeto.REG_DATAALTERACAO.name()).setValor(new Date());
