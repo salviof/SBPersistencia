@@ -18,6 +18,7 @@ import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.F
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -117,7 +118,9 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
     @Override
     public int getNumeroMaximoRegistros(ItfCampoInstanciado pCampoInstanciado) {
         Class classe = pCampoInstanciado.getPropriedadesRefexao().getClasseDeclaracaoAtributo();
-
+        if (classe.getAnnotation(Entity.class) == null) {
+            return 100;
+        }
         return UtilSBPersistencia.getQuantidadeRegistrosNaTabela(classe, SBCore.getCentralDados().getAcessoDadosDoContexto().getEntitiManager()).intValue();
     }
 

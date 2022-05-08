@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.OptimisticLockException;
@@ -814,7 +815,9 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
                     }
                 }
             }
-
+            if (classe.getAnnotation(Entity.class) == null) {
+                return (I) pBeanSimples;
+            }
             int id = -1;
 
             try {
