@@ -104,9 +104,11 @@ public class ListenerEntidadePadrao {
 
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.EMAIL)) {
             String valorEmail = (String) pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.EMAIL).getValor();
-            valorEmail = valorEmail.replace(" ", "");
-            valorEmail = valorEmail.toLowerCase();
-            pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.EMAIL).setValor(valorEmail);
+            if (valorEmail != null) {
+                valorEmail = valorEmail.replace(" ", "");
+                valorEmail = valorEmail.toLowerCase();
+                pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.EMAIL).setValor(valorEmail);
+            }
         }
 
         if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_DATAALTERACAO)) {
