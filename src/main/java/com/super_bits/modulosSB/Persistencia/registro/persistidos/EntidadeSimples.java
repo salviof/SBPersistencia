@@ -6,6 +6,7 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -262,6 +263,11 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     @Override
     public String getXhtmlVisao(int numeroColunas) {
         return MapaObjetosProjetoAtual.getVisualizacaoDoObjeto(this.getClass());
+    }
+
+    @Override
+    public List<ItfAcaoDoSistema> getAcoesDisponiveis() {
+        return ItfBeanSimples.super.getAcoesDisponiveis(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
 }

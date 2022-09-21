@@ -65,11 +65,11 @@ public class Localidade extends EntidadeNormal implements ItfLocalidade {
         this.id = id;
     }
 
-    public String getDescricao() {
+    public String getDescritivo() {
         return this.descricao;
     }
 
-    public void setDescricao(String descricao) {
+    public void setDescritivo(String descricao) {
         this.descricao = descricao;
     }
 
