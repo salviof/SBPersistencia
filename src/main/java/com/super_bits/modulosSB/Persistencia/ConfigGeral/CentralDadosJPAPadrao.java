@@ -36,7 +36,12 @@ public class CentralDadosJPAPadrao implements ItfCentralDados {
 
     @Override
     public <T> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, int id) {
-        return (T) UtilSBPersistencia.getRegistroByID(pClasse, id);
+        if (pToken == null) {
+            return (T) UtilSBPersistencia.getRegistroByID(pClasse, id);
+        } else {
+
+            return (T) UtilSBPersistencia.getRegistroByID(pClasse, id, pToken.getEntitiManager());
+        }
 
     }
 

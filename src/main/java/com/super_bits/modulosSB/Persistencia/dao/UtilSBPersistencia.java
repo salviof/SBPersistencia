@@ -191,6 +191,18 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     /**
      *
      * Cria um novo entity Manager, do Banco padrão entity Manager gera uma nova
+     * conexão com o banco que só encerrada após o comando close MESMO que
+     * getEntyManagerPadraoNovo
+     *
+     * @return Nulo se não for possível criar, e a entidade caso consiga
+     */
+    public static EntityManager getEMPadraoNovo() {
+        return getNovoEM();
+    }
+
+    /**
+     *
+     * Cria um novo entity Manager, do Banco padrão entity Manager gera uma nova
      * conexão com o banco que só encerrada após o comando close
      *
      * @return Nulo se não for possível criar, e a entidade caso consiga

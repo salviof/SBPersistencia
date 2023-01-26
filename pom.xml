@@ -109,6 +109,11 @@
             <version>5.3.9.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>br.org.coletivoJava.utilitarios</groupId>
+            <artifactId>SBTarefaAgendada</artifactId>
+            <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
 
     </dependencies>
 
