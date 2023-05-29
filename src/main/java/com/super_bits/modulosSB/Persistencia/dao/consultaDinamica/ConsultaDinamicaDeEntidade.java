@@ -230,13 +230,13 @@ public class ConsultaDinamicaDeEntidade {
 
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando consulta simples por CriteriaAPI", t);
+            return null;
         } finally {
             if (!entityEnviado) {
                 UtilSBPersistencia.fecharEM(em);
             }
         }
 
-        return null;
     }
 
     public List resultadoRegistros() {

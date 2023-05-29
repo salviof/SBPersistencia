@@ -36,9 +36,12 @@ public class ListenerEntidadePadrao {
         if (pEntidade instanceof ItfBeanComStatus) {
             ItfBeanComStatus bst = (ItfBeanComStatus) pEntidade;
             ItfBeanStatus sts = bst.getStatusPrincipal();
-            propriedadesEstadoAnterior.put(sts.getClass().getSimpleName(), sts);
-            String campoId = pEntidade.getNomeCampo(FabTipoAtributoObjeto.ID);
-            propriedadesEstadoAnterior.put(campoId, pEntidade.getNome());
+            if (sts != null) {
+                propriedadesEstadoAnterior.put(sts.getClass().getSimpleName(), sts);
+
+                String campoId = pEntidade.getNomeCampo(FabTipoAtributoObjeto.ID);
+                propriedadesEstadoAnterior.put(campoId, pEntidade.getNome());
+            }
         }
 
     }
