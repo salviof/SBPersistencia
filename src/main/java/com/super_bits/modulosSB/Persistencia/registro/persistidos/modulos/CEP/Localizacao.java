@@ -40,7 +40,7 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
     @NotNull
     private String nome;
 
-    @ManyToOne(targetEntity = Bairro.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Bairro.class, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     @InfoCampo(tipo = FabTipoAtributoObjeto.LC_BAIRRO)
     @NotNull
     private Bairro bairro;

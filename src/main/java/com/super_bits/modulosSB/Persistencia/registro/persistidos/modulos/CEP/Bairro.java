@@ -41,7 +41,7 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LC_CIDADE)
-    @ManyToOne(targetEntity = Cidade.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Cidade.class, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     @NotNull
     private Cidade cidade;
 
