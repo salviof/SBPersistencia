@@ -92,7 +92,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
 
             } catch (Throwable t) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro finalizando tranzação ", t);
-
+                fecharEntityManagerEmSeguranca();
                 throw new ErroEmBancoDeDados(t, null);
 
             } finally {

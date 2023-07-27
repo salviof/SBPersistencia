@@ -491,7 +491,8 @@ public class DevOpsPersistencia {
     }
 
     public void carregarAutoLoadPadrao(Map<String, Object> pPropriedades) {
-        if (SBCore.isEmModoDesenvolvimento()) {
+
+        if (configurador.isExibirLogBancoDeDados()) {
             // desabilitando criação de banco de dados no início caso o banco seja o mesmo
             pPropriedades.put("hibernate.hbm2ddl.auto", null);
             // Mostrar SQL

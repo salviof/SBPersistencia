@@ -58,6 +58,7 @@ public abstract class SBPersistencia {
 
     public static void configuraJPA(ItfConfigSBPersistencia configurador) {
         configuraJPA(configurador, true, true);
+
     }
 
     /**
@@ -141,6 +142,7 @@ public abstract class SBPersistencia {
      * @param pRecriarBanco
      */
     public static void configuraJPA(ItfConfigSBPersistencia configurador, boolean pCriarTodosCampos, boolean pRecriarBanco) {
+
         driverFWBanco = new DriverFWBancoJPANativo();
         nomeFactureManager = configurador.bancoPrincipal();
         formatoDataBanco = configurador.formatoDataBanco();

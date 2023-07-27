@@ -4,6 +4,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 
 /**
@@ -35,6 +36,11 @@ public interface ItfConfigSBPersistencia {
     public void criarBancoInicial();
 
     public default void criarRegraDeNegocioInicial() {
+
+    }
+
+    public default boolean isExibirLogBancoDeDados() {
+        return SBCore.isEmModoDesenvolvimento();
 
     }
 
