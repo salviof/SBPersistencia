@@ -438,6 +438,10 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return SBPersistencia.getDriverFWBanco().selecaoRegistros(pEM, pSQL, pPQL, maximo, tipoRegisto, pTipoSelecao, parametros);
     }
 
+    private static List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer pMaximoPagina, int pPagina, Class tipoRegisto, TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
+        return SBPersistencia.getDriverFWBanco().selecaoRegistros(pEM, pSQL, pPQL, pMaximoPagina, pPagina, tipoRegisto, pTipoSelecao, parametros);
+    }
+
     /**
      *
      * @param pNomeEM Nome do Entity Manager especial (Não é obrigatório)
@@ -608,6 +612,26 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         }
 
         return (List<T>) selecaoRegistros(pEm, null, null, null, pClasse, TIPO_SELECAO_REGISTROS.TODOS);
+    }
+
+    public static <T> List<T> getListaTodos(Class<T> pClasse, EntityManager pEm, int pLimite) {
+
+        if (pClasse == null) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A classe não foi especificada em getListaTodos", null);
+            return null;
+        }
+
+        return (List<T>) selecaoRegistros(pEm, null, null, pLimite, pClasse, TIPO_SELECAO_REGISTROS.TODOS);
+    }
+
+    public static <T> List<T> getListaTodos(Class<T> pClasse, EntityManager pEm, int pLimite, int inicio) {
+
+        if (pClasse == null) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A classe não foi especificada em getListaTodos", null);
+            return null;
+        }
+
+        return (List<T>) selecaoRegistros(pEm, null, null, pLimite, pClasse, TIPO_SELECAO_REGISTROS.TODOS);
     }
 
     /**

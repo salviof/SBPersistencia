@@ -22,6 +22,10 @@ public interface ItfDriverBanco {
             String pSQL, String pPQL, Integer maximo, Class tipoRegisto,
             UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros);
 
+    public List<?> selecaoRegistros(EntityManager pEM,
+            String pSQL, String pPQL, Integer maximo, int inicio, Class tipoRegisto,
+            UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros);
+
     public Object executaAlteracaoEmBancao(InfoPerisistirEntidade pInfoEntidadesPersistencia);
 
     public Object selecaoRegistro(EntityManager pEM, String pSQL, String pPQL, Class pClasseRegisto, FabTipoSelecaoRegistro pTipoSelecao, FabTipoAtributoObjeto pCampo, Object... parametros);

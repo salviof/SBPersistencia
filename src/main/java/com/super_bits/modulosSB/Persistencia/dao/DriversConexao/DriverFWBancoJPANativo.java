@@ -37,15 +37,16 @@ import org.hibernate.exception.JDBCConnectionException;
 public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
     @Override
-    public List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer maximo, Class pClasseEntidade, UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
+    public List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer maximoPagina, int pagina, Class pClasseEntidade, UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
         // todo Se origem for uma MBPAGINA  utilizar o EntityManager da pagina
         // StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
 
         //String nomeMetodo = stackTraceElements[3].getMethodName();
         //String nomeClasse = stackTraceElements[3].getClassName();
-        if (maximo == null) {
-            maximo = -1;
+        if (maximoPagina == null) {
+            maximoPagina = -1;
         }
+
         boolean usarCache = false;
         if (pClasseEntidade != null) {
             if (pClasseEntidade.isAnnotationPresent(Cacheable.class)) {
@@ -62,8 +63,8 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                 entityManagerPaiEnviado = true;
             }
 
-            if (maximo > SBPersistencia.getMAXIMO_REGISTROS()) {
-                maximo = SBPersistencia.getMAXIMO_REGISTROS();
+            if (maximoPagina > SBPersistencia.getMAXIMO_REGISTROS()) {
+                maximoPagina = SBPersistencia.getMAXIMO_REGISTROS();
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Voce selecionou mais registros que o configurado como permitido pelo sistema  ", null);
             }
             // Configura o numero de parametros nativos = 0, campo importante para
@@ -112,9 +113,9 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         consulta.setHint("javax.persistence.cache.retrieveMode", "BYPASS");
                     }
 
-                    if (maximo != -1 && maximo != 0) {
+                    if (maximoPagina != -1 && maximoPagina != 0) {
                         //   System.out.println("SetMaximo=" + maximo);
-                        consulta.setMaxResults(maximo);
+                        consulta.setMaxResults(maximoPagina);
                     }
 
                     if (parametros != null && parametros.length > numeroParamentrosNativos) {
@@ -130,7 +131,9 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     //consulta.setHint("org.hibernate.cacheable", false);
                     //    consulta.setCacheMode(CacheMode.REFRESH);
                     //   consulta.setCacheable(false);
-
+                    if (pagina > 0 && maximoPagina > 0) {
+                        consulta.setFirstResult(maximoPagina * pagina);
+                    }
                     List resultado = consulta.getResultList();
                     if (resultado.size() > SBPersistencia.getMAXIMO_REGISTROS()) {
                         System.out.println("este select retorna mais de" + SBPersistencia.getMAXIMO_REGISTROS() + "o sistema não deixará de executar, mas não posso deixar de perguntar Isto está certo ?? se estiver, você pode ativar o Cache com as anotações @Cacheable e @cache, para otimizar recursos");
@@ -194,7 +197,12 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro " + pPQL + "-->" + pTipoSelecao, e);
             return new ArrayList();
         }
+    }
 
+    @Override
+    public List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer maximo, Class pClasseEntidade, UtilSBPersistencia.TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
+
+        return selecaoRegistros(pEM, pSQL, pPQL, maximo, 0, pClasseEntidade, pTipoSelecao, parametros);
     }
 
     /**

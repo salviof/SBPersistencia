@@ -76,14 +76,7 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
     }
 
     public Localizacao getLogradouro() {
-        Localizacao endereco = (Localizacao) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOGRADOURO);
-        if (endereco == null) {
-            ItfCampoInstanciado campoEndereco = getCampoByNomeOuAnotacao(FabTipoAtributoObjeto.LC_LOGRADOURO.toString());
-            {
-                campoEndereco.setValor(new Localizacao());
-            }
 
-        }
         return (Localizacao) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOGRADOURO);
     }
 
