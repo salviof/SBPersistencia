@@ -625,12 +625,12 @@ public class DevOpsPersistencia {
             // TODO remover essa caixa alta..
         } else {
             loadC3p0(propriedades);
-            if (houveAlteracaoHomologacaoBanco(configurador)) {
-                // propriedades.put("hibernate.hbm2ddl.auto", "update");
-            }
-
             EntityManagerFactory emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
             UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
+            if (emFacturePadrao != null) {
+                System.out.println("########### Fabrica de EntityManager construída com sucesso");
+            }
+
         }
 
     }

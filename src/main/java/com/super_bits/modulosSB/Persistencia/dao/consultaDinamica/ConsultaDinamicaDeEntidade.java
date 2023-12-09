@@ -35,6 +35,7 @@ public class ConsultaDinamicaDeEntidade {
     private final Map<String, Object> valoresParametro = new HashMap<>();
     private final List<Predicate> predicadosCriteriaAPIGerados = new ArrayList<>();
     private EntityManager em;
+    private int limite = -1;
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal, EntityManager pEm) {
         this.entidadePrincipal = entidadePrincipal;
@@ -202,15 +203,23 @@ public class ConsultaDinamicaDeEntidade {
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro aplicando parametros", t);
                 }
             });
-
+            if (limite == 1) {
+                tipoCalculo = FabTipoFiltroCalculo.REGISTRO_UNICO;
+            }
+            if (limite > 1) {
+                consulta.setMaxResults(limite);
+            }
             switch (tipoCalculo) {
                 case SOMA_QTD:
                     return consulta.getSingleResult();
 
                 case REGISTRO_UNICO:
                     consulta.setMaxResults(1);
-                    return consulta.getSingleResult();
-
+                    try {
+                        return consulta.getSingleResult();
+                    } catch (Throwable t) {
+                        return null;
+                    }
                 case MAIOR:
                     return consulta.getSingleResult();
 
@@ -239,6 +248,28 @@ public class ConsultaDinamicaDeEntidade {
 
     }
 
+    public List gerarResultados(int pLimite) {
+        try {
+
+            limite = pLimite;
+            tipoCalculo = FabTipoFiltroCalculo.LISTAGENS;
+            retornarValorUnico = false;
+            Object result = obterResultado();
+            if (result instanceof List) {
+                return (List) obterResultado();
+            } else {
+                if (result != null) {
+                    List lista = new ArrayList();
+                    lista.add(result);
+                    return lista;
+                }
+            }
+            return new ArrayList();
+        } catch (Throwable t) {
+            return new ArrayList();
+        }
+    }
+
     public List resultadoRegistros() {
         try {
             tipoCalculo = FabTipoFiltroCalculo.LISTAGENS;
@@ -251,9 +282,10 @@ public class ConsultaDinamicaDeEntidade {
     boolean listarApenasUmRegistro = false;
 
     public Object getPrimeiroRegistro() {
-
+        tipoCalculo = FabTipoFiltroCalculo.REGISTRO_UNICO;
         listarApenasUmRegistro = true;
-        return resultadoRegistros();
+
+        return obterResultado();
 
     }
 

@@ -136,6 +136,16 @@ public class DadoDinamico extends EntidadeNormal implements ItfDadoDinamico {
         nome = pNome;
     }
 
+    @Override
+    public String getValorEnpacotado() {
+        return valor;
+    }
+
+    @Override
+    public void setValorEmpacotado(String pValor) {
+        valor = pValor;
+    }
+
     private class CampoCRMInstanciado extends CampoInstanciadoDinamico implements ItfCampoInstanciado {
 
         public CampoCRMInstanciado(Field campoComOValor,
