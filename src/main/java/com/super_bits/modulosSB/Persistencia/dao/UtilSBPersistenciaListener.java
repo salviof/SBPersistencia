@@ -50,6 +50,15 @@ public class UtilSBPersistenciaListener {
                 }
 
             }
+            if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO)) {
+                if (pEntidade.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO).getValor() == null) {
+                    if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
+                        if (UtilSBPersistenciaReflexao.isObjetoPersistivel(SBCore.getUsuarioLogado())) {
+                            pEntidade.getCampoInstanciadoByNomeOuAnotacao(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO.name()).setValor(SBCore.getUsuarioLogado());
+                        }
+                    }
+                }
+            }
             if (pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO)) {
                 if (SBCore.getServicoSessao().getSessaoAtual().isIdentificado()) {
                     if (UtilSBPersistenciaReflexao.isObjetoPersistivel(SBCore.getUsuarioLogado())) {
