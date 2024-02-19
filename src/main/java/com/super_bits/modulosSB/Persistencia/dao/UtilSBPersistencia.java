@@ -1014,31 +1014,36 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     }
 
-    private static boolean executaSQLcmd(EntityManager pEm, String pSQl) {
-        EntityManager em = pEm;
-        boolean entityManagerEnviado = true;
-        if (em == null) {
-            em = getNovoEM();
-            entityManagerEnviado = false;
-        }
+    private static boolean executarSQLComGestaoEntidade(String pSQl) {
+        EntityManager entityManager = UtilSBPersistencia.getEMPadraoNovo();
         try {
 
-            try {
-                if (!entityManagerEnviado) {
-                    em.getTransaction().begin();
-                }
-                Query q = em.createNativeQuery(pSQl);
-                int resgistrosAlterados = q.executeUpdate();
-                if (!entityManagerEnviado) {
-                    em.getTransaction().commit();
-                }
-            } finally {
-                if (!entityManagerEnviado) {
-                    if (em != null) {
-                        em.close();
-                    }
-                }
-            }
+            entityManager.getTransaction().begin();
+
+            Query q = entityManager.createNativeQuery(pSQl);
+            int resgistrosAlterados = q.executeUpdate();
+
+            return UtilSBPersistencia.finzalizaTransacaoEFechaEM(entityManager);
+        } //catch (Op e) {
+        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+        //      return false;
+        //  }
+        catch (OptimisticLockException esperavaumRegsitro) {
+            return false;
+        } catch (Exception e) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+            return false;
+        } finally {
+            UtilSBPersistencia.fecharEM(entityManager);
+        }
+    }
+
+    private static boolean executarSQLComGestaoTerceirizada(EntityManager entityManager, String pSQl) {
+        try {
+
+            Query q = entityManager.createNativeQuery(pSQl);
+            int resgistrosAlterados = q.executeUpdate();
+
             return true;
         } //catch (Op e) {
         //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
@@ -1052,8 +1057,22 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         }
     }
 
+    private static boolean executaSQLcmd(EntityManager pEm, String pSQl) {
+
+        boolean entityManagerEnviado = pEm != null;
+        if (!SBCore.isEmModoProducao()) {
+            System.out.println("Executando: \n " + pSQl);
+        }
+        if (entityManagerEnviado) {
+            return executarSQLComGestaoTerceirizada(pEm, pSQl);
+        } else {
+            return executarSQLComGestaoEntidade(pSQl);
+        }
+
+    }
+
     public static boolean executaSQL(String pSql) {
-        return executaSQLcmd(null, pSql);
+        return executarSQLComGestaoEntidade(pSql);
     }
 
     public static boolean executaSQL(EntityManager pEm, String pSql) {
