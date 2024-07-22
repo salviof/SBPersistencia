@@ -4,9 +4,11 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
+import br.org.coletivojava.erp.comunicacao.transporte.ERPTransporteComunicacao;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCriptrografia;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
@@ -135,6 +137,7 @@ public class UtilSBPersistenciaListener {
                 String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
 
                 cp.set(pEntidade, senhaCriptografada);
+
             }
 
         } catch (IllegalAccessException | IllegalArgumentException | SecurityException ex) {
