@@ -117,6 +117,7 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
 
     @Override
     public void instanciarNovoEndereco() {
+
         setLocalizacao(new LocalizacaoPostavel());
         getLocalizacao().setBairro(new Bairro());
         getLocalizacao().getBairro().setCidade(new Cidade());

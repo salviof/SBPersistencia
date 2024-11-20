@@ -21,6 +21,7 @@ public class LocalizacaoPostavel extends Localizacao implements ItfLocalPostagem
 
     @InfoCampo(label = "logradouro", tipo = FabTipoAtributoObjeto.LC_LOGRADOURO)
     private String logradouro;
+
     @InfoCampo(label = "CEP", tipo = FabTipoAtributoObjeto.LCCEP)
     private String cep;
 

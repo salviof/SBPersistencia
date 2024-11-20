@@ -21,6 +21,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
+import javax.validation.constraints.Digits;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -48,11 +49,13 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
     @Transient
     private static List<UnidadeFederativa> unidadesFederativas;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.Longitude)
-    private long longitude;
+    @InfoCampo(tipo = FabTipoAtributoObjeto.LONGITUDE)
+    @Digits(fraction = 6, integer = 10000)
+    private double longitude;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LATITUDE)
-    private long latitude;
+    @Digits(fraction = 6, integer = 10000)
+    private double latitude;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.LC_COMPLEMENTO_E_NUMERO)
     private String complemento;
@@ -115,28 +118,28 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
     }
 
     @Override
-    public long getLongitude() {
+    public double getLongitude() {
 
         return this.longitude;
 
     }
 
     @Override
-    public long getLatitude() {
+    public double getLatitude() {
 
         return this.latitude;
 
     }
 
     @Override
-    public void setLatitude(long pLatitude) {
+    public void setLatitude(double pLatitude) {
 
         this.latitude = pLatitude;
 
     }
 
     @Override
-    public void setLongitude(long pLongitude) {
+    public void setLongitude(double pLongitude) {
 
         this.longitude = pLongitude;
 

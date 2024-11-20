@@ -25,23 +25,23 @@ public class EntidadeLocalizacao extends EntidadeSimples implements ItfLocal {
     }
 
     @Override
-    public long getLongitude() {
-        return (long) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.Longitude);
+    public double getLongitude() {
+        return (double) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LONGITUDE);
     }
 
     @Override
-    public long getLatitude() {
-        return (long) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LATITUDE);
+    public double getLatitude() {
+        return (double) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LATITUDE);
     }
 
     @Override
-    public void setLatitude(long pLatitude) {
+    public void setLatitude(double pLatitude) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.LATITUDE, pLatitude);
     }
 
     @Override
-    public void setLongitude(long pLongitude) {
-        setValorByTipoCampoEsperado(FabTipoAtributoObjeto.Longitude, pLongitude);
+    public void setLongitude(double pLongitude) {
+        setValorByTipoCampoEsperado(FabTipoAtributoObjeto.LONGITUDE, pLongitude);
     }
 
     @Override
