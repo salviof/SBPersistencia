@@ -257,6 +257,10 @@ public class ConsultaDinamicaDeEntidade {
 
     }
 
+    public List gerarResultados() {
+        return gerarResultados(-1);
+    }
+
     public List gerarResultados(int pLimite) {
         try {
 
@@ -279,6 +283,10 @@ public class ConsultaDinamicaDeEntidade {
         }
     }
 
+    /**
+     * @deprecated Usar gerarResultados()
+     * @return gerarResultados();
+     */
     public List resultadoRegistros() {
         try {
             tipoCalculo = FabTipoFiltroCalculo.LISTAGENS;
