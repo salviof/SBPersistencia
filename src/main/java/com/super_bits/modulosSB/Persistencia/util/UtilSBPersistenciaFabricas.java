@@ -13,6 +13,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -108,6 +109,10 @@ public abstract class UtilSBPersistenciaFabricas {
                 for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
                     if (pEM.find(entidade.getClass(), ((ItfBeanSimples) entidade).getId()) == null) {
                         persistir(entidade, pEM, pFabrica);
+                    } else {
+                        if (entidade instanceof ItfBeanStatus) {
+                            UtilSBPersistencia.mergeRegistro(entidade);
+                        }
                     }
 
                 }
