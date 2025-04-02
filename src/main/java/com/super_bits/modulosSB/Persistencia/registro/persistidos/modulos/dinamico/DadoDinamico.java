@@ -63,7 +63,7 @@ public class DadoDinamico extends EntidadeNormal implements ItfDadoDinamico {
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoJPAdadoDinamico;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, label = "Dado a coletar")

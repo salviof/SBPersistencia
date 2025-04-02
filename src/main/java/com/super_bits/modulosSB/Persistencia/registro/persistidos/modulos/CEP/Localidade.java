@@ -28,9 +28,9 @@ public class Localidade extends EntidadeNormal implements ItfLocalidade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     private String descricao;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO, label = "Status", descricao = "Status da Localidade(ativo/inativo)")

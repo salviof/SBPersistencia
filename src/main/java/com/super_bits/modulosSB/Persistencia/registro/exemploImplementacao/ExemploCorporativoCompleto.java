@@ -31,11 +31,11 @@ public class ExemploCorporativoCompleto {
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     @GeneratedValue()
     private int id;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
 //propriedades Entidade Normal
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     private String descritivo;
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
     private boolean ativo;

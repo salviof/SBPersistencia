@@ -51,7 +51,7 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)", obrigatorio = true)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)", obrigatorio = true)
     @Column(unique = true)
     private String nomeRegiao;
 
@@ -78,10 +78,10 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     @ManyToMany
     private List<Bairro> bairros;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO, label = "Sigla", descricao = "Sigla da Região")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO, label = "Sigla", descricao = "Sigla da Região")
     private String sigla;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO, label = "Quantidade Cidades", descricao = "Quantidade de cidades de uma região")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO, label = "Quantidade Cidades", descricao = "Quantidade de cidades de uma região")
     private int quantidadeCidades;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.DATA, label = "Data Criação", descricao = "Data de cricação da região")

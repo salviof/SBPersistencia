@@ -26,13 +26,13 @@ public class ExemploContatoCorporativo {
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     @GeneratedValue()
     private int id;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nomeFantasia;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME_LONGO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME_LONGO)
     private String razaoSocial;
 
 //propriedades Entidade Normal
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     private String descritivo;
     @InfoCampo(tipo = FabTipoAtributoObjeto.REG_ATIVO_INATIVO)
     private boolean ativo;

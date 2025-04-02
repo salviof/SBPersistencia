@@ -40,9 +40,9 @@ public class OpcaoDadoDinamico extends EntidadeSimples {
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoJPAOpcaoPersonalizada;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_DESCRITIVO)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     @Column(columnDefinition = "TEXT", length = 8000)
     private String descricao;
 

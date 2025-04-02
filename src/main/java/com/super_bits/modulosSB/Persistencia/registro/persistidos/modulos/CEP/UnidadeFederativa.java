@@ -41,10 +41,10 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     @GeneratedValue(generator = "geradorIdNomeUnico")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME_LONGO, label = "Estado")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME_LONGO, label = "Estado")
     @NotNull
     private String nome;
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Estado")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Estado")
     private String UF;
     @OneToMany(targetEntity = Cidade.class, cascade = CascadeType.ALL, mappedBy = "unidadeFederativa")
     private List<Cidade> cidades;

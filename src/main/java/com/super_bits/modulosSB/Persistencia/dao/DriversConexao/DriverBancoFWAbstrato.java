@@ -54,14 +54,14 @@ public abstract class DriverBancoFWAbstrato implements ItfDriverBanco {
                 case LIKENOME:
 
                     ItfBeanSimples registro = (ItfBeanSimples) tipoRegisto.newInstance();
-                    String campoNomeCurto = registro.getNomeCampo(FabTipoAtributoObjeto.AAA_NOME);
+                    String campoNomeCurto = registro.getNomeCampo(FabTipoAtributoObjeto.NOME);
                     String parametro = (String) parametros[0];
                     return "from " + tipoRegisto.getSimpleName() + " where "
                             + campoNomeCurto + " like '%" + parametro + "%' order by " + campoNomeCurto;
 
                 case TODOS:
                     ItfBeanSimples registroTodos = (ItfBeanSimples) tipoRegisto.newInstance();
-                    String campoNomeCurtoTodos = registroTodos.getNomeCampo(FabTipoAtributoObjeto.AAA_NOME);
+                    String campoNomeCurtoTodos = registroTodos.getNomeCampo(FabTipoAtributoObjeto.NOME);
                     return "from " + tipoRegisto.getSimpleName() + " order by " + campoNomeCurtoTodos;
                 case NAMED_QUERY:
                     break;

@@ -36,7 +36,7 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Logradouro", descricao = "Nome do Logradouro")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Logradouro", descricao = "Nome do Logradouro")
     @Column(length = 100)
     @NotNull
     private String nome;

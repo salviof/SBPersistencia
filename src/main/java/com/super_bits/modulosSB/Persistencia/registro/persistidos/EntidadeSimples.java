@@ -29,7 +29,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
         //adcionaCampoEsperado(new CampoEsperado(TC.IMG_PEQUENA, CInfo.SITE_URL
         //CInfo.pastaImagens + "/SBPequeno.jpg"));
-        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.AAA_NOME), true);
+        //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.NOME), true);
         //adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.ID), true);
     }
 
@@ -42,7 +42,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     @Override
     public String getNomeCurto() {
         try {
-            String nomeCurto = UtilSBCoreStringFiltros.getNomeReduzido((String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.AAA_NOME).getValor());
+            String nomeCurto = UtilSBCoreStringFiltros.getNomeReduzido((String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.NOME).getValor());
 
             return nomeCurto;
         } catch (Throwable t) {
@@ -83,7 +83,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
      */
     public String getCampoSQL(FabTipoAtributoObjeto pCAmpo) {
         try {
-            Field campo = getCampoByAnotacao(FabTipoAtributoObjeto.AAA_NOME);
+            Field campo = getCampoByAnotacao(FabTipoAtributoObjeto.NOME);
             if (campo == null) {
 
                 throw new UnexpectedException("nome_curto_nao_encontrado_na_classe");
@@ -112,7 +112,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
         List<String> lista = new ArrayList<>();
         try {
 
-            Field campo = getCampoByAnotacao(FabTipoAtributoObjeto.AAA_NOME);
+            Field campo = getCampoByAnotacao(FabTipoAtributoObjeto.NOME);
             if (campo == null) {
 
                 throw new UnexpectedException("nome_curto_nao_encontrado_na_classe");
@@ -138,7 +138,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
      */
     @Deprecated
     public String getCampoSQLNomeCurto() {
-        return getCampoSQL(FabTipoAtributoObjeto.AAA_NOME);
+        return getCampoSQL(FabTipoAtributoObjeto.NOME);
     }
 
     public void uploadFoto(Object event) {
@@ -169,12 +169,12 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     @Override
     public String getNome() {
-        return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.AAA_NOME);
+        return (String) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.NOME);
     }
 
     @Override
     public void setNome(String pNome) {
-        setValorByTipoCampoEsperado(FabTipoAtributoObjeto.AAA_NOME, pNome);
+        setValorByTipoCampoEsperado(FabTipoAtributoObjeto.NOME, pNome);
     }
 
     @Override

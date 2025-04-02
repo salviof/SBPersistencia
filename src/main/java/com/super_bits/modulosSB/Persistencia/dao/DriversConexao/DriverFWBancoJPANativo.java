@@ -371,7 +371,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
                         case NOMECURTO:
                             ItfBeanSimples registroNC = (ItfBeanSimples) pClasseRegisto.newInstance();
-                            String campoNomeCurtoNC = registroNC.getNomeCampo(FabTipoAtributoObjeto.AAA_NOME);
+                            String campoNomeCurtoNC = registroNC.getNomeCampo(FabTipoAtributoObjeto.NOME);
                             String parametroNC = (String) parametros[0];
                             sql = "from " + pClasseRegisto.getSimpleName() + " where "
                                     + campoNomeCurtoNC + " = '" + parametroNC + "'";
@@ -379,7 +379,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             break;
                         case LIKENOMECURTO:
                             ItfBeanSimples registro = (ItfBeanSimples) pClasseRegisto.newInstance();
-                            String campoNomeCurto = registro.getNomeCampo(FabTipoAtributoObjeto.AAA_NOME);
+                            String campoNomeCurto = registro.getNomeCampo(FabTipoAtributoObjeto.NOME);
                             String parametro = (String) parametros[0];
                             sql = "from " + pClasseRegisto.getSimpleName() + " where "
                                     + campoNomeCurto + " like '" + parametro + "'";

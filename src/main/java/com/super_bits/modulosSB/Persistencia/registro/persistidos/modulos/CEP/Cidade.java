@@ -45,7 +45,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     private int id;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.AAA_NOME, label = "Cidade", descricao = "Nome da Cidade")
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Cidade", descricao = "Nome da Cidade")
     @NotNull
     @Column(nullable = false)
     private String nome;
