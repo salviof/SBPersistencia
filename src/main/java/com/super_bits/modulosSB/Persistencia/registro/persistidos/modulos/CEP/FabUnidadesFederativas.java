@@ -63,7 +63,7 @@ public enum FabUnidadesFederativas implements ItfFabrica {
                 uf.setNome("Maranhão");
                 break;
             case MG:
-                uf.setId(1);
+                uf.setId(1l);
                 uf.setNome("Minas Gerais");
                 uf.setUF("MG");
                 break;

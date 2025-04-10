@@ -49,7 +49,7 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Nome regiao", descricao = "Nome da região(ex: Triângulo Mineiro)", obrigatorio = true)
     @Column(unique = true)
@@ -126,12 +126,12 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

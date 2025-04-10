@@ -67,7 +67,7 @@ public interface ItfCalculosJPA extends ItfCalculos {
             if (criterioQuery == null) {
                 throw new UnsupportedOperationException("Impossivel determinar o tipo de pesquisa padrão a ser realizada");
             }
-            Map<String, Integer> valoresParametro = new HashMap<>();
+            Map<String, Long> valoresParametro = new HashMap<>();
             List<Predicate> condicoes = new ArrayList<>();
             int i = 0;
             for (Object parametro : pParametros) {

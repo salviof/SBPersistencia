@@ -29,7 +29,7 @@ public class GeradorIdCidade implements IdentifierGenerator {
             if (cidade.getUnidadeFederativa() == null) {
                 throw new UnsupportedOperationException("Unidade Federativa não definida para " + cidade.getNome());
             }
-            int id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(cidade.getNome() + cidade.getUnidadeFederativa().getSigla());
+            Long id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(cidade.getNome() + cidade.getUnidadeFederativa().getSigla());
             cidade.setId(id);
             return id;
         } catch (ClassCastException c) {

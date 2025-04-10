@@ -150,7 +150,7 @@ public enum FabTipoCondicaoJPQL {
                         = pBuilder.parameter(Collection.class, pCondicao.getNomeParametro());
 
                 List<ItfBeanSimples> listaSimples = (List<ItfBeanSimples>) pCondicao.getValorParametro();
-                List<Integer> listaCondicao = new ArrayList<>();
+                List<Long> listaCondicao = new ArrayList<>();
                 listaSimples.stream().forEach(itemLista -> {
                     listaCondicao.add(itemLista.getId());
                 });

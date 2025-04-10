@@ -15,7 +15,7 @@ import java.util.List;
 @Deprecated
 public class TipoPolimorfismoObjetoRegraDeNegocio {
 
-    private int id;
+    private Long id;
     private Class classePrincipal;
     private Class classeExemplo;
     private String nome;

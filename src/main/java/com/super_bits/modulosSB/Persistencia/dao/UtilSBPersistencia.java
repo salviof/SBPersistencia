@@ -796,7 +796,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pNomeEM nome da entidade
      * @return registro encontrado
      */
-    public static <T> T getRegistroByID(Class<T> pClasse, int id, EntityManager pEM) {
+    public static <T> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
         return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
 
     }
@@ -854,7 +854,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             if (classe.getAnnotation(Entity.class) == null) {
                 return (I) pBeanSimples;
             }
-            int id = -1;
+            Long id = -1l;
 
             try {
 
@@ -912,7 +912,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
         if (UtilSBCoreStringValidador.isContemApenasNumero(pParametro)) {
             List resposta = new ArrayList();
-            Object empresa = UtilSBPersistencia.getRegistroByID(pClasse, Integer.parseInt(pParametro), pEM);
+            Object empresa = UtilSBPersistencia.getRegistroByID(pClasse, Long.parseLong(pParametro), pEM);
             if (empresa != null) {
                 resposta.add(empresa);
             }
@@ -940,7 +940,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param id id do registro
      * @return regustro encontrado
      */
-    public static Object getRegistroByID(Class pClasse, int id) {
+    public static Object getRegistroByID(Class pClasse, Long id) {
         return selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
     }
 

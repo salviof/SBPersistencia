@@ -34,7 +34,7 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     )
     @GeneratedValue(generator = "geradorIdBairro")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-    private int id;
+    private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Bairro")
     @NotNull
@@ -53,14 +53,14 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
 //TODO A VERIFICAR        configIDPeloNome();
 
         return this.id;
     }
 
     @Override
-    public void setId(int pid) {
+    public void setId(Long pid) {
         id = pid;
 
     }
@@ -98,7 +98,7 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     }
 
     @Override
-    public int configIDPeloNome() {
+    public Long configIDPeloNome() {
         try {
             GeradorIdBairro gerador = new GeradorIdBairro();
             gerador.generate(null, this);
@@ -106,7 +106,7 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
         } catch (Throwable t) {
 
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A identificação única do bairro não pôde ser gerada neste momento", t);
-            return -1;
+            return -1l;
         }
     }
 

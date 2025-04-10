@@ -24,7 +24,7 @@ public class ExemploItemNormal {
     @Id
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
     @GeneratedValue()
-    private int id;
+    private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
     @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)

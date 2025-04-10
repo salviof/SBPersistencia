@@ -15,13 +15,13 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemSimples;
  */
 public class ItemTeste extends ItemSimples {
 
-    private int id;
+    private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
     public ItemTeste(String pNome) {
         super();
-        id = 1;
+        id = 1l;
         nome = pNome;
     }
 

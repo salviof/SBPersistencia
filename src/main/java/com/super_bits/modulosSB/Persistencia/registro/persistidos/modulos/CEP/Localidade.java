@@ -22,12 +22,12 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 @InfoObjetoSB(tags = {"Localidade "}, plural = "Localidades")
 public class Localidade extends EntidadeNormal implements ItfLocalidade {
 
-    public static Localidade grandeBH = new Localidade(1, "Grande BH", "Belo horizonte, Contagem, Betim e Região");
+    public static Localidade grandeBH = new Localidade(1l, "Grande BH", "Belo horizonte, Contagem, Betim e Região");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-    private int id;
+    private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.DESCRITIVO)
     private String descricao;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
@@ -49,7 +49,7 @@ public class Localidade extends EntidadeNormal implements ItfLocalidade {
 
     }
 
-    public Localidade(int pID, String pNome, String pDescricao) {
+    public Localidade(Long pID, String pNome, String pDescricao) {
         super();
 
         id = pID;
@@ -57,11 +57,11 @@ public class Localidade extends EntidadeNormal implements ItfLocalidade {
         descricao = pDescricao;
     }
 
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

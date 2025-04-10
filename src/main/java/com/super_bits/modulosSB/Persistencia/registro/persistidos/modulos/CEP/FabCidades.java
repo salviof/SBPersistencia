@@ -55,7 +55,7 @@ public enum FabCidades implements ItfFabrica {
         Cidade novaCidade = new Cidade();
         novaCidade.setUnidadeFederativa(FabUnidadesFederativas.MG.getRegistro());
         novaCidade.setNome(UtilSBCoreStringsCammelCase.getTextoByCammelPrimeiraLetraMaiuscula(this.toString()));
-        novaCidade.setId(1);
+        novaCidade.setId(1l);
         switch (this) {
 
         }

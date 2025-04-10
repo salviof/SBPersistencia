@@ -28,7 +28,7 @@ public class GeradorIdBairro implements IdentifierGenerator {
             if (bairro == null) {
                 throw new UnsupportedOperationException("Enviado objeto nulo");
             }
-            int id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(bairro.getNome() + bairro.getCidade().getNome() + bairro.getCidade().getUnidadeFederativa().getSigla());
+            Long id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(bairro.getNome() + bairro.getCidade().getNome() + bairro.getCidade().getUnidadeFederativa().getSigla());
             bairro.setId(id);
 
             return id;

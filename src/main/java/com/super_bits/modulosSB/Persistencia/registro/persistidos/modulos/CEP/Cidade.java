@@ -43,7 +43,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     )
     @GeneratedValue(generator = "geradorIdCidade")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-    private int id;
+    private Long id;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Cidade", descricao = "Nome da Cidade")
     @NotNull
@@ -89,12 +89,12 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return this.id;
     }
 
     @Override
-    public void setId(int pId) {
+    public void setId(Long pId) {
         id = pId;
     }
 
@@ -196,7 +196,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public int configIDPeloNome() {
+    public Long configIDPeloNome() {
         try {
             GeradorIdCidade gerador = new GeradorIdCidade();
             gerador.generate(null, this);
@@ -204,7 +204,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
         } catch (Throwable t) {
 
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "A identificação única da cidade não pôde ser gerada neste momento", t);
-            return -1;
+            return -1l;
         }
 
     }

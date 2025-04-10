@@ -57,13 +57,10 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         Object valorId = getValorByTipoCampoEsperado(FabTipoAtributoObjeto.ID).toString();
-        if (valorId != null && !"".equals(valorId)) {
-            return Integer.parseInt(valorId.toString());
-        } else {
-            return 0;
-        }
+        return Long.valueOf(valorId.toString());
+
     }
 
     public String getNomeUnico() {
@@ -178,7 +175,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     }
 
     @Override
-    public void setId(int pID) {
+    public void setId(Long pID) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.ID, pID);
     }
 

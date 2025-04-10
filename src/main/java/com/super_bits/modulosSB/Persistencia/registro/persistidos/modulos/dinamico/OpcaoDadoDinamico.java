@@ -35,7 +35,7 @@ public class OpcaoDadoDinamico extends EntidadeSimples {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-    private int id;
+    private Long id;
 
     @Column(nullable = false, updatable = false, insertable = false)
     private String tipoJPAOpcaoPersonalizada;
@@ -53,12 +53,12 @@ public class OpcaoDadoDinamico extends EntidadeSimples {
     private String codigoGrupoOpcoes;
 
     @Override
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

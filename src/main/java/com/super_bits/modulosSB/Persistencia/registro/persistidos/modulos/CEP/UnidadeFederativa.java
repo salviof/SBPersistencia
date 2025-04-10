@@ -40,7 +40,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     )
     @GeneratedValue(generator = "geradorIdNomeUnico")
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
-    private int id;
+    private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME_LONGO, label = "Estado")
     @NotNull
     private String nome;
@@ -54,12 +54,12 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     }
 
     @Override
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
-    public void setId(int id) {
+    public void setId(Long id) {
         configIDPeloNome();
     }
 
@@ -108,7 +108,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     }
 
     @Override
-    public int configIDPeloNome() {
+    public Long configIDPeloNome() {
         return super.configIDPeloNome(); //To change body of generated methods, choose Tools | Templates.
     }
 
