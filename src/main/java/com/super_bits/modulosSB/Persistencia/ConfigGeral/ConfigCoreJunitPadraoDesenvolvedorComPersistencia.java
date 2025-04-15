@@ -17,8 +17,16 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDes
 public class ConfigCoreJunitPadraoDesenvolvedorComPersistencia extends ConfiguradorCoreDeProjetoJarPersistenciaAbstrato {
 
     @Override
+    public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
+        super.defineClassesBasicas(pConfiguracao);
+        setIgnorarConfiguracaoPermissoes(true);
+        setIgnorarConfiguracaoAcoesDoSistema(true);
+    }
+
+    @Override
     public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
         pConfig.setCentralComunicacao(CentralComunicacaoDesktop.class);
+
     }
 
 }

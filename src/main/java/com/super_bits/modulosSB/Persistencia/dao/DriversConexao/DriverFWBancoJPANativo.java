@@ -255,9 +255,11 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     boolean sucesso = false;
 
                     Object novoRegistro = objetosPersistidos.get(0);
+
                     for (Object entidade : objetosPersistidos) {
                         sucesso = false;
                         novoRegistro = entidade;
+
                         switch (pTipoAlteracao) {
 
                             case DELETE:
@@ -274,16 +276,16 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             case MERGE:
                                 try {
 
-                                novoRegistro = em.merge(entidade);
+                                    novoRegistro = em.merge(entidade);
 
-                            } catch (EntityExistsException tt) {
+                                } catch (EntityExistsException tt) {
 
-                                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Entidade já existe, para executar um novo merge, é nescessário criar um novo entityManager, ou utilizar a entidade gerenciada obtida anteriormente, caso exista uma transação ativa, o JPA obrigará execução do roolback", tt);
+                                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Entidade já existe, para executar um novo merge, é nescessário criar um novo entityManager, ou utilizar a entidade gerenciada obtida anteriormente, caso exista uma transação ativa, o JPA obrigará execução do roolback", tt);
 
-                            }
-                            entidade = novoRegistro;
-                            sucesso = true;
-                            break;
+                                }
+                                entidade = novoRegistro;
+                                sucesso = true;
+                                break;
                             default:
                                 break;
 
@@ -299,7 +301,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             /// FabMensagens.enviarMensagemUsuario("Registro Alterado com Sucesso", FabMensagens.AVISO);
                             return novoRegistro;
                         } else {
-                            SBCore.getCentralDeMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Atualizar o registro");
+                            SBCore.getServicoMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Atualizar o registro");
                             //FabMensagens.enviarMensagemUsuario("Ocorreu um erro Ao Atualizar o registro", FabMensagens.ERRO);
                             return null;
                         }
@@ -307,7 +309,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         if (sucesso) {
                             //  FabMensagens.enviarMensagemUsuario("Registro Cadastrado com sucesso", FabMensagens.AVISO);
                         } else {
-                            SBCore.getCentralDeMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Inserir o registro");
+                            SBCore.getServicoMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Inserir o registro");
                         }
                         return sucesso;
                     }

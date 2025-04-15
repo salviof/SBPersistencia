@@ -68,7 +68,7 @@ public enum FabTipoCondicaoJPQL {
                     beanParametro = (ItfBeanSimples) pCondicao.getValorParametro();
                 }
                 Predicate condicao = null;
-                ParameterExpression<Integer> prQuery = pBuilder.parameter(Integer.class, pCondicao.getNomeParametro());
+                ParameterExpression<Long> prQuery = pBuilder.parameter(Long.class, pCondicao.getNomeParametro());
 
                 if (condicaoEspecial != null) {
                     switch (condicaoEspecial) {
@@ -108,8 +108,8 @@ public enum FabTipoCondicaoJPQL {
 
                 ParameterExpression prCampo = null;
 
-                if (valorParametro instanceof Integer) {
-                    prCampo = pBuilder.parameter(Integer.class, nomeCampoPesquisa);
+                if (valorParametro instanceof Long) {
+                    prCampo = pBuilder.parameter(Long.class, nomeCampoPesquisa);
 
                     Predicate condicaoCaminhoCampoIgualValor = pBuilder.equal(entidadePrincipal.get(nomeCampoPesquisa), prCampo);
 

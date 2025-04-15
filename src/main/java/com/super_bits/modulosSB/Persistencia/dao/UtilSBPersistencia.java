@@ -834,7 +834,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             if (pEM == null) {
                 throw new UnsupportedOperationException("O entity manager enviado para load em entidade é nulo. entidade->" + pBeanSimples);
             }
-            if (pBeanSimples.getId() == 0) {
+            if (pBeanSimples.getId() == null) {
                 return (I) pBeanSimples;
             }
             Class classe = pBeanSimples.getClass();
