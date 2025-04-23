@@ -882,7 +882,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @return
      */
     public static <I extends ItfBeanSimples> I getRegistroByPrimeiro(Class pClasse, EntityManager pEM) {
-        return (I) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.PRIMEIRO_REGISTRO, null);
+        return (I) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.PRIMEIRO_REGISTRO);
 
     }
 
@@ -1080,11 +1080,11 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     }
 
     public static Long getQuantidadeRegistrosNaTabela(Class pClasse) {
-        return (Long) selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS, null);
+        return (Long) selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
     }
 
     public static Long getQuantidadeRegistrosNaTabela(Class pClasse, EntityManager pEM) {
-        return (Long) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS, null);
+        return (Long) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
     }
 
     public static Object superMerge(ItfBeanSimples pEntidade, EntityManager em) {

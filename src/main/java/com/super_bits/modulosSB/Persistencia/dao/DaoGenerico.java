@@ -234,7 +234,7 @@ public class DaoGenerico<T extends ItfBeanSimples> extends ClasseTipada implemen
      * @return
      */
     public List<T> getListaRegistrosByHSQL(String pSql, int pLimite) {
-        return (List<T>) UtilSBPersistencia.getListaRegistrosByHQL(pSql, pLimite, em, null);
+        return (List<T>) UtilSBPersistencia.getListaRegistrosByHQL(pSql, pLimite, em);
 
     }
 
