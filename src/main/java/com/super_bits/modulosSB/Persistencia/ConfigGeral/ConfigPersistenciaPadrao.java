@@ -5,6 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
+import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 import java.io.InputStream;
@@ -63,6 +64,7 @@ public abstract class ConfigPersistenciaPadrao implements ItfConfigSBPersistenci
     @Override
     public void criarBancoInicial() {
         //configure aqui os comando de SQL que devem ser executados no momento do start da aplicação
+
     }
 
     @Override

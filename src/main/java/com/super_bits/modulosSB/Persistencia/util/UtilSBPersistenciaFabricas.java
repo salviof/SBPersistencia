@@ -53,7 +53,7 @@ public abstract class UtilSBPersistenciaFabricas {
     public static void persistirRegistrosDaFabricaSeNaoExistir(Class pFabrica, EntityManager pEM, TipoOrdemGravacao pTipoOrdem) {
         if (pFabrica.getEnumConstants() == null) {
             ItfMensagem msg = FabMensagens.ERRO.getMsgSistema("Nenum Enum foi encontrado para persistir nesta fabrica" + pFabrica.getSimpleName());
-            SBCore.getCentralDeMensagens().enviaMensagem(msg);
+            SBCore.getServicoMensagens().enviaMensagem(msg);
             return;
         }
 
@@ -61,7 +61,7 @@ public abstract class UtilSBPersistenciaFabricas {
             case ORDERNAR_POR_ID:
                 for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
                     if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
-                        persistir(entidade, pEM, pFabrica);
+                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
                     }
 
                 }
@@ -70,7 +70,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 for (Object entidade : listaRegistros(pFabrica)) {
                     try {
                         if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
-                            persistir(entidade, pEM, pFabrica);
+                            persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
                         }
 
                     } catch (Throwable t) {
@@ -100,7 +100,7 @@ public abstract class UtilSBPersistenciaFabricas {
         System.out.println("___________________ PERISTINDO REGISTROS DA FABRICA " + pFabrica.getSimpleName() + " _______________");
         if (pFabrica.getEnumConstants() == null) {
             ItfMensagem msg = FabMensagens.ERRO.getMsgSistema("Nenum Enum foi encontrado para persistir nesta fabrica" + pFabrica.getSimpleName());
-            SBCore.getCentralDeMensagens().enviaMensagem(msg);
+            SBCore.getServicoMensagens().enviaMensagem(msg);
             return;
         }
 
@@ -108,7 +108,7 @@ public abstract class UtilSBPersistenciaFabricas {
             case ORDERNAR_POR_ID:
                 for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
                     if (pEM.find(entidade.getClass(), ((ItfBeanSimples) entidade).getId()) == null) {
-                        persistir(entidade, pEM, pFabrica);
+                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
                     } else {
                         if (entidade instanceof ItfBeanStatus) {
                             UtilSBPersistencia.mergeRegistro(entidade);
@@ -121,7 +121,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 for (Object entidade : listaRegistros(pFabrica)) {
                     try {
 
-                        persistir(entidade, pEM, pFabrica);
+                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
 
                     } catch (Throwable t) {
                         throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + entidade, t);
@@ -136,18 +136,26 @@ public abstract class UtilSBPersistenciaFabricas {
 
     }
 
-    private static void persistir(Object entidade, EntityManager pEm, Class pFabrica) {
+    private static void persistir(ItfBeanSimplesSomenteLeitura entidade, EntityManager pEm, Class pFabrica) {
         Object registroGerado = null;
 
         try {
-            registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
+            // UtilSBPersistencia.iniciarTransacao(pEm);
+            if (UtilSBPersistencia.getRegistroByID(entidade.getClass(), entidade.getId()) == null) {
+                if (UtilSBPersistenciaReflexao.possuiIdeAutogerado(entidade.getClass())) {
+                    ((ItfBeanSimples) entidade).setId(null);
+                }
+                registroGerado = UtilSBPersistencia.persistirRegistro(entidade, pEm);
+            } else {
+                registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
+            }
             if (registroGerado == null) {
                 throw new UnsupportedOperationException("A entidade não pode ser armazenada");
             }
             pEm.refresh(registroGerado);
             ItfBeanSimples objetoPersistido = (ItfBeanSimples) registroGerado;
             System.out.println("Gerado Registro: " + objetoPersistido.getClass().getSimpleName() + " " + objetoPersistido.getId() + " - " + objetoPersistido.getNome());
-
+            //  UtilSBPersistencia.finalizarTransacao(pEm);
         } catch (Throwable t) {
             String textoEntidade = "Nulo";
             if (entidade != null) {

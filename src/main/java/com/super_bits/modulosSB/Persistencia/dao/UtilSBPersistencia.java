@@ -536,8 +536,8 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pEM Entidade utilizada
      * @return retorna True se persistido e False se algum erro acontecer
      */
-    public static boolean persistirRegistro(Object pObj, EntityManager pEM) {
-        return (boolean) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(pObj, null, pEM, FabInfoPersistirEntidade.INSERT));
+    public static ItfBeanSimples persistirRegistro(Object pObj, EntityManager pEM) {
+        return (ItfBeanSimples) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(pObj, null, pEM, FabInfoPersistirEntidade.INSERT));
     }
 
     /**
@@ -941,6 +941,9 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @return regustro encontrado
      */
     public static Object getRegistroByID(Class pClasse, Long id) {
+        if (id == null || id == 0) {
+            return null;
+        }
         return selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
     }
 

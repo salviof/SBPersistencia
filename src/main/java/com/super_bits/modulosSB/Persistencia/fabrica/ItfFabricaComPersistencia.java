@@ -7,6 +7,7 @@ package com.super_bits.modulosSB.Persistencia.fabrica;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -26,7 +27,8 @@ public interface ItfFabricaComPersistencia extends ItfFabrica {
      * @return
      */
     public default Object getRegistro(EntityManager pEm) {
-        return UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) getRegistro(), pEm);
+        InfoObjetoDaFabrica infoItem = UtilSBCoreFabrica.getDadosDoRegistro(this);
+        return UtilSBPersistencia.getRegistroByID(infoItem.classeObjeto(), (long) infoItem.id(), pEm);
     }
 
     public default Object getObjetoReuso(Map<String, Object> objetos, ItfFabricaComPersistencia pObjeto) {

@@ -5,6 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
+import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -291,7 +292,19 @@ public class DevOpsPersistencia {
         execScriptFinal();
     }
 
-    public void loadC3p0(Map<String, Object> pPropriedades) {
+    public void loadEstrategiaConexaohikari(Map<String, Object> pPropriedades) {
+        pPropriedades.put("hibernate.hikari.maximumPoolSize", "10");
+        pPropriedades.put("hibernate.hikari.minimumIdle", "2");
+        pPropriedades.put("hibernate.hikari.idleTimeout", "30000");
+        pPropriedades.put("hibernate.hikari.connectionTimeout", "20000");
+        pPropriedades.put("hibernate.hikari.maxLifetime", "1800000");
+        pPropriedades.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
+        pPropriedades.put("hibernate.hikari.driverClassName", "com.mysql.cj.jdbc.MysqlDataSource");
+        //hibernate.hikari.driverClassName=com.mysql.cj.jdbc.Driver
+
+    }
+
+    public void loadEstrategiaconexaoC3p0(Map<String, Object> pPropriedades) {
 
         /// Creditos para esta configuração cuidadosamente comentada
         //  para: http://www.guj.com.br/users/rollei/summary e-amil rollei2004@yahoo.com.br
@@ -447,11 +460,16 @@ public class DevOpsPersistencia {
 
         //    propriedades.put("hibernate.c3p0.timeout", 10);
         pPropriedades.put("hibernate.connection.provider_class", "org.hibernate.connection.C3P0ConnectionProvider");
+        //   org.hibernate.connection.C3P0ConnectionProvider
 
     }
 
     public void carregarConfiguracaoBasicaPadraoMysql(Map<String, Object> pPropriedades) {
         pPropriedades.put("javax.persistence.sharedCache.mode", "ENABLE_SELECTIVE");
+
+        pPropriedades.put("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
+//hibernate.connection.provider_class = org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+
         /// pPropriedades.put("org.hibernate.cacheable", "false");
         //pPropriedades.put("hibernate.cache.use_query_cache", "false");
         //pPropriedades.put("hibernate.cache.use_second_level_cache", "false");
@@ -494,7 +512,7 @@ public class DevOpsPersistencia {
 
         if (configurador.isExibirLogBancoDeDados()) {
             // desabilitando criação de banco de dados no início caso o banco seja o mesmo
-            pPropriedades.put("hibernate.hbm2ddl.auto", null);
+            pPropriedades.put("hibernate.hbm2ddl.auto", "none");
             // Mostrar SQL
             pPropriedades.put("hibernate.show_sql", true);
             //Mostrar SQL formatado
@@ -555,7 +573,14 @@ public class DevOpsPersistencia {
             EntityManagerFactory emFacturePadrao = null;
 
             try {
-                loadC3p0(propriedades);
+                loadEstrategiaConexaohikari(propriedades);
+                System.out.println("iniciando EntityManagerFactory com:");
+
+                for (String chave : propriedades.keySet()) {
+                    System.out.println(chave + "->" + propriedades.get(chave));
+                }
+                jdbc:
+                mysql://localhost:3306/teste?useSSL=false&serverTimezone=UTC
                 emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
             } catch (Throwable t) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo Configurações de Persistencia", t);
@@ -585,6 +610,11 @@ public class DevOpsPersistencia {
                     if (SBCore.isEmModoDesenvolvimento()) {
                         UtilSBCoreTestes.emContextoTEste = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     }
+                    UtilSBPersistencia.executaSQL("CREATE TABLE IF NOT EXISTS controle_id_especial (\n"
+                            + "    nome_classe VARCHAR(100) NOT NULL PRIMARY KEY,\n"
+                            + "    proximo_id BIGINT NOT NULL\n"
+                            + ") ENGINE=InnoDB;");
+
                     if (configurador.fabricasRegistrosIniciais() != null) {
                         for (Class classe : configurador.fabricasRegistrosIniciais()) {
                             try {
@@ -598,7 +628,7 @@ public class DevOpsPersistencia {
 
                     configurador.criarBancoInicial();
                     if (!SBCore.isIgnorarPermissoes()) {
-                        SBCore.getCentralPermissao().atualizarInformacoesDePermissoesDoSistema();
+                        SBCore.getServicoPermissao().atualizarInformacoesDePermissoesDoSistema();
                     }
                     configurador.criarRegraDeNegocioInicial();
                     compilaBanco();
@@ -624,7 +654,7 @@ public class DevOpsPersistencia {
             // SENÃO (ESTÁDO DIFERENTE DE EM DESENVOLVIMENTO): (A FUNÇÃO DE LIMPAR E SUBIR O BANCO CABE AO SCRIPT DE IMPLANTAÇÃO , E NAÕ DURANTE EXECUÇÃO DO CODIGO)
             // TODO remover essa caixa alta..
         } else {
-            loadC3p0(propriedades);
+            loadEstrategiaConexaohikari(propriedades);
             EntityManagerFactory emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
             UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
             if (emFacturePadrao != null) {

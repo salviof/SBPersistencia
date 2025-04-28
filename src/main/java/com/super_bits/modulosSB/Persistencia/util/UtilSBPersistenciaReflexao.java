@@ -5,8 +5,15 @@
  */
 package com.super_bits.modulosSB.Persistencia.util;
 
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import java.lang.reflect.Field;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import org.coletivojava.fw.utilCoreBase.UtilSBCoreReflexaoSimples;
+import org.hibernate.Hibernate;
 
 /**
  *
@@ -23,6 +30,31 @@ public class UtilSBPersistenciaReflexao {
         } catch (Throwable t) {
             return false;
         }
+    }
+
+    public static boolean possuiIdeAutogerado(Class<?> entityClass) {
+        List<Class> classes = UtilSBCoreReflexao.getClassesComHierarquiaAteCotendoEstaAnotacao(entityClass, Entity.class);
+        for (Class classe : classes) {
+            for (Field field : classe.getDeclaredFields()) {
+                if (field.isAnnotationPresent(Id.class) && field.isAnnotationPresent(GeneratedValue.class)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static String getNomeEntidade(Object entity) {
+        Class<?> entidadeClasse = entity.getClass();
+
+        if (Hibernate.isInitialized(entity) && Hibernate.getClass(entity) != entidadeClasse) {
+            // Se for um proxy, pega a classe real da entidade
+            entidadeClasse = Hibernate.getClass(entity);
+        }
+
+        // Pega o nome da classe da entidade
+        String nomeClasse = entidadeClasse.getSimpleName();
+        return nomeClasse;
     }
 
 }

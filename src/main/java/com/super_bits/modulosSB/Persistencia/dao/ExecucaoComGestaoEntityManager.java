@@ -127,7 +127,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
     }
 
     public void criaNovaEntidade(Object pObjeto) {
-        if (UtilSBPersistencia.persistirRegistro(pObjeto, getEm())) {
+        if (UtilSBPersistencia.persistirRegistro(pObjeto, getEm()) != null) {
             throw new UnsupportedOperationException("Erro Criando" + pObjeto);
         }
     }

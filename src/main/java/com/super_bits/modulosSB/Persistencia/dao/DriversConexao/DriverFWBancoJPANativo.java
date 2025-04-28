@@ -271,6 +271,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             case INSERT:
 
                                 em.persist(entidade);
+                                novoRegistro = entidade;
                                 sucesso = true;
                                 break;
                             case MERGE:
@@ -311,7 +312,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         } else {
                             SBCore.getServicoMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Inserir o registro");
                         }
-                        return sucesso;
+                        return novoRegistro;
                     }
                 } catch (Exception e) {
 
@@ -325,11 +326,8 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         }
                     }
 
-                    if (pTipoAlteracao == FabInfoPersistirEntidade.MERGE) {
-                        return null;
-                    } else {
-                        return false;
-                    }
+                    return false;
+
                 }
 
             } finally {

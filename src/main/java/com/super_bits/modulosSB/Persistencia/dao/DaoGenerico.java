@@ -75,7 +75,7 @@ public class DaoGenerico<T extends ItfBeanSimples> extends ClasseTipada implemen
      * @param entity Entidade que será persistida
      * @return Verdadeiro se conseguir salvar
      */
-    public boolean savarRegistro(T entity) {
+    public ItfBeanSimples savarRegistro(T entity) {
         return UtilSBPersistencia.persistirRegistro(entity, em);
     }
 

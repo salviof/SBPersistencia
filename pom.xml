@@ -76,18 +76,18 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.46</version>
+            <version>8.0.33</version>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>5.3.9.Final</version>
+            <version>5.6.15.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>5.3.9.Final</version>
+            <version>5.6.15.Final</version>
         </dependency>
 
         <dependency>
@@ -99,14 +99,18 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.3.9.Final</version>
+            <version>5.6.15.Final</version>
         </dependency>
         <!-- for JPA, use hibernate-entitymanager instead of hibernate-core -->
-
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>3.4.5</version> <!-- Ou outra versão recente -->
+        </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-c3p0</artifactId>
-            <version>5.3.9.Final</version>
+            <artifactId>hibernate-hikaricp</artifactId>
+            <version>5.6.15.Final</version>
         </dependency>
 
         <dependency>

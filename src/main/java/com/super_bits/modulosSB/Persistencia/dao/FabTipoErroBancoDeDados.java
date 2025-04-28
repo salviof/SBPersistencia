@@ -5,7 +5,6 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListas;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilSBCoreErros;
@@ -14,6 +13,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemGenerico;
 import java.io.NotSerializableException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +74,7 @@ public enum FabTipoErroBancoDeDados {
         Throwable causa = ExceptionUtils.getRootCause(erro);
         if (causa != null) {
             Class classeCausa = causa.getClass();
-            if (causa instanceof MySQLIntegrityConstraintViolationException) {
+            if (causa instanceof SQLIntegrityConstraintViolationException) {
                 if (causa.getMessage() != null) {
                     String mensagemBancoDeDados = causa.getMessage();
                     if (mensagemBancoDeDados.contains("Duplicate entry") && mensagemBancoDeDados.contains("UK_")) {
@@ -83,7 +83,7 @@ public enum FabTipoErroBancoDeDados {
                     }
                 }
 
-                MySQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (MySQLIntegrityConstraintViolationException) causa;
+                SQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (SQLIntegrityConstraintViolationException) causa;
                 System.out.println(erroChaveExtrangeiraNativo);
                 return CHAVE_EXTRANGEIRA_MYSQL_NATIVO;
             }
@@ -146,7 +146,7 @@ public enum FabTipoErroBancoDeDados {
                 return "O valor para " + nomeCampo + " é incompatível";
             case CHAVE_EXTRANGEIRA_MYSQL_NATIVO:
                 Throwable causa = ExceptionUtils.getRootCause(erro);
-                MySQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (MySQLIntegrityConstraintViolationException) causa;
+                SQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (SQLIntegrityConstraintViolationException) causa;
                 System.out.println(erroChaveExtrangeiraNativo);
                 List<String> tabelasVinculada = UtilSBPersistenciaMysql.tabelaVinculadasAChaveExtrangeira(erroChaveExtrangeiraNativo.getMessage());
                 List<String> objetosVinculados = new ArrayList<>();
@@ -208,7 +208,7 @@ public enum FabTipoErroBancoDeDados {
                 break;
             case CHAVE_EXTRANGEIRA_MYSQL_NATIVO:
                 Throwable causa = ExceptionUtils.getRootCause(erro);
-                MySQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (MySQLIntegrityConstraintViolationException) causa;
+                SQLIntegrityConstraintViolationException erroChaveExtrangeiraNativo = (SQLIntegrityConstraintViolationException) causa;
                 System.out.println(erroChaveExtrangeiraNativo);
                 return erroChaveExtrangeiraNativo.getMessage();
             case INFORMACAO_DUPLICADA:

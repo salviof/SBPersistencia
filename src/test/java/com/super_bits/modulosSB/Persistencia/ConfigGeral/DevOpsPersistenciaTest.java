@@ -151,7 +151,7 @@ public class DevOpsPersistenciaTest extends TesteJunitSBPersistencia {
         System.out.println("loadC3p0");
         Map<String, Object> pPropriedades = null;
         DevOpsPersistencia instance = new DevOpsPersistencia();
-        instance.loadC3p0(pPropriedades);
+        instance.loadEstrategiaconexaoC3p0(pPropriedades);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

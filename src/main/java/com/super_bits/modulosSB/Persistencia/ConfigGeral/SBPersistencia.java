@@ -174,7 +174,7 @@ public abstract class SBPersistencia {
 
         if (fabricasRegistrosIniciais != null) {
             for (Class classe : fabricasRegistrosIniciais) {
-                UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(classe, UtilSBPersistencia.getNovoEM(), UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
+                UtilSBPersistenciaFabricas.persistirRegistrosDaFabrica(classe, UtilSBPersistencia.getEMPadraoNovo(), UtilSBPersistenciaFabricas.TipoOrdemGravacao.ORDERNAR_POR_ID);
             }
         }
     }
