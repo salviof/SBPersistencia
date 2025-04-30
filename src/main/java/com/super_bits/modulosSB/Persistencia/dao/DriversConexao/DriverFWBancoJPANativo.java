@@ -366,7 +366,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                     String sql = "";
                     switch (pTipoSelecao) {
                         case ID:
-                            Object resposta = em.find(pClasseRegisto, parametros[0]);
+                            Object resposta = em.find(pClasseRegisto, (long) parametros[0]);
                             return resposta;
 
                         case NOMECURTO:

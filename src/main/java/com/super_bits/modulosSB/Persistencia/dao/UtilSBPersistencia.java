@@ -691,7 +691,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     public static Object getRegistroByNomeSlug(Class pClasse, String parametro, EntityManager pEm) {
 
-        List<Integer> codigosEncontrados = new ArrayList<>();
+        List<Long> codigosEncontrados = new ArrayList<>();
         List<String> textosEncontrados = new ArrayList<>();
         if (parametro == null) {
             return null;
@@ -703,14 +703,14 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             if (valor != null && !valor.isEmpty()) {
                 if (UtilSBCoreStringValidador.isContemApenasNumero(valor)) {
 
-                    codigosEncontrados.add(Integer.valueOf(valor));
+                    codigosEncontrados.add(Long.valueOf(valor));
                 } else {
                     textosEncontrados.add(valor);
                 }
             }
         }
 
-        for (Integer codigo : Lists.reverse(codigosEncontrados)) {
+        for (Long codigo : Lists.reverse(codigosEncontrados)) {
             Object resp = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, codigo);
             if (resp != null) {
                 return resp;
