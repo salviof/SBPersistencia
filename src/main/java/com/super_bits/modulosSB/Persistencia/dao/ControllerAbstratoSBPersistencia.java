@@ -11,6 +11,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.comunicacao.RespostaAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanNormal;
@@ -30,6 +31,12 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  * @author Salvio Fubino
  */
 public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbstratoSBCore {
+
+    public static void lancarErroAPartirDaResposta(ItfRespostaAcaoDoSistema pREsposta) throws ErroRegraDeNegocio {
+        if (!pREsposta.isSucesso()) {
+            throw new ErroRegraDeNegocio(pREsposta.getMensagens().get(0).getMenssagem());
+        }
+    }
 
     /**
      *

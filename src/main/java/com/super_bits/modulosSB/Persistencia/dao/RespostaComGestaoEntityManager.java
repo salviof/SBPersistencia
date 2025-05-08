@@ -32,6 +32,12 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
     }
 
+    public void lancarErroAPartirDaResposta(ItfRespostaAcaoDoSistema pREsposta) throws ErroRegraDeNegocio {
+        if (!pREsposta.isSucesso()) {
+            throw new ErroRegraDeNegocio(pREsposta.getMensagens().get(0).getMenssagem());
+        }
+    }
+
     public RespostaComGestaoEntityManager(ItfRespostaAcaoDoSistema pResp, boolean executarAcaoAoCriar) {
 
         super(pResp, new ExecucaoComGestaoEntityManager(false) {
