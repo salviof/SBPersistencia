@@ -7,13 +7,12 @@ package com.super_bits.modulosSB.Persistencia.util;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreItens;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -29,25 +28,24 @@ public abstract class UtilSBPersistenciaFabricas {
         ORDERNAR_POR_ID, ORDERNAR_POR_ORDEM_DE_DECLARCAO
     }
 
-    private static List<ItfBeanSimples> listaRegistros(Class pFabrica) {
-        List<ItfBeanSimples> lista = new ArrayList<>();
-
+    private static List<ItemFabricaObjeto> listaRegistros(Class pFabrica) {
+        List<ItemFabricaObjeto> lista = new ArrayList<>();
         for (Object obj : pFabrica.getEnumConstants()) {
-            ItfBeanSimples registro = (ItfBeanSimples) ((ItfFabrica) obj).getRegistro();
-            lista.add(registro);
+            lista.add(new ItemFabricaObjeto((ItfFabrica) obj));
 
         }
         return lista;
 
     }
 
-    private static List<ItfBeanSimples> listaOrdenadaPorID(List<ItfBeanSimples> pLista) {
-        return UtilSBCoreItens.ordernarPorId(pLista);
+    private static void listaOrdenarPorID(List<ItemFabricaObjeto> pLista) {
+        UtilSBCoreListasObjeto.ordernarPorCampo(pLista, "idEntidade");
 
     }
 
-    private static List<ItfBeanSimples> listaOrdenadaPorOrdemDEclaracao(Class pFabrica) {
-        return listaRegistros(pFabrica);
+    private static void listaOrdenarOrdem(List<ItemFabricaObjeto> pLista) {
+        UtilSBCoreListasObjeto.ordernarPorCampo(pLista, "ordemEnum");
+
     }
 
     public static void persistirRegistrosDaFabricaSeNaoExistir(Class pFabrica, EntityManager pEM, TipoOrdemGravacao pTipoOrdem) {
@@ -56,25 +54,25 @@ public abstract class UtilSBPersistenciaFabricas {
             SBCore.getServicoMensagens().enviaMensagem(msg);
             return;
         }
-
+        List<ItemFabricaObjeto> lista = listaRegistros(pFabrica);
         switch (pTipoOrdem) {
             case ORDERNAR_POR_ID:
-                for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
-                    if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
-                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
-                    }
+                listaOrdenarPorID(lista);
+                for (ItemFabricaObjeto item : lista) {
+
+                    persistir(item.getObjeto(), pEM, item.getFabrica());
 
                 }
                 break;
             case ORDERNAR_POR_ORDEM_DE_DECLARCAO:
-                for (Object entidade : listaRegistros(pFabrica)) {
+                listaOrdenarOrdem(lista);
+                for (ItemFabricaObjeto item : lista) {
                     try {
-                        if (UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) entidade, pEM) == null) {
-                            persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
-                        }
+
+                        persistir(item.getObjeto(), pEM, item.getFabrica());
 
                     } catch (Throwable t) {
-                        throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + entidade, t);
+                        throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + item, t);
                     }
                 }
 
@@ -103,28 +101,25 @@ public abstract class UtilSBPersistenciaFabricas {
             SBCore.getServicoMensagens().enviaMensagem(msg);
             return;
         }
-
+        List<ItemFabricaObjeto> lista = listaRegistros(pFabrica);
         switch (pTipoOrdem) {
             case ORDERNAR_POR_ID:
-                for (Object entidade : listaOrdenadaPorID(listaRegistros(pFabrica))) {
-                    if (pEM.find(entidade.getClass(), ((ItfBeanSimples) entidade).getId()) == null) {
-                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
-                    } else {
-                        if (entidade instanceof ItfBeanStatus) {
-                            UtilSBPersistencia.mergeRegistro(entidade);
-                        }
-                    }
+                listaOrdenarPorID(lista);
+                for (ItemFabricaObjeto itemFAbrica : lista) {
+
+                    persistir(itemFAbrica.getObjeto(), pEM, itemFAbrica.getFabrica());
 
                 }
                 break;
             case ORDERNAR_POR_ORDEM_DE_DECLARCAO:
-                for (Object entidade : listaRegistros(pFabrica)) {
+                listaOrdenarOrdem(lista);
+                for (ItemFabricaObjeto item : lista) {
                     try {
 
-                        persistir((ItfBeanSimplesSomenteLeitura) entidade, pEM, pFabrica);
+                        persistir((ItfBeanSimplesSomenteLeitura) item.getObjeto(), pEM, item.getFabrica());
 
                     } catch (Throwable t) {
-                        throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + entidade, t);
+                        throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + item, t);
                     }
                 }
 
@@ -136,18 +131,26 @@ public abstract class UtilSBPersistenciaFabricas {
 
     }
 
-    private static void persistir(ItfBeanSimplesSomenteLeitura entidade, EntityManager pEm, Class pFabrica) {
+    private static void persistir(ItfBeanSimplesSomenteLeitura entidade, EntityManager pEm, ItfFabrica pFabrica) {
         Object registroGerado = null;
 
         try {
             // UtilSBPersistencia.iniciarTransacao(pEm);
-            if (UtilSBPersistencia.getRegistroByID(entidade.getClass(), entidade.getId()) == null) {
+            if (entidade.getId() != null && entidade.getId() != 0) {
+                registroGerado = UtilSBPersistencia.getRegistroByID(entidade.getClass(), entidade.getId(), pEm);
+            }
+
+            if (registroGerado == null) {
                 if (UtilSBPersistenciaReflexao.possuiIdeAutogerado(entidade.getClass())) {
                     ((ItfBeanSimples) entidade).setId(null);
                 }
                 registroGerado = UtilSBPersistencia.persistirRegistro(entidade, pEm);
             } else {
-                registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
+                if (pFabrica.isPermitidoAlterarObjeto()) {
+                    registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
+                } else {
+
+                }
             }
             if (registroGerado == null) {
                 throw new UnsupportedOperationException("A entidade não pode ser armazenada");
@@ -167,7 +170,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 }
             }
 
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Iniciando Fabricas de registro iniciais da Fabrica:" + pFabrica.getSimpleName() + " salvando entidade:" + textoEntidade, t);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Iniciando Fabricas de registro iniciais da Fabrica:" + pFabrica.getClass().getSimpleName() + "." + pFabrica.toString() + " salvando entidade:" + textoEntidade, t);
             throw new UnsupportedOperationException("Erro Iniciando Fabricas de registro iniciais da Fabrica:" + pFabrica.getClass().getSimpleName() + " salvando entidade:" + textoEntidade);
 
         }
