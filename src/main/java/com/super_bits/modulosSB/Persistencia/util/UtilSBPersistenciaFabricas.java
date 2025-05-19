@@ -146,7 +146,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 }
                 registroGerado = UtilSBPersistencia.persistirRegistro(entidade, pEm);
             } else {
-                if (pFabrica.isPermitidoAlterarObjeto()) {
+                if (!pFabrica.isPermitidoAlterarObjeto()) {
                     registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
                 } else {
 
