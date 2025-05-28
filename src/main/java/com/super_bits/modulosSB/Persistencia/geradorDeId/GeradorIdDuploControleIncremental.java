@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
-import org.hibernate.id.Configurable;
+
 import org.hibernate.id.IdentifierGenerator;
 
 /**

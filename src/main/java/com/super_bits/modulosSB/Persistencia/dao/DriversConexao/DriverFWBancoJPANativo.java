@@ -326,7 +326,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                         }
                     }
 
-                    return false;
+                    return null;
 
                 }
 
@@ -341,7 +341,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
             if (pTipoAlteracao == FabInfoPersistirEntidade.MERGE) {
                 return null;
             } else {
-                return false;
+                return null;
             }
         }
 

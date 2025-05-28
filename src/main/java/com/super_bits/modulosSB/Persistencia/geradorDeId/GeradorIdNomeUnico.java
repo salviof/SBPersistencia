@@ -26,10 +26,10 @@ public class GeradorIdNomeUnico implements IdentifierGenerator {
             return ((ItfBeanSimples) obj).configIDPeloNome();
 
         } catch (Throwable t) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro determinando id para permissao", t);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro determinando id pelo nome", t);
+            return 0l;
         }
 
-        return 0;
     }
 
 }

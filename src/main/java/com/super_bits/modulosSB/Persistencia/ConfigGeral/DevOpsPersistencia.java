@@ -299,7 +299,7 @@ public class DevOpsPersistencia {
         pPropriedades.put("hibernate.hikari.connectionTimeout", "20000");
         pPropriedades.put("hibernate.hikari.maxLifetime", "1800000");
         pPropriedades.put("hibernate.connection.provider_class", "org.hibernate.hikaricp.internal.HikariCPConnectionProvider");
-        pPropriedades.put("hibernate.hikari.driverClassName", "com.mysql.cj.jdbc.MysqlDataSource");
+        pPropriedades.put("hibernate.hikari.driverClassName", "com.mysql.cj.jdbc.Driver");
         //hibernate.hikari.driverClassName=com.mysql.cj.jdbc.Driver
 
     }

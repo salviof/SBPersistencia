@@ -6,6 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.util;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GERADOR_ID_ESTRATEGIA_CONHECIDA;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
@@ -141,10 +142,29 @@ public abstract class UtilSBPersistenciaFabricas {
             }
 
             if (registroGerado == null) {
+                boolean persistirComMerge = false;
                 if (UtilSBPersistenciaReflexao.possuiIdeAutogerado(entidade.getClass())) {
-                    ((ItfBeanSimples) entidade).setId(null);
+
+                    if (((ItfBeanSimples) entidade).getId() != null && ((ItfBeanSimples) entidade).getId() >= 1000
+                            && !UtilSBPersistenciaReflexao.possuiIdeAutogeradoDessasEstrategias(entidade.getClass(), GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_NOME_UNICO,
+                                    GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_BAIRRO, GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_CIDADE, GERADOR_ID_ESTRATEGIA_CONHECIDA.OBJETO_VINCULADO_ENUM)) {
+                        // id gerido pelo usuário
+                        System.out.println("Persistindo" + entidade.toString());
+                        if (entidade.getId() != null) {
+                            persistirComMerge = true;
+                        }
+                    } else {
+                        //id autoincremental deixa persistir nulo, e confia na sequencia lógica de declaração das fabricas
+                        ((ItfBeanSimples) entidade).setId(null);
+                    }
+
                 }
-                registroGerado = UtilSBPersistencia.persistirRegistro(entidade, pEm);
+                if (persistirComMerge) {
+                    registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
+                } else {
+                    registroGerado = UtilSBPersistencia.persistirRegistro(entidade, pEm);
+                }
+
             } else {
                 if (!pFabrica.isPermitidoAlterarObjeto()) {
                     registroGerado = UtilSBPersistencia.mergeRegistro(entidade, pEm);
@@ -153,7 +173,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 }
             }
             if (registroGerado == null) {
-                throw new UnsupportedOperationException("A entidade não pode ser armazenada");
+                throw new UnsupportedOperationException("A entidade não pode ser armazenada " + entidade.toString() + " - " + entidade.getNome() + "" + pFabrica);
             }
             pEm.refresh(registroGerado);
             ItfBeanSimples objetoPersistido = (ItfBeanSimples) registroGerado;

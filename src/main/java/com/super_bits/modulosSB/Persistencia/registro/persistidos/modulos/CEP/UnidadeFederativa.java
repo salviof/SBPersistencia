@@ -28,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
  * @author desenvolvedor
  */
 @Entity
-@InfoObjetoSB(tags = {"Estado do Brasil"}, plural = "Estados")
+@InfoObjetoSB(tags = {"Estado do Brasil"}, plural = "Estados", permitidoAlterarObjetoDaFabrica = false)
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFederativa {
@@ -46,7 +46,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     private String nome;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, label = "Estado")
     private String UF;
-    @OneToMany(targetEntity = Cidade.class, cascade = CascadeType.ALL, mappedBy = "unidadeFederativa")
+    @OneToMany(targetEntity = Cidade.class, mappedBy = "unidadeFederativa")
     private List<Cidade> cidades;
 
     public UnidadeFederativa() {
@@ -59,8 +59,8 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     }
 
     @Override
-    public void setId(Long id) {
-        configIDPeloNome();
+    public void setId(Long pID) {
+        id = pID;
     }
 
     @Override

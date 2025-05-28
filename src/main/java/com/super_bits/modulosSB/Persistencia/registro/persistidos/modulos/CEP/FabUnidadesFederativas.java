@@ -5,6 +5,8 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
+import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +15,7 @@ import java.util.List;
  *
  * @author desenvolvedor
  */
-public enum FabUnidadesFederativas implements ItfFabrica {
+public enum FabUnidadesFederativas implements ItfFabricaComPersistencia {
     AC, AL, AM, AP, BA, CE, DF, ES, GO, MA, MG, MS, MT, PA, PB, PE, PI, PR, RJ, RN, RO, RR, RS, SC, SE, SP, TO;
 
     public static UnidadeFederativa getUF(String pUF) {
@@ -27,10 +29,12 @@ public enum FabUnidadesFederativas implements ItfFabrica {
 
     @Override
     public UnidadeFederativa getRegistro() {
+
         UnidadeFederativa uf = new UnidadeFederativa();
         uf.setSigla(this.toString());
         uf.setUF(this.toString());
         uf.setNome(this.toString());
+
         switch (this) {
             case AC:
                 uf.setNome("Acre");
@@ -119,6 +123,8 @@ public enum FabUnidadesFederativas implements ItfFabrica {
                 throw new AssertionError(this.name());
 
         }
+        //   long id = (long) new GeradorIdNomeUnico().generate(null, uf);
+        // uf.setId(id);
         return uf;
     }
 
