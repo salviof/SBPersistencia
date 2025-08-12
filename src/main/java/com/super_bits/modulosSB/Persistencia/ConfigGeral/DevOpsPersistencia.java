@@ -655,7 +655,15 @@ public class DevOpsPersistencia {
             // TODO remover essa caixa alta..
         } else {
             loadEstrategiaConexaohikari(propriedades);
+            System.out.println("Iniciando Hibernate arquivo de persistencia:" + nomeArquivoPersistencia);
             EntityManagerFactory emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
+            System.out.println("Proipriedades:");
+            for (Map.Entry<String, Object> entry : propriedades.entrySet()) {
+                Object key = entry.getKey();
+                Object val = entry.getValue();
+                System.out.println(key + "->" + val);
+            }
+
             UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
             if (emFacturePadrao != null) {
                 System.out.println("########### Fabrica de EntityManager construída com sucesso");
