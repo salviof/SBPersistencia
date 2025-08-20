@@ -66,6 +66,10 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         configuracoesPeristenciaPadrao = propriedades;
     }
 
+    public static <T> T getRegistroByID(Class<T> aClass, Long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     /**
      *
      */
@@ -789,20 +793,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     /**
      *
-     * @param <T>
-     * @param pClasse Classe do registro
-     * @param id id do registro
-     * @param pEM
-     * @param pNomeEM nome da entidade
-     * @return registro encontrado
-     */
-    public static <T> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
-        return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
-
-    }
-
-    /**
-     *
      * @param pClasse Classe do registro
      * @param id id do registro
      * @param pNomeEM nome da entidade
@@ -888,6 +878,20 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     /**
      *
+     * @param <T>
+     * @param pClasse Classe do registro
+     * @param id id do registro
+     * @param pEM
+     * @param pNomeEM nome da entidade
+     * @return registro encontrado
+     */
+    public static <T extends ItfBeanSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
+        return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
+
+    }
+
+    /**
+     *
      * Localiza um único registro do tipo empresa procurando por: _____________
      * Em caso de numero: Telefones CNPJ e ID __1______________________________
      * Em caso de String pelo nome, site, e e-mail
@@ -931,20 +935,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     public static List<Object> getPessoas(Class pClasse, String pParametro, EntityManager pEM) {
         throw new UnsupportedOperationException("Ainda não implementado");
 
-    }
-
-    /**
-     *
-     *
-     * @param pClasse Classe do registro
-     * @param id id do registro
-     * @return regustro encontrado
-     */
-    public static Object getRegistroByID(Class pClasse, Long id) {
-        if (id == null || id == 0) {
-            return null;
-        }
-        return selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
     }
 
     public static Class<?> getEntityByTag(String pTag) {

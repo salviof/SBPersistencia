@@ -18,6 +18,7 @@ import com.super_bits.modulosSB.SBCore.modulos.fonteDados.TokenAcessoDados;
 import com.super_bits.modulosSB.SBCore.modulos.testes.UtilSBCoreTestes;
 import javax.persistence.EntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.centralDados.ItfServicoRepositorioEntidades;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 
 /**
  *
@@ -35,9 +36,9 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     }
 
     @Override
-    public <T> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
+    public <T extends ItfBeanSimples> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
         if (pToken == null) {
-            return (T) UtilSBPersistencia.getRegistroByID(pClasse, id);
+            return UtilSBPersistencia.getRegistroByID((Class<T>) pClasse, id);
         } else {
 
             return (T) UtilSBPersistencia.getRegistroByID(pClasse, id, pToken.getEntitiManager());

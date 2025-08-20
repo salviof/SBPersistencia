@@ -138,7 +138,7 @@ public abstract class UtilSBPersistenciaFabricas {
         try {
             // UtilSBPersistencia.iniciarTransacao(pEm);
             if (entidade.getId() != null && entidade.getId() != 0) {
-                registroGerado = UtilSBPersistencia.getRegistroByID(entidade.getClass(), entidade.getId(), pEm);
+                registroGerado = UtilSBPersistencia.getRegistroByID((Class<? extends ItfBeanSimples>) entidade.getClass(), entidade.getId(), pEm);
             }
 
             if (registroGerado == null) {
