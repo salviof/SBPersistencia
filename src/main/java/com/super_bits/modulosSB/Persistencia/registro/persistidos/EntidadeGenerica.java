@@ -112,17 +112,6 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
         return super.getCampoByAnotacao(pNomedaAnotacao);
     }
 
-    public void loadByID(Long pId) {
-
-        Object resultado = UtilSBPersistencia.getRegistroByID(this.getClass(), pId);
-        System.out.println("ATENÇÃO O METODO LOAD BY ID AINDA NÃO SUPORTA CLASSES COM POLIMORFISMO DE ENTIDADE");
-        //todo compativel com Extenção de classe
-        if (resultado != null) {
-            copiaDados(resultado);
-        }
-
-    }
-
     public void loadByID(Long pId, EntityManager pEM) {
 
         Object resultado = UtilSBPersistencia.getRegistroByID((Class<? extends ItfBeanSimples>) this.getClass(), pId, pEM);

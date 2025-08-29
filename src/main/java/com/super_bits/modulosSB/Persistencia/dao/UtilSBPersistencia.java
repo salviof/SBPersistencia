@@ -66,10 +66,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         configuracoesPeristenciaPadrao = propriedades;
     }
 
-    public static <T> T getRegistroByID(Class<T> aClass, Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
     /**
      *
      */
@@ -888,6 +884,10 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     public static <T extends ItfBeanSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
         return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
 
+    }
+
+    public static <T extends ItfBeanSimples> T getRegistroByID(Class<T> pClasse, Long id) {
+        return getRegistroByID(pClasse, id, null);
     }
 
     /**

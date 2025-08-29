@@ -500,10 +500,10 @@ public class DevOpsPersistencia {
                 nomeBanco = System.getenv("JAVA_EE_BANCO_NOME");
             }
             //String nomeSlugLegado = SBPersistencia.getNomeBancoPadrao() + "." + SBCore.getGrupoProjeto() + "." + SBCore.DOMINIO_FICTICIO_INTRANET_DOCKER + "/" + SBPersistencia.getNomeBancoPadrao();
-            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + hostBanco + "/" + nomeBanco + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://" + hostBanco + "/" + nomeBanco + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC");
             pPropriedades.put("javax.persistence.jdbc.password", senhaBanco);
         } else {
-            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false");
+            pPropriedades.put("javax.persistence.jdbc.url", "jdbc:mysql://localhost/" + SBPersistencia.getNomeBancoPadrao() + "?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC");
             pPropriedades.put("javax.persistence.jdbc.password", "senhaDev#123");
         }
     }

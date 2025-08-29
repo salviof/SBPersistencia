@@ -36,6 +36,7 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
         if (SBCore.isEmModoDesenvolvimento()) {
             pConfiguracao.setCentralComunicacao(CentralComunicacaoDesktop.class);
         }
+
         pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
         pConfiguracao.setCentralAtributoDados(CentralAtributosSBPersistencia.class);
         pConfiguracao.setCentralDeLocalizacao(CentralLocalizacaoSBPersistencia.class);
