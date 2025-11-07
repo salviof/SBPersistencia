@@ -58,7 +58,11 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     @Override
     public Long getId() {
-        Object valorId = getValorByTipoCampoEsperado(FabTipoAtributoObjeto.ID).toString();
+
+        Object valorId = getValorByTipoCampoEsperado(FabTipoAtributoObjeto.ID);
+        if (valorId == null) {
+            return null;
+        }
         return Long.valueOf(valorId.toString());
 
     }
