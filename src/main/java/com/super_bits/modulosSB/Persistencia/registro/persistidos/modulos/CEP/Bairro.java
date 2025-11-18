@@ -1,8 +1,7 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdBairro;
-import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdCidade;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -15,8 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**
@@ -25,7 +24,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  */
 @Entity
 @InfoObjetoSB(tags = {"Bairro"}, plural = "Bairros")
-public class Bairro extends EntidadeSimples implements ItfBairro {
+public class Bairro extends EntidadeSimplesORM implements ComoBairro {
 
     @Id
     @GenericGenerator(
@@ -78,12 +77,12 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     }
 
     @Override
-    public ItfCidade getCidade() {
-        return (ItfCidade) this.cidade;
+    public ComoCidade getCidade() {
+        return (ComoCidade) this.cidade;
     }
 
     public void setCidade(Cidade cidade) {
-        this.cidade = cidade;
+        this.cidade = (Cidade) cidade;
     }
 
     @Override
@@ -93,7 +92,7 @@ public class Bairro extends EntidadeSimples implements ItfBairro {
     }
 
     @Override
-    public void setCidade(ItfCidade pCidade) {
+    public void setCidade(ComoCidade pCidade) {
         cidade = (Cidade) pCidade;
     }
 

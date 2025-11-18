@@ -5,14 +5,14 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.testes;
 
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
 /**
  *
  * @author SalvioF
  */
-public enum FabEntidadeSimplesInicio implements ItfFabricaComPersistencia {
+public enum FabEntidadeSimplesInicio implements ComoFabricaComPersistencia {
 
     @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, nomeObjeto = "Teste 1", id = 1)
     REGISTRO1,

@@ -8,15 +8,14 @@ import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinami
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaCampo;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.grafico.ItemDadoGraficoTotal;
 import com.super_bits.modulosSB.SBCore.modulos.grafico.ItemGraficoTotalPorTipo;
 import com.super_bits.modulosSB.SBCore.modulos.grafico.ItfDadoGraficoTotal;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TIPO_PRIMITIVO;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfEstruturaCampoEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.validador.ErroValidacao;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +29,8 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  */
 public class UtilSBPersistenciaGraficos {
 
-    public static List<ItfDadoGraficoTotal> getTotaisPorStatus(Class<? extends ItfBeanComStatus> pEntidade, Class<? extends ItfBeanStatus> pEntidadeStatus) throws ErroValidacao {
-        if (pEntidade == null || pEntidadeStatus == null) {
+    public static List<ItfDadoGraficoTotal> getTotaisPorStatus(Class<? extends ComoTemStatus> pEntidade, Class<? extends ComoStatus> pEntidadeORMStatus) throws ErroValidacao {
+        if (pEntidade == null || pEntidadeORMStatus == null) {
             throw new ErroValidacao("Campos Entidade e status são obrigatórios");
         }
         try {
@@ -41,7 +40,7 @@ public class UtilSBPersistenciaGraficos {
                     )
                     .filter(cpObjeto
                             -> MapaObjetosProjetoAtual.isNomeEntidadeRegistrada(pEntidade.getSimpleName())
-                    && pEntidadeStatus.getSimpleName().equals(cpObjeto.getClasseCampoDeclaradoOuTipoLista())
+                    && pEntidadeORMStatus.getSimpleName().equals(cpObjeto.getClasseCampoDeclaradoOuTipoLista())
                     ).findFirst();
             if (!campoStatus.isPresent()) {
                 throw new ErroValidacao("Campo Status não encontrado em " + pEntidade.getSimpleName());
@@ -62,7 +61,7 @@ public class UtilSBPersistenciaGraficos {
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
 
         try {
-            List<ItfBeanSimples> itensTipos = UtilSBPersistencia.getListaTodos(classeTipo, em);
+            List<ComoEntidadeSimples> itensTipos = UtilSBPersistencia.getListaTodos(classeTipo, em);
             return getTotaisPorTipo(pEntidade, itensTipos);
 
         } finally {
@@ -71,12 +70,12 @@ public class UtilSBPersistenciaGraficos {
 
     }
 
-    public static List<ItfDadoGraficoTotal> getTotaisPorTipo(Class pEntidade, List<? extends ItfBeanSimples> pTipos) {
+    public static List<ItfDadoGraficoTotal> getTotaisPorTipo(Class pEntidade, List<? extends ComoEntidadeSimples> pTipos) {
         int i = 0;
         EntityManager em = UtilSBPersistencia.getEMPadraoNovo();
         List<ItfDadoGraficoTotal> itens = new ArrayList<>();
         try {
-            for (ItfBeanSimples item : pTipos) {
+            for (ComoEntidadeSimples item : pTipos) {
                 ConsultaDinamicaDeEntidade consuta = new ConsultaDinamicaDeEntidade(pEntidade, em);
                 consuta.addCondicaoManyToOneIgualA("status", item);
                 Long quantidade = consuta.resultadoSomarQuantidade();

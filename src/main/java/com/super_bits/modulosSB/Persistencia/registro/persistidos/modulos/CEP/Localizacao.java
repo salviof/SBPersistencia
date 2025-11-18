@@ -18,9 +18,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocal;
+
 import javax.validation.constraints.Digits;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -29,7 +29,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
 @InfoObjetoSB(tags = {"Localização"}, plural = "Localização")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoLocalizacao")
-public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
+public class Localizacao extends EntidadeLocalizacao implements ComoLocal {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,11 +101,11 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
         return unidadesFederativas;
     }
 
-    public List<ItfCidade> getCidadesDisponiveis() {
+    public List<Cidade> getCidadesDisponiveis() {
         if (getBairro().getCidade().getUnidadeFederativa() == null) {
             throw new UnsupportedOperationException("Não é possível listar as cidades disponíveis antes de selecionar um Estado");
         }
-        return getBairro().getCidade().getUnidadeFederativa().getCidades();
+        return (List) getBairro().getCidade().getUnidadeFederativa().getCidades();
 
     }
 
@@ -146,7 +146,7 @@ public class Localizacao extends EntidadeLocalizacao implements ItfLocal {
     }
 
     @Override
-    public void setBairro(ItfBairro pBairro) {
+    public void setBairro(ComoBairro pBairro) {
 
         this.bairro = (Bairro) pBairro;
 

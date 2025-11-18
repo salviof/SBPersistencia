@@ -5,14 +5,15 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeLocalizacao;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfRegiao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoRegiaoDefinida;
+
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +46,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @InfoObjetoSB(tags = {"Regiao", "Regiões"}, plural = "Regiões")
-public class Regiao extends EntidadeSimples implements ItfRegiao {
+public class Regiao extends EntidadeSimplesORM implements ComoRegiaoDefinida {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -186,7 +187,7 @@ public class Regiao extends EntidadeSimples implements ItfRegiao {
      * @param pLocalidade
      * @return
      */
-    public boolean isLocalidadeDaRegiao(ItfLocal pLocalidade) {
+    public boolean isLocalidadeDaRegiao(EntidadeLocalizacao pLocalidade) {
 
         boolean temBairro = true;
         boolean temCidade = true;

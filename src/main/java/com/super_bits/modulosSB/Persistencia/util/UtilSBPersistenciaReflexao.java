@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.util;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GERADOR_ID_ESTRATEGIA_CONHECIDA;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.List;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 public class UtilSBPersistenciaReflexao {
 
-    public static boolean isObjetoPersistivel(ItfBeanSimples pObjeto) {
+    public static boolean isObjetoPersistivel(ComoEntidadeSimples pObjeto) {
         if (pObjeto == null) {
             return false;
         }

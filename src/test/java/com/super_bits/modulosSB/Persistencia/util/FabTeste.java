@@ -5,7 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.util;
 
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.testes.RegistroTesteSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
@@ -13,7 +13,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
  *
  * @author sfurbino
  */
-public enum FabTeste implements ItfFabricaComPersistencia {
+public enum FabTeste implements ComoFabricaComPersistencia {
     @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, id = 4, nomeObjeto = "Teste quatro")
     TIPO1,
     @InfoObjetoDaFabrica(classeObjeto = RegistroTesteSimples.class, id = 5, nomeObjeto = "Teste cinco")

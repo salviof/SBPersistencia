@@ -8,7 +8,6 @@ package com.super_bits.modulosSB.Persistencia.centralOrigemDados;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.CentralAtributosDeObjetosSemPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ItfCentralAtributosDeObjetos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.ItfPropriedadesReflexaoCampos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTAR_POR_SUBLISTA;
@@ -16,6 +15,7 @@ import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.F
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_FABRICA_DE_REGISTROS;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_LISTAGEM_DE_ENTIDADE;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoAtributosDeObjetos;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @author desenvolvedor
  */
-public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ItfCentralAtributosDeObjetos {
+public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSemPersistencia implements ComoServicoAtributosDeObjetos {
 
     private EntityManager em;
 
@@ -132,13 +132,13 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
 
             case LISTA_POR_ENTIDADE:
                 try {
-                for (String campo : pCampos) {
+                    for (String campo : pCampos) {
 
+                    }
+                } catch (Throwable t) {
+                    SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao pesquisar por campos", t);
                 }
-            } catch (Throwable t) {
-                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao pesquisar por campos", t);
-            }
-            return UtilSBPersistencia.getListaRegistrosLikeNomeCurto(pFiltro, propAtributoReflexao.getEntidadeLista(), em);
+                return UtilSBPersistencia.getListaRegistrosLikeNomeCurto(pFiltro, propAtributoReflexao.getEntidadeLista(), em);
             case LISTA_POR_LISTAGEM_DE_ENTIDADE:
                 throw new UnsupportedOperationException("");
 

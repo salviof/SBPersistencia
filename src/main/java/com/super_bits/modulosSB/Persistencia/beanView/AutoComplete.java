@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.beanView;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class AutoComplete {
         EMPRESA, PESSOA_FISICA, NOME, NOME_ID
     }
 
-    private final List<ItfBeanSimples> listaInicial;
+    private final List<ComoEntidadeSimples> listaInicial;
     private final TIPO_PESQUISA tipoPesquisa;
     private final int minimoPesquisa = 4;
     private final EntityManager em;
@@ -37,7 +37,7 @@ public class AutoComplete {
         em = pEM;
     }
 
-    private List<ItfBeanSimples> makeListaInicial(String parametro) {
+    private List<ComoEntidadeSimples> makeListaInicial(String parametro) {
 
         switch (tipoPesquisa) {
             case EMPRESA:
@@ -55,12 +55,12 @@ public class AutoComplete {
         return new ArrayList<>();
     }
 
-    private List<ItfBeanSimples> atualizaLista(String parametro) {
+    private List<ComoEntidadeSimples> atualizaLista(String parametro) {
         // TODO, pesquisa em cima da pesquisa inicial para economizar selects
         return makeListaInicial(parametro);
     }
 
-    public List<ItfBeanSimples> pesquisa(String parametro) {
+    public List<ComoEntidadeSimples> pesquisa(String parametro) {
         if (parametro.length() == 4) {
             return makeListaInicial(parametro);
         } else {

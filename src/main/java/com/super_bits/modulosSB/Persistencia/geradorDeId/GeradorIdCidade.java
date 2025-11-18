@@ -5,8 +5,8 @@
  */
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Cidade;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -22,7 +22,7 @@ public class GeradorIdCidade implements IdentifierGenerator {
     public Serializable generate(SharedSessionContractImplementor session, Object object) throws HibernateException {
 
         try {
-            ItfCidade cidade = (ItfCidade) object;
+            Cidade cidade = (Cidade) object;
             if (cidade == null) {
                 throw new UnsupportedOperationException("Enviado objeto nulo");
             }
@@ -33,7 +33,7 @@ public class GeradorIdCidade implements IdentifierGenerator {
             cidade.setId(id);
             return id;
         } catch (ClassCastException c) {
-            throw new HibernateException("O gerador de Id de cidade precisa implementar ItfCidade", c);
+            throw new HibernateException("O gerador de Id de cidade precisa implementar EntidadeCidade", c);
         } catch (Throwable t) {
             throw new HibernateException("Erro gerando Chave da cidade", t);
         }

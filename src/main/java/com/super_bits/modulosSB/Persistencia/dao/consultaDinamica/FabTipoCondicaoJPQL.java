@@ -7,7 +7,7 @@ package com.super_bits.modulosSB.Persistencia.dao.consultaDinamica;
 
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -60,12 +60,12 @@ public enum FabTipoCondicaoJPQL {
 
                 break;
             case MANY_TO_ONE_IGUAL_AUTO:
-                ItfBeanSimples beanParametro = null;
+                ComoEntidadeSimples beanParametro = null;
                 FabCondicaoEspecialSql condicaoEspecial = null;
                 if (pCondicao.getValorParametro() instanceof FabCondicaoEspecialSql) {
                     condicaoEspecial = (FabCondicaoEspecialSql) pCondicao.getValorParametro();
                 } else {
-                    beanParametro = (ItfBeanSimples) pCondicao.getValorParametro();
+                    beanParametro = (ComoEntidadeSimples) pCondicao.getValorParametro();
                 }
                 Predicate condicao = null;
                 ParameterExpression<Long> prQuery = pBuilder.parameter(Long.class, pCondicao.getNomeParametro());
@@ -149,7 +149,7 @@ public enum FabTipoCondicaoJPQL {
                 ParameterExpression<Collection> prQueryIgualIntervalo
                         = pBuilder.parameter(Collection.class, pCondicao.getNomeParametro());
 
-                List<ItfBeanSimples> listaSimples = (List<ItfBeanSimples>) pCondicao.getValorParametro();
+                List<ComoEntidadeSimples> listaSimples = (List<ComoEntidadeSimples>) pCondicao.getValorParametro();
                 List<Long> listaCondicao = new ArrayList<>();
                 listaSimples.stream().forEach(itemLista -> {
                     listaCondicao.add(itemLista.getId());
@@ -165,7 +165,7 @@ public enum FabTipoCondicaoJPQL {
 
                 break;
             case MANY_TO_MANY_CONTEM_OBJETO:
-                ItfBeanSimples beanParametroMC = (ItfBeanSimples) pCondicao.getValorParametro();
+                ComoEntidadeSimples beanParametroMC = (ComoEntidadeSimples) pCondicao.getValorParametro();
 
                 Join join = entidadePrincipal.join(nomeCampoPesquisa, JoinType.INNER);
                 Path<Long> campoIdObjetos = join.get("id");

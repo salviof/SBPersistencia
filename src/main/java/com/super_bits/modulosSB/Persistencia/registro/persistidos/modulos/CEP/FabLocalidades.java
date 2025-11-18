@@ -5,13 +5,13 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
  *
  * @author desenvolvedor
  */
-public enum FabLocalidades implements ItfFabrica {
+public enum FabLocalidades implements ComoFabrica {
 
     GRANDE_BH;
 

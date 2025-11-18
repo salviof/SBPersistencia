@@ -5,7 +5,7 @@
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
  *
@@ -25,13 +25,13 @@ public interface ItfConfigSBPersistencia {
 
     /**
      *
-     * As Fabricas de registro iniciais são classes que extendem ItfFabrica e
+     * As Fabricas de registro iniciais são classes que extendem ComoFabrica e
      * possuem enunciados de registros iniciais do sistema, que devem ser
      * carregados no início da aplicação
      *
      * @return Fabricas do Projeto
      */
-    public Class<? extends ItfFabrica>[] fabricasRegistrosIniciais();
+    public Class<? extends ComoFabrica>[] fabricasRegistrosIniciais();
 
     public void criarBancoInicial();
 

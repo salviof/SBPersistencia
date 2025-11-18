@@ -4,14 +4,12 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import br.org.coletivojava.erp.comunicacao.transporte.ERPTipoCanalComunicacao;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCriptrografia;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.FabTipoComunicacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.Date;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -22,7 +20,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  */
 public class UtilSBPersistenciaListener {
 
-    public static void acaoPadraoAposCarregarEntidade(ItfBeanSimples pEntidade) {
+    public static void acaoPadraoAposCarregarEntidade(ComoEntidadeSimples pEntidade) {
 
         try {
 
@@ -32,7 +30,7 @@ public class UtilSBPersistenciaListener {
 
     }
 
-    public static void acaoPadraoAntesDeAtualizar(ItfBeanSimples pEntidade) {
+    public static void acaoPadraoAntesDeAtualizar(ComoEntidadeSimples pEntidade) {
 
         try {
             protegerSenhas(pEntidade);
@@ -74,10 +72,10 @@ public class UtilSBPersistenciaListener {
 
     }
 
-    public static void acaoPadraoDepoisDeAtualizar(ItfBeanSimples pEntidade) {
+    public static void acaoPadraoDepoisDeAtualizar(ComoEntidadeSimples pEntidade) {
 
         try {
-            if (pEntidade instanceof ItfBeanComStatus) {
+            if (pEntidade instanceof ComoTemStatus) {
                 //disparar eventos de alteração de Status, como eventos de comunicação
             }
         } catch (Throwable t) {
@@ -85,7 +83,7 @@ public class UtilSBPersistenciaListener {
         }
     }
 
-    public static void acaoPadraoAntesPersistirNovoRegistro(ItfBeanSimples pEntidade) {
+    public static void acaoPadraoAntesPersistirNovoRegistro(ComoEntidadeSimples pEntidade) {
 
         try {
             System.out.println("Ação Automatica Antes de Persistir");
@@ -110,11 +108,11 @@ public class UtilSBPersistenciaListener {
 
     }
 
-    public static void acaoPadraoAposPersistirNovo(ItfBeanSimples pEntidade) {
+    public static void acaoPadraoAposPersistirNovo(ComoEntidadeSimples pEntidade) {
 
     }
 
-    public static void protegerSenhas(ItfBeanSimples pEntidade) {
+    public static void protegerSenhas(ComoEntidadeSimples pEntidade) {
         FabTipoAtributoObjeto campoSenha = null;
 
         if (!(pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA) || pEntidade.isTemCampoAnotado(FabTipoAtributoObjeto.SENHA_SEGURANCA_MAXIMA))) {

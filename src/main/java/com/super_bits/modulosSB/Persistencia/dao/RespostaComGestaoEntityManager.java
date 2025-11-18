@@ -9,8 +9,8 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanEnderecavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemEndereco;
 import static java.lang.Thread.sleep;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -95,7 +95,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
      * @param pEntidade
      * @return
      */
-    public <T extends ItfBeanSimples> T loadEntidade(T pEntidade) {
+    public <T extends ComoEntidadeSimples> T loadEntidade(T pEntidade) {
         T regAtualizado = UtilSBPersistencia.loadEntidade(pEntidade, getEmResposta());
         if (regAtualizado == null) {
             addErro("Falha: " + pEntidade + " não encontrada");
@@ -105,7 +105,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
         }
     }
 
-    public boolean removerEntidade(final ItfBeanSimples pObjeto) {
+    public boolean removerEntidade(final ComoEntidadeSimples pObjeto) {
 
         try {
             if (isSucesso()) {
@@ -123,10 +123,10 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
         boolean fim = false;
         boolean liberado = false;
-        private final ItfBeanSimples entidade;
+        private final ComoEntidadeSimples entidade;
         private final EntityManager em;
 
-        public ManterConexao(ItfBeanSimples pEntidade, EntityManager pEm) {
+        public ManterConexao(ComoEntidadeSimples pEntidade, EntityManager pEm) {
             entidade = pEntidade;
             em = pEm;
 
@@ -168,7 +168,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
     }
 
-    protected boolean carregarEndereco(ItfBeanEnderecavel pEntidadeEndereçavel) {
+    protected boolean carregarEndereco(ComoTemEndereco pEntidadeEndereçavel) {
 
         if (pEntidadeEndereçavel == null) {
 
@@ -195,7 +195,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
 
     }
 
-    public boolean salvarEnderecoModoFlexivel(ItfBeanEnderecavel p) {
+    public boolean salvarEnderecoModoFlexivel(ComoTemEndereco p) {
         if (SBCore.getCentralDeLocalizacao().salvarFlexivel(p)) {
             return true;
         } else {

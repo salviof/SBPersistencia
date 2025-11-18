@@ -5,15 +5,14 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
 import java.util.List;
 import javax.persistence.Cacheable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -31,7 +30,7 @@ import org.hibernate.annotations.GenericGenerator;
 @InfoObjetoSB(tags = {"Estado do Brasil"}, plural = "Estados", permitidoAlterarObjetoDaFabrica = false)
 @Cacheable(true)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFederativa {
+public class UnidadeFederativa extends EntidadeSimplesORM implements ComoUnidadeFederativa {
 
     @Id
     @GenericGenerator(
@@ -86,7 +85,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     }
 
     @Override
-    public List<ItfCidade> getCidades() {
+    public List<ComoCidade> getCidades() {
         return (List) cidades;
     }
 
@@ -103,7 +102,7 @@ public class UnidadeFederativa extends EntidadeSimples implements ItfUnidadeFede
     }
 
     @Override
-    public void setCidades(List<ItfCidade> pCidades) {
+    public void setCidades(List<ComoCidade> pCidades) {
         cidades = (List) pCidades;
     }
 

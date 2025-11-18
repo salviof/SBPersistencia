@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -25,9 +25,9 @@ public class ErroEmBancoDeDados extends Throwable {
     private final String mensagemUsuario;
     private FabTipoErroBancoDeDados tipoErro;
     private final Map<String, String> mapaTrechoFrase = new HashMap();
-    private ItfBeanSimples entidade;
+    private ComoEntidadeSimples entidade;
 
-    public ErroEmBancoDeDados(Throwable t, ItfBeanSimples entidade) {
+    public ErroEmBancoDeDados(Throwable t, ComoEntidadeSimples entidade) {
 
         super(t);
         try {

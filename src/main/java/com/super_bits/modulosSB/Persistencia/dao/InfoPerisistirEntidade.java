@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -41,11 +41,11 @@ public class InfoPerisistirEntidade {
             switch (getTipoRegistro()) {
 
                 case UNICO:
-                    ItfBeanSimples entidadeUnica = (ItfBeanSimples) entidade;
+                    ComoEntidadeSimples entidadeUnica = (ComoEntidadeSimples) entidade;
                     resposta += "nome:" + entidadeUnica.getNomeCurto() + " id:" + entidadeUnica.getId();
                     break;
                 case MULTIPLOS:
-                    ItfBeanSimples entidade = (ItfBeanSimples) entidades.get(0);
+                    ComoEntidadeSimples entidade = (ComoEntidadeSimples) entidades.get(0);
                     resposta += "nome:" + entidade.getNomeCurto() + "id:" + entidade.getId();
                     break;
                 case NULO:

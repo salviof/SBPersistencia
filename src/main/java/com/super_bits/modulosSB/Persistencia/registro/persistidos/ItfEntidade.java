@@ -5,13 +5,13 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 
 /**
  *
  * @author desenvolvedor
  */
-public interface ItfEntidade extends ItfBeanSimplesSomenteLeitura {
+public interface ItfEntidade extends ComoEntidadeSimplesSomenteLeitura {
 
     public void acoesAoAtualizar();
 

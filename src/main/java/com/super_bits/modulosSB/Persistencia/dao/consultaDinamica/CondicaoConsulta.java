@@ -11,7 +11,7 @@ import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEn
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfListaDeEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.Optional;
 
 /**
@@ -65,11 +65,11 @@ public class CondicaoConsulta {
 
                     }
                 }
-                if (!(pValorParametro instanceof ItfBeanSimples)) {
+                if (!(pValorParametro instanceof ComoEntidadeSimples)) {
                     throw new UnsupportedOperationException();
                 }
                 EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
-                ItfBeanSimples beanParametro = (ItfBeanSimples) pValorParametro;
+                ComoEntidadeSimples beanParametro = (ComoEntidadeSimples) pValorParametro;
                 if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
                     Optional<ItfLigacaoMuitosParaUm> pesquisa = est
                             .getMuitosParaUm()
@@ -93,11 +93,11 @@ public class CondicaoConsulta {
             case VALOR_POSITIVO:
                 break;
             case MANY_TO_MANY_CONTEM_OBJETO:
-                if (!(pValorParametro instanceof ItfBeanSimples)) {
+                if (!(pValorParametro instanceof ComoEntidadeSimples)) {
                     throw new UnsupportedOperationException();
                 }
                 EstruturaDeEntidade estObjPaiDosAtributos = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
-                ItfBeanSimples beanP = (ItfBeanSimples) pValorParametro;
+                ComoEntidadeSimples beanP = (ComoEntidadeSimples) pValorParametro;
                 if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
                     Optional<ItfListaDeEntidade> pesquisa = estObjPaiDosAtributos
                             .getListas()

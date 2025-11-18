@@ -9,7 +9,7 @@ import com.super_bits.modulosSB.Persistencia.dao.ItfRespostaComExecucaoDeRegraDe
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaControllerEmExecucao;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.ItfTokenAcessoDados;
@@ -18,7 +18,7 @@ import com.super_bits.modulosSB.SBCore.modulos.fonteDados.TokenAcessoDados;
 import com.super_bits.modulosSB.SBCore.modulos.testes.UtilSBCoreTestes;
 import javax.persistence.EntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.centralDados.ItfServicoRepositorioEntidades;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 
 /**
  *
@@ -36,7 +36,7 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     }
 
     @Override
-    public <T extends ItfBeanSimples> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
+    public <T extends ComoEntidadeSimples> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
         if (pToken == null) {
             return UtilSBPersistencia.getRegistroByID((Class<T>) pClasse, id);
         } else {
@@ -54,7 +54,7 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     @Override
     public ItfTokenAcessoDados getAcessoDadosDoContexto() {
         if (SBCore.isEmModoDesenvolvimento()) {
-            ItfAcaoDoSistema acao = UtilSBController.getAcaoDoContexto();
+            ComoAcaoDoSistema acao = UtilSBController.getAcaoDoContexto();
 
             if (acao != null) {
                 ItfRespostaComExecucaoDeRegraDeNegocio resp = (ItfRespostaComExecucaoDeRegraDeNegocio) MapaControllerEmExecucao.getRespostaDoContexto();

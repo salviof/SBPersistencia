@@ -11,9 +11,9 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -32,7 +32,7 @@ public abstract class UtilSBPersistenciaFabricas {
     private static List<ItemFabricaObjeto> listaRegistros(Class pFabrica) {
         List<ItemFabricaObjeto> lista = new ArrayList<>();
         for (Object obj : pFabrica.getEnumConstants()) {
-            lista.add(new ItemFabricaObjeto((ItfFabrica) obj));
+            lista.add(new ItemFabricaObjeto((ComoFabrica) obj));
 
         }
         return lista;
@@ -89,7 +89,7 @@ public abstract class UtilSBPersistenciaFabricas {
      * Realiza a persistencia de todos os registros obtidos com getRegistro da
      * fábrica Ordena por id, e persiste
      *
-     * @param pFabrica Enum que extende ItfFabrica e retorna entidades
+     * @param pFabrica Enum que extende ComoFabrica e retorna entidades
      * persistiveis no getRegistro
      * @param pEM Gerenciamento de sessão
      * @param pTipoOrdem Especifica a ordem da gravação (podendo ser pelo id do
@@ -117,7 +117,7 @@ public abstract class UtilSBPersistenciaFabricas {
                 for (ItemFabricaObjeto item : lista) {
                     try {
 
-                        persistir((ItfBeanSimplesSomenteLeitura) item.getObjeto(), pEM, item.getFabrica());
+                        persistir((ComoEntidadeSimplesSomenteLeitura) item.getObjeto(), pEM, item.getFabrica());
 
                     } catch (Throwable t) {
                         throw new UnsupportedOperationException("Erro Persistindo registro de Fabrica de objetos:" + pFabrica.getName() + "em->" + pFabrica.getSimpleName() + "->" + item, t);
@@ -132,20 +132,20 @@ public abstract class UtilSBPersistenciaFabricas {
 
     }
 
-    private static void persistir(ItfBeanSimplesSomenteLeitura entidade, EntityManager pEm, ItfFabrica pFabrica) {
+    private static void persistir(ComoEntidadeSimplesSomenteLeitura entidade, EntityManager pEm, ComoFabrica pFabrica) {
         Object registroGerado = null;
 
         try {
             // UtilSBPersistencia.iniciarTransacao(pEm);
             if (entidade.getId() != null && entidade.getId() != 0) {
-                registroGerado = UtilSBPersistencia.getRegistroByID((Class<? extends ItfBeanSimples>) entidade.getClass(), entidade.getId(), pEm);
+                registroGerado = UtilSBPersistencia.getRegistroByID((Class<? extends ComoEntidadeSimples>) entidade.getClass(), entidade.getId(), pEm);
             }
 
             if (registroGerado == null) {
                 boolean persistirComMerge = false;
                 if (UtilSBPersistenciaReflexao.possuiIdeAutogerado(entidade.getClass())) {
 
-                    if (((ItfBeanSimples) entidade).getId() != null && ((ItfBeanSimples) entidade).getId() >= 1000
+                    if (((ComoEntidadeSimples) entidade).getId() != null && ((ComoEntidadeSimples) entidade).getId() >= 1000
                             && !UtilSBPersistenciaReflexao.possuiIdeAutogeradoDessasEstrategias(entidade.getClass(), GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_NOME_UNICO,
                                     GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_BAIRRO, GERADOR_ID_ESTRATEGIA_CONHECIDA.GERADOR_ID_CIDADE, GERADOR_ID_ESTRATEGIA_CONHECIDA.OBJETO_VINCULADO_ENUM)) {
                         // id gerido pelo usuário
@@ -155,7 +155,7 @@ public abstract class UtilSBPersistenciaFabricas {
                         }
                     } else {
                         //id autoincremental deixa persistir nulo, e confia na sequencia lógica de declaração das fabricas
-                        ((ItfBeanSimples) entidade).setId(null);
+                        ((ComoEntidadeSimples) entidade).setId(null);
                     }
 
                 }
@@ -176,14 +176,14 @@ public abstract class UtilSBPersistenciaFabricas {
                 throw new UnsupportedOperationException("A entidade não pode ser armazenada " + entidade.toString() + " - " + entidade.getNome() + "" + pFabrica);
             }
             pEm.refresh(registroGerado);
-            ItfBeanSimples objetoPersistido = (ItfBeanSimples) registroGerado;
+            ComoEntidadeSimples objetoPersistido = (ComoEntidadeSimples) registroGerado;
             System.out.println("Gerado Registro: " + objetoPersistido.getClass().getSimpleName() + " " + objetoPersistido.getId() + " - " + objetoPersistido.getNome());
             //  UtilSBPersistencia.finalizarTransacao(pEm);
         } catch (Throwable t) {
             String textoEntidade = "Nulo";
             if (entidade != null) {
                 try {
-                    ItfBeanSimplesSomenteLeitura bsimples = (ItfBeanSimplesSomenteLeitura) entidade;
+                    ComoEntidadeSimplesSomenteLeitura bsimples = (ComoEntidadeSimplesSomenteLeitura) entidade;
                     textoEntidade = entidade.getClass().getSimpleName() + "-" + " " + bsimples.getId() + " - " + bsimples.getNome();
                 } catch (Throwable CastExThrowable) {
 

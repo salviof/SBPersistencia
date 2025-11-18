@@ -8,34 +8,33 @@ package com.super_bits.modulosSB.Persistencia.centralLocalizacao;
 import br.org.coletivoJava.fw.api.erp.codigoPostal.br.ERPCodigoPostalBR;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Bairro;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.FabUnidadesFederativas;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 
-import com.super_bits.modulosSB.SBCore.modulos.localizacao.ItfCentralLocalizacao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanLocalizavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeLocalizavel;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
 import java.util.ArrayList;
 import java.util.List;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.localizacao.CmoServicoLocalizacao;
 
 /**
  *
  * @author desenvolvedor
  */
-public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
+public class CentralLocalizacaoSBPersistencia implements CmoServicoLocalizacao {
 
     @Override
-    public List<ItfUnidadeFederativa> getUnidadesFederativas() {
+    public List<ComoUnidadeFederativa> getUnidadesFederativas() {
 
         return (List) UtilSBPersistencia.getListaTodos(UnidadeFederativa.class, UtilSBPersistencia.getEMDoContexto());
     }
 
     @Override
-    public List<ItfCidade> gerarListaDeCidades(String pNomePesquisa, ItfUnidadeFederativa pUnidadeFederativa) {
+    public List<ComoCidade> gerarListaDeCidades(String pNomePesquisa, ComoUnidadeFederativa pUnidadeFederativa) {
         try {
             if (pUnidadeFederativa == null) {
                 throw new UnsupportedOperationException("O parametro estado não foi enviado para pesquisa de cidades");
@@ -53,7 +52,7 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
     }
 
     @Override
-    public List<ItfBairro> gerarListaDeBairros(String pNomePesquisa, ItfCidade pCidade) {
+    public List<ComoBairro> gerarListaDeBairros(String pNomePesquisa, ComoCidade pCidade) {
         try {
             if (pCidade == null) {
                 throw new UnsupportedOperationException("O parametro estado não foi enviado para pesquisa de cidades");
@@ -71,7 +70,7 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
     }
 
     @Override
-    public List<ItfCidade> gerarListaDeCidades(String pNomePesquisa, ItfUnidadeFederativa pUnidadeFederativa, String parametroEspecial) {
+    public List<ComoCidade> gerarListaDeCidades(String pNomePesquisa, ComoUnidadeFederativa pUnidadeFederativa, String parametroEspecial) {
         try {
             if (pUnidadeFederativa == null) {
                 throw new UnsupportedOperationException("O parametro estado não foi enviado para pesquisa de cidades");
@@ -89,33 +88,33 @@ public class CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
     }
 
     @Override
-    public List<ItfBairro> gerarListaDeBairros(String pNomePesquisa, ItfCidade pCidade, String parametroEspecial) {
+    public List<ComoBairro> gerarListaDeBairros(String pNomePesquisa, ComoCidade pCidade, String parametroEspecial) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void configurarPosicionamento(ItfLocal pLocal) {
+    public void configurarPosicionamento(ComoLocal pLocal) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void configurarCep(ItfLocal pLocal) {
+    public void configurarCep(ComoLocal pLocal) {
         SBCore.getServicoLocalizacao().getImplementacaoPadraoApiCep().getImplementacaoDoContexto().cepsPorEndereco(pLocal.toString());
 
     }
 
     @Override
-    public void configurarEndereco(String cep, ItfLocal pLocal) {
+    public void configurarEndereco(String cep, ComoLocal pLocal) {
         getImplementacaoPadraoApiCep().getImplementacaoDoContexto().configuraEndereco(cep, pLocal);
     }
 
     @Override
-    public boolean salvarFlexivel(ItfBeanLocalizavel pBeanLocalizava) {
+    public boolean salvarFlexivel(ComoEntidadeLocalizavel pBeanLocalizava) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ItfBairro instanciarNovoBairo(String pBairro, ItfCidade pCidade) {
+    public ComoBairro instanciarNovoBairo(String pBairro, ComoCidade pCidade) {
         Bairro novoBairro = new Bairro();
         novoBairro.setCidade(pCidade);
         novoBairro.setNome(pBairro);

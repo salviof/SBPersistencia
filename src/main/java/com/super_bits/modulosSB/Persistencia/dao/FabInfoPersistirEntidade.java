@@ -5,13 +5,13 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
  *
  * @author sfurbino
  */
-public enum FabInfoPersistirEntidade implements ItfFabrica {
+public enum FabInfoPersistirEntidade implements ComoFabrica {
 
     MERGE, DELETE, INSERT;
 

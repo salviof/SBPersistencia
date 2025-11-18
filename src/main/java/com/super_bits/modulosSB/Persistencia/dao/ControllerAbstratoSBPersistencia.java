@@ -14,8 +14,9 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.comunicacao.RespostaAc
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanNormal;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeNormal;
+
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -47,7 +48,7 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
      * @param pEntidade
      * @return
      */
-    protected static ItfRespostaAcaoDoSistema getNovaRespostaAutorizaChecaNulo(ItfBeanSimples pEntidade) {
+    protected static ItfRespostaAcaoDoSistema getNovaRespostaAutorizaChecaNulo(ComoEntidadeSimples pEntidade) {
         try {
             if (pEntidade == null) {
                 throw new UnsupportedOperationException("Entidade não enviada para execução de atividade");
@@ -65,11 +66,11 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
         }
     }
 
-    protected static void persistirTodasEntidadesVinculadas(ItfResposta pResp, ItfBeanSimples pEntidade, EntityManager pEM) {
+    protected static void persistirTodasEntidadesVinculadas(ItfResposta pResp, ComoEntidadeSimples pEntidade, EntityManager pEM) {
         persistirEntidadeComEntidadesVinculadas(pResp, pEntidade, pEM, 3);
     }
 
-    protected static void persistirEntidadeComEntidadesVinculadas(ItfResposta pResp, ItfBeanSimples pEntidade, EntityManager pEM, int quantidadeDemanda) {
+    protected static void persistirEntidadeComEntidadesVinculadas(ItfResposta pResp, ComoEntidadeSimples pEntidade, EntityManager pEM, int quantidadeDemanda) {
 
         try {
 
@@ -93,10 +94,10 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
                 Object novaEntidade = null;
                 try {
                     novaEntidade = pEntidade.getValorCampoByCaminhoCampo(campo);
-                    ItfBeanSimples entidade = null;
+                    ComoEntidadeSimples entidade = null;
                     if (novaEntidade != null) {
                         try {
-                            entidade = (ItfBeanSimples) novaEntidade;
+                            entidade = (ComoEntidadeSimples) novaEntidade;
                         } catch (Throwable tt) {
                             //System.out.println("Campo não é do tipo bean Simples TODO solução melhor para isso");
                         }
@@ -109,7 +110,7 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
 
                     String nomeEntidadeErro = "Registro indefinido";
                     try {
-                        nomeEntidadeErro = ((ItfBeanSimples) novaEntidade).getNomeDoObjeto();
+                        nomeEntidadeErro = ((ComoEntidadeSimples) novaEntidade).getNomeDoObjeto();
                     } catch (Throwable tn) {
                         SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro obtendo nome da entidade", tn);
                     }
@@ -139,7 +140,7 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
 
     }
 
-    protected static void alterarStatus(ItfResposta pResposta, ItfBeanNormal pEntidade, EntityManager pem) {
+    protected static void alterarStatus(ItfResposta pResposta, ComoEntidadeNormal pEntidade, EntityManager pem) {
         try {
             UtilSBPersistencia.iniciarTransacao(pem);
             String nomeAcao = "Ativar";

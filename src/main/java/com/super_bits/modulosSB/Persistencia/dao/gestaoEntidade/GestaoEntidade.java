@@ -6,8 +6,8 @@
 package com.super_bits.modulosSB.Persistencia.dao.gestaoEntidade;
 
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoController;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoController;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.gestaoObjeto.ItfGestaoObjeto;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -28,27 +28,27 @@ public class GestaoEntidade<T> implements ItfGestaoObjeto<T> {
     }
 
     @Override
-    public List<ItfAcaoDoSistema> getAcoesDisponiveis() {
+    public List<ComoAcaoDoSistema> getAcoesDisponiveis() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ItfAcaoDoSistema> getAcoesDeFormularioObjetoSelecionado() {
+    public List<ComoAcaoDoSistema> getAcoesDeFormularioObjetoSelecionado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ItfAcaoDoSistema> getAcoesDeFormularioNovoObjeto() {
+    public List<ComoAcaoDoSistema> getAcoesDeFormularioNovoObjeto() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ItfResposta executarAcaoController(ItfAcaoController pAcaoExecucao) {
+    public ItfResposta executarAcaoController(ComoAcaoController pAcaoExecucao) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void executarAcaoFormulario(ItfAcaoController pAcaoExecucao) {
+    public void executarAcaoFormulario(ComoAcaoController pAcaoExecucao) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

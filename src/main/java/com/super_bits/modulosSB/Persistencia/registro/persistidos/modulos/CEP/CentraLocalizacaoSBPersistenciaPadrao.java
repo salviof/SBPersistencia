@@ -9,16 +9,15 @@ import com.super_bits.modulosSB.Persistencia.centralLocalizacao.CentralLocalizac
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.localizacao.ItfCentralLocalizacao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanLocalizavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeLocalizavel;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.localizacao.CmoServicoLocalizacao;
 
 /**
  *
@@ -26,12 +25,12 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  *
  */
-public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBPersistencia implements ItfCentralLocalizacao {
+public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBPersistencia implements CmoServicoLocalizacao {
 
     private EntityManager emLocalizacao;
 
     @Override
-    public List<ItfUnidadeFederativa> getUnidadesFederativas() {
+    public List<ComoUnidadeFederativa> getUnidadesFederativas() {
         List<UnidadeFederativa> lista;
 
         emLocalizacao = UtilSBPersistencia.getEMDoContexto();
@@ -47,7 +46,7 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
     }
 
     @Override
-    public List<ItfCidade> gerarListaDeCidades(String pNomePesquisa, ItfUnidadeFederativa pUnidadeFederativa) {
+    public List<ComoCidade> gerarListaDeCidades(String pNomePesquisa, ComoUnidadeFederativa pUnidadeFederativa) {
         try {
 
             emLocalizacao = UtilSBPersistencia.getEMDoContexto();
@@ -58,7 +57,7 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
             if (uf == null) {
                 return new ArrayList<>();
             }
-            List<ItfCidade> todasCidades = uf.getCidades();
+            List<ComoCidade> todasCidades = uf.getCidades();
 
             return UtilSBCoreListasObjeto.filtrarOrdenandoMaisParecidos(todasCidades, pNomePesquisa, 5);
 
@@ -70,18 +69,18 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
     }
 
     @Override
-    public List<ItfBairro> gerarListaDeBairros(String pNomePesquisa, ItfCidade pCidade, String parametroEspecial) {
+    public List<ComoBairro> gerarListaDeBairros(String pNomePesquisa, ComoCidade pCidade, String parametroEspecial) {
         try {
 
             EntityManager em = UtilSBPersistencia.getNovoEM();
 
             Cidade cidade = UtilSBPersistencia.loadEntidade(pCidade, emLocalizacao);
 
-            List<ItfBairro> todosOsBairros = cidade.getBairros();
+            List<ComoBairro> todosOsBairros = cidade.getBairros();
 
             List<Cidade> listaEncontrada = new ArrayList<>();
 
-            for (ItfBairro bairro : todosOsBairros) {
+            for (ComoBairro bairro : todosOsBairros) {
 
                 if (bairro.getNome().toLowerCase().contains(pNomePesquisa)) {
                     listaEncontrada.add((Cidade) bairro);
@@ -99,7 +98,7 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
     }
 
     @Override
-    public boolean salvarFlexivel(ItfBeanLocalizavel pBeanLocalizavel) {
+    public boolean salvarFlexivel(ComoEntidadeLocalizavel pBeanLocalizavel) {
         EntityManager em = UtilSBPersistencia.getNovoEM();
         UtilSBPersistencia.iniciarTransacao(em);
         UnidadeFederativa uf = UtilSBPersistencia.mergeRegistro(pBeanLocalizavel.getLocalizacao().getBairro().getCidade().getUnidadeFederativa());

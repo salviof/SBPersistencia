@@ -6,9 +6,9 @@
 package com.super_bits.modulosSB.Persistencia.fabrica;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.utilCoreBase.UtilSBCoreFabrica;
@@ -17,7 +17,7 @@ import org.coletivojava.fw.utilCoreBase.UtilSBCoreFabrica;
  *
  * @author sfurbino
  */
-public interface ItfFabricaComPersistencia extends ItfFabrica {
+public interface ComoFabricaComPersistencia extends ComoFabrica {
 
     /**
      *
@@ -31,7 +31,7 @@ public interface ItfFabricaComPersistencia extends ItfFabrica {
         return UtilSBPersistencia.getRegistroByID(infoItem.classeObjeto(), (long) infoItem.id(), pEm);
     }
 
-    public default Object getObjetoReuso(Map<String, Object> objetos, ItfFabricaComPersistencia pObjeto) {
+    public default Object getObjetoReuso(Map<String, Object> objetos, ComoFabricaComPersistencia pObjeto) {
         if (pObjeto == null) {
             return null;
         }

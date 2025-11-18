@@ -7,7 +7,7 @@ package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -68,6 +68,6 @@ public abstract class ConfigPersistenciaPadrao implements ItfConfigSBPersistenci
     }
 
     @Override
-    public abstract Class<? extends ItfFabrica>[] fabricasRegistrosIniciais();
+    public abstract Class<? extends ComoFabrica>[] fabricasRegistrosIniciais();
 
 }

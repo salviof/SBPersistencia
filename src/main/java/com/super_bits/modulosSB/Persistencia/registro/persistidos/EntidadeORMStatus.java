@@ -5,35 +5,35 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabricaStatus;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoStatus;
 import java.util.List;
 
 /**
  *
  * @author desenvolvedor
  */
-public class EntidadeStatus extends EntidadeSimples implements ItfBeanStatus {
+public class EntidadeORMStatus extends EntidadeSimplesORM implements ComoStatus {
 
-    public EntidadeStatus() {
+    public EntidadeORMStatus() {
         super();
         adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.STATUS_ENUM), true);
     }
 
     @Override
-    public ItfFabricaStatus getStatusEnum() {
-        return (ItfFabricaStatus) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.STATUS_ENUM);
+    public ComoFabricaStatus getStatusEnum() {
+        return (ComoFabricaStatus) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.STATUS_ENUM);
     }
 
     @Override
-    public void setStatusEnum(ItfFabricaStatus pFab) {
+    public void setStatusEnum(ComoFabricaStatus pFab) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.STATUS_ENUM, pFab);
     }
 
-    public List<ItfAcaoDoSistema> getAcoesDisponiveis() {
+    public List<ComoAcaoDoSistema> getAcoesDisponiveis() {
         return getStatusEnum().opcoesPorStatus();
     }
 

@@ -13,8 +13,8 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -475,10 +475,13 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @return Objeto atualizado apos ser persistido em banco,e nulo caso ocorra
      * falha
      */
-    public static <I extends ItfBeanSimples> I mergeRegistro(Object obj, EntityManager pEm) {
+    public static <I extends ComoEntidadeSimples> I mergeRegistro(Object obj, EntityManager pEm) {
+        if (((ComoEntidadeSimples) obj).getId() == null) {
+            return (I) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(obj, null, pEm, FabInfoPersistirEntidade.INSERT));
+        } else {
 
-        return (I) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(obj, null, pEm, FabInfoPersistirEntidade.MERGE));
-
+            return (I) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(obj, null, pEm, FabInfoPersistirEntidade.MERGE));
+        }
     }
 
     /**
@@ -492,7 +495,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @return Objeto atualizado apos ser persistido em banco,e nulo caso ocorra
      * falha
      */
-    public static <I extends ItfBeanSimples> I mergeRegistro(Object object) {
+    public static <I extends ComoEntidadeSimples> I mergeRegistro(Object object) {
         if (object == null) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "O registro enviado para Persistencia é nulo ", null);
             return null;
@@ -536,8 +539,8 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pEM Entidade utilizada
      * @return retorna True se persistido e False se algum erro acontecer
      */
-    public static ItfBeanSimples persistirRegistro(Object pObj, EntityManager pEM) {
-        return (ItfBeanSimples) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(pObj, null, pEM, FabInfoPersistirEntidade.INSERT));
+    public static ComoEntidadeSimples persistirRegistro(Object pObj, EntityManager pEM) {
+        return (ComoEntidadeSimples) SBPersistencia.getDriverFWBanco().executaAlteracaoEmBancao(new InfoPerisistirEntidade(pObj, null, pEM, FabInfoPersistirEntidade.INSERT));
     }
 
     /**
@@ -812,7 +815,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pEM Entity manager utlizado
      * @return
      */
-    public static <I extends ItfBeanSimples> I loadEntidade(ItfBeanSimplesSomenteLeitura pBeanSimples, EntityManager pEM) {
+    public static <I extends ComoEntidadeSimples> I loadEntidade(ComoEntidadeSimplesSomenteLeitura pBeanSimples, EntityManager pEM) {
         try {
             if (pBeanSimples == null) {
                 throw new UnsupportedOperationException("Tentativa de carregar o Registro JPA enviando o valor nulo");
@@ -867,7 +870,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pEM
      * @return
      */
-    public static <I extends ItfBeanSimples> I getRegistroByPrimeiro(Class pClasse, EntityManager pEM) {
+    public static <I extends ComoEntidadeSimples> I getRegistroByPrimeiro(Class pClasse, EntityManager pEM) {
         return (I) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.PRIMEIRO_REGISTRO);
 
     }
@@ -881,12 +884,12 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param pNomeEM nome da entidade
      * @return registro encontrado
      */
-    public static <T extends ItfBeanSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
+    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
         return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
 
     }
 
-    public static <T extends ItfBeanSimples> T getRegistroByID(Class<T> pClasse, Long id) {
+    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id) {
         return getRegistroByID(pClasse, id, null);
     }
 
@@ -1080,13 +1083,13 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return (Long) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
     }
 
-    public static Object superMerge(ItfBeanSimples pEntidade, EntityManager em) {
+    public static Object superMerge(ComoEntidadeSimples pEntidade, EntityManager em) {
 
         throw new UnsupportedOperationException();
 
     }
 
-    public static void isEntidadeFoiCarregada(ItfBeanSimples entidade, EntityManager pEm) {
+    public static void isEntidadeFoiCarregada(ComoEntidadeSimples entidade, EntityManager pEm) {
         PersistenceUnitUtil unitUtil = pEm.getEntityManagerFactory().getPersistenceUnitUtil();
 
         unitUtil.isLoaded(entidade);

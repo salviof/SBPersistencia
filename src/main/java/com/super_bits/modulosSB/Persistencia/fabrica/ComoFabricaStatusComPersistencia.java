@@ -5,12 +5,12 @@
  */
 package com.super_bits.modulosSB.Persistencia.fabrica;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabricaStatus;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaStatus;
 
 /**
  *
  * @author desenvolvedor
  */
-public interface ItfFabricaStatusComPersistencia extends ItfFabricaComPersistencia, ItfFabricaStatus {
+public interface ComoFabricaStatusComPersistencia extends ComoFabricaComPersistencia, ComoFabricaStatus {
 
 }

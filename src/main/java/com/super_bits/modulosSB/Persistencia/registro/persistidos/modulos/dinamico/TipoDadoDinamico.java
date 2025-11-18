@@ -6,12 +6,12 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.dinamico;
 
 import com.google.common.collect.Lists;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
@@ -25,7 +25,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TIPO_PRI
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TipoAtributoMetodosBase;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoEditavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
@@ -53,7 +53,7 @@ import javax.persistence.Transient;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoJPATipoDadoDinamico")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class TipoDadoDinamico extends EntidadeSimples implements ItfAtributoObjetoEditavel {
+public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoObjetoEditavel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,7 +93,7 @@ public class TipoDadoDinamico extends EntidadeSimples implements ItfAtributoObje
     private String objetoReferente;
     @Transient
     @InfoCampo(tipo = FabTipoAtributoObjeto.LISTA_OBJETOS_PARTICULARES)
-    private List<ItfBeanSimples> listaDeOpcoes;
+    private List<ComoEntidadeSimples> listaDeOpcoes;
 
     @ElementCollection
     private Map<String, String> listaOpcoesTemplate;
@@ -206,7 +206,7 @@ public class TipoDadoDinamico extends EntidadeSimples implements ItfAtributoObje
     }
 
     @Override
-    public List<ItfBeanSimples> getListaDeOpcoes() {
+    public List<ComoEntidadeSimples> getListaDeOpcoes() {
         if (getNomeClasseAtributoDeclarado() != null
                 && getNomeClasseAtributoDeclarado().equals(OpcaoDadoDinamico.class.getSimpleName())) {
             return (List) getOpcoesPersonalizada();
@@ -326,7 +326,7 @@ public class TipoDadoDinamico extends EntidadeSimples implements ItfAtributoObje
     }
 
     @Override
-    public void setListaDeOpcoes(List<ItfBeanSimples> pLista) {
+    public void setListaDeOpcoes(List<ComoEntidadeSimples> pLista) {
         System.out.println("SetLista de opcoes está desabilitado");
     }
 
@@ -608,12 +608,12 @@ public class TipoDadoDinamico extends EntidadeSimples implements ItfAtributoObje
     }
 
     @Override
-    public void setEnumVinculado(ItfFabrica pFabrica) {
+    public void setEnumVinculado(ComoFabrica pFabrica) {
         fabricaTipoAtributo = (FabTipoAtributoObjeto) pFabrica;
     }
 
     @Override
-    public ItfFabrica getEnumVinculado() {
+    public ComoFabrica getEnumVinculado() {
         return fabricaTipoAtributo;
 
     }

@@ -6,12 +6,12 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ItfAcaoDoSistema;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.rmi.UnexpectedException;
@@ -21,10 +21,10 @@ import javax.persistence.PrePersist;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.coletivojava.fw.utilCoreBase.UtilSBCoreComunicacao;
 
-public abstract class EntidadeSimples extends EntidadeGenerica implements
-        ItfBeanSimples {
+public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
+        ComoEntidadeSimples {
 
-    public EntidadeSimples() {
+    public EntidadeSimplesORM() {
         super();
 
         //adcionaCampoEsperado(new CampoEsperado(TC.IMG_PEQUENA, CInfo.SITE_URL
@@ -154,7 +154,7 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
 
     }
 
-    public List<ItfBeanSimples> listaOpcoes(ItfBeanSimples objeto) {
+    public List<ComoEntidadeSimples> listaOpcoes(ComoEntidadeSimples objeto) {
         return (List) UtilSBPersistencia.getListaTodos(objeto.getClass());
 
     }
@@ -265,8 +265,8 @@ public abstract class EntidadeSimples extends EntidadeGenerica implements
     }
 
     @Override
-    public List<ItfAcaoDoSistema> getAcoesDisponiveis() {
-        return ItfBeanSimples.super.getAcoesDisponiveis(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    public List<ComoAcaoDoSistema> getAcoesDisponiveis() {
+        return ComoEntidadeSimples.super.getAcoesDisponiveis(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
 }

@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanVinculadoAEnum;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeVinculadoAEnum;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -21,7 +21,7 @@ public class GeradorIDObjVinculadoEnum implements IdentifierGenerator {
     @Override
     public Serializable generate(SharedSessionContractImplementor ssci, Object pObj) throws HibernateException {
         try {
-            ItfBeanVinculadoAEnum objVinculado = ((ItfBeanVinculadoAEnum) pObj);
+            ComoEntidadeVinculadoAEnum objVinculado = ((ComoEntidadeVinculadoAEnum) pObj);
 
             return UtilSBCoreGeradorDeID.gerarIdUnicoObejtoVinculadoAFabrica(objVinculado);
 

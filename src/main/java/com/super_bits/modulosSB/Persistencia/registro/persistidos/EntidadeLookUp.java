@@ -4,7 +4,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoLookUp;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
-public class EntidadeLookUp extends EntidadeSimples {
+public class EntidadeLookUp extends EntidadeSimplesORM {
 
     public EntidadeLookUp() {
         super();

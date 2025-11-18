@@ -7,9 +7,9 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistenciaListener;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanComStatus;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoStatus;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.PostLoad;
@@ -31,11 +31,11 @@ public class ListenerEntidadePadrao {
     protected transient Map<String, Object> propriedadesEstadoAnterior = new HashMap<>();
 
     @PostLoad
-    protected void objetoEstadoAnterior(ItfBeanSimples pEntidade) {
+    protected void objetoEstadoAnterior(ComoEntidadeSimples pEntidade) {
 
-        if (pEntidade instanceof ItfBeanComStatus) {
-            ItfBeanComStatus bst = (ItfBeanComStatus) pEntidade;
-            ItfBeanStatus sts = bst.getStatusPrincipal();
+        if (pEntidade instanceof ComoTemStatus) {
+            ComoTemStatus bst = (ComoTemStatus) pEntidade;
+            ComoStatus sts = bst.getStatusPrincipal();
             if (sts != null) {
                 propriedadesEstadoAnterior.put(sts.getClass().getSimpleName(), sts);
 
@@ -46,40 +46,40 @@ public class ListenerEntidadePadrao {
 
     }
 
-    public void protegerSenhas(ItfBeanSimples pEntidade) {
+    public void protegerSenhas(ComoEntidadeSimples pEntidade) {
 
         UtilSBPersistenciaListener.protegerSenhas(pEntidade);
     }
 
     @PrePersist
-    public void acaoAntesDePersistir(ItfBeanSimples pEntidade) {
+    public void acaoAntesDePersistir(ComoEntidadeSimples pEntidade) {
         UtilSBPersistenciaListener.acaoPadraoAntesPersistirNovoRegistro(pEntidade);
 
     }
 
     @PreUpdate
-    public void acaoAntesDeAtualizar(ItfBeanSimples pEntidade) {
+    public void acaoAntesDeAtualizar(ComoEntidadeSimples pEntidade) {
         UtilSBPersistenciaListener.acaoPadraoAntesDeAtualizar(pEntidade);
     }
 
     @PostUpdate
-    public void acaoAposAtualizar(ItfBeanSimples emp) {
+    public void acaoAposAtualizar(ComoEntidadeSimples emp) {
 
         UtilSBPersistenciaListener.acaoPadraoDepoisDeAtualizar(emp);
     }
 
     @PostPersist
-    public void acaoAposPersistir(ItfBeanSimples emp) {
+    public void acaoAposPersistir(ComoEntidadeSimples emp) {
         UtilSBPersistenciaListener.acaoPadraoAposPersistirNovo(emp);
     }
 
     @PreRemove
-    private void acaoAntesRemover(ItfBeanSimples emp) {
+    private void acaoAntesRemover(ComoEntidadeSimples emp) {
 
     }
 
     @PostRemove
-    public void acaoAposRemover(ItfBeanSimples emp) {
+    public void acaoAposRemover(ComoEntidadeSimples emp) {
 
     }
 

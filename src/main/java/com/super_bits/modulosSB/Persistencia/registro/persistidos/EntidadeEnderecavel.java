@@ -9,9 +9,10 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanEnderecavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemEndereco;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 /**
  *
@@ -21,7 +22,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  * @deprecated Utilizar classe Contato
  */
 @Deprecated
-public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfBeanEnderecavel {
+public abstract class EntidadeEnderecavel extends EntidadeORMNormal implements ComoTemEndereco {
 
     //private LatLng localizacao;
     public EntidadeEnderecavel() {
@@ -99,18 +100,18 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
     }
 
     @Override
-    public ItfLocalPostagem getLocalizacao() {
+    public ComoLocalPostagem getLocalizacao() {
         try {
             Object teste;
-            ItfLocalPostagem localPostagem = (ItfLocalPostagem) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOCALIZACAO);
+            ComoLocalPostagem localPostagem = (ComoLocalPostagem) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOCALIZACAO);
             return localPostagem;
         } catch (Throwable t) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Impossível obter o campo localizacao do tipo: " + ItfLocalPostagem.class.getSimpleName() + " na classe: " + this.getClass().getSimpleName(), t);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Impossível obter o campo localizacao do tipo: " + ComoLocalPostagem.class.getSimpleName() + " na classe: " + this.getClass().getSimpleName(), t);
             return null;
         }
     }
 
-    public void setLocalizacao(ItfLocalPostagem pLocal) {
+    public void setLocalizacao(ComoLocalPostagem pLocal) {
         setValorByTipoCampoEsperado(FabTipoAtributoObjeto.LC_LOCALIZACAO, pLocal);
 
     }
@@ -120,7 +121,7 @@ public abstract class EntidadeEnderecavel extends EntidadeNormal implements ItfB
 
         setLocalizacao(new LocalizacaoPostavel());
         getLocalizacao().setBairro(new Bairro());
-        getLocalizacao().getBairro().setCidade(new Cidade());
+        getLocalizacao().getBairro().setCidade((ComoCidade) new Cidade());
         getLocalizacao().getBairro().getCidade().setUnidadeFederativa(new UnidadeFederativa());
     }
 

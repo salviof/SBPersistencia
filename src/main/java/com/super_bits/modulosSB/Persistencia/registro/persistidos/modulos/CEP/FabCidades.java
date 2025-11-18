@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringsCammelCase;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.coletivojava.fw.utilCoreBase.UtilSBCoreFabrica;
  *
  * @author desenvolvedor
  */
-public enum FabCidades implements ItfFabrica {
+public enum FabCidades implements ComoFabrica {
 
     BELO_HORIZONTE, CONTAGEM, Baldim,
     Betim, Brumadinho,

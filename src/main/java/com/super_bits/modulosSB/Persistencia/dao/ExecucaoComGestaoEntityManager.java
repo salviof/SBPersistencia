@@ -7,8 +7,8 @@ package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -149,7 +149,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Executando merge em " + pObjeto, t);
             if (pObjeto != null) {
-                throw new ErroEmBancoDeDados(t, (ItfBeanSimples) pObjeto);
+                throw new ErroEmBancoDeDados(t, (ComoEntidadeSimples) pObjeto);
             } else {
                 throw new ErroEmBancoDeDados(t, null);
             }
@@ -160,7 +160,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
     public boolean remover(Object pObjeto) throws ErroEmBancoDeDados {
 
         try {
-            pObjeto = UtilSBPersistencia.loadEntidade((ItfBeanSimplesSomenteLeitura) pObjeto, getEm());
+            pObjeto = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) pObjeto, getEm());
             if (pObjeto != null) {
                 getEm().remove(pObjeto);
             }
@@ -169,7 +169,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Executando merge em " + pObjeto, t);
             if (pObjeto != null) {
-                throw new ErroEmBancoDeDados(t, (ItfBeanSimples) pObjeto);
+                throw new ErroEmBancoDeDados(t, (ComoEntidadeSimples) pObjeto);
             } else {
                 throw new ErroEmBancoDeDados(t, null);
             }

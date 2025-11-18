@@ -5,7 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.testes;
 
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimples;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -19,7 +19,7 @@ import javax.persistence.ManyToOne;
  */
 @Entity
 @InfoObjetoSB(tags = {"Entidade teste"}, plural = "Entidades teste simples")
-public class RegistroTesteSimples extends EntidadeSimples {
+public class RegistroTesteSimples extends EntidadeSimplesORM {
 
     public RegistroTesteSimples() {
         super();
@@ -56,7 +56,7 @@ public class RegistroTesteSimples extends EntidadeSimples {
         this.nome = nome;
     }
 
-    public EntidadeSimples getObjetoTeste() {
+    public EntidadeSimplesORM getObjetoTeste() {
         return objetoTeste;
     }
 

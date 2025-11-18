@@ -5,14 +5,14 @@
  */
 package model;
 
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
 
 /**
  *
  * @author desenvolvedor
  */
-public enum FabResgistroInicialTeste implements ItfFabricaComPersistencia {
+public enum FabResgistroInicialTeste implements ComoFabricaComPersistencia {
 
     @InfoObjetoDaFabrica(id = 1, nomeObjeto = "Registro 1")
     REGISTRO1,

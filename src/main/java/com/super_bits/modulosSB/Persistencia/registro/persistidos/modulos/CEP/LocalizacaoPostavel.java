@@ -8,8 +8,8 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
 import javax.persistence.Entity;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 /**
  *
@@ -17,7 +17,7 @@ import javax.persistence.Entity;
  */
 @Entity
 @InfoObjetoSB(tags = {"Endereço"}, plural = "Endereços")
-public class LocalizacaoPostavel extends Localizacao implements ItfLocalPostagem {
+public class LocalizacaoPostavel extends Localizacao implements ComoLocalPostagem {
 
     @InfoCampo(label = "logradouro", tipo = FabTipoAtributoObjeto.LC_LOGRADOURO)
     private String logradouro;
@@ -47,15 +47,15 @@ public class LocalizacaoPostavel extends Localizacao implements ItfLocalPostagem
 
     @Override
     public boolean isLocaPostavel() {
-        return (this instanceof ItfLocalPostagem);
+        return (this instanceof ComoLocalPostagem);
     }
 
     @Override
-    public ItfLocalPostagem getComoLocalPostavel() {
+    public ComoLocalPostagem getComoLocalPostavel() {
         if (!isLocaPostavel()) {
             throw new UnsupportedOperationException("Este local não é postável, impossível usar o framework de CEP");
         }
-        return (ItfLocalPostagem) this;
+        return (ComoLocalPostagem) this;
     }
 
 }

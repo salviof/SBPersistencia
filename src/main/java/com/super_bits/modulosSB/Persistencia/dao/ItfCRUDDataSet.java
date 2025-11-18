@@ -5,14 +5,14 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.List;
 
 /**
  *
  * @author Marcos Vinicius
  */
-public interface ItfCRUDDataSet<T extends ItfBeanSimples> {
+public interface ItfCRUDDataSet<T extends ComoEntidadeSimples> {
 
     public void anterior();
 

@@ -12,7 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEn
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfEstruturaCampoEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,7 @@ public abstract class UtilSBPersistenciaValidacao {
 
     }
 
-    public static List<String> getCamposNaoIdentificadosHibernate(ItfBeanSimples pObjeto) {
+    public static List<String> getCamposNaoIdentificadosHibernate(ComoEntidadeSimples pObjeto) {
         List<String> campos = new ArrayList<>();
         try {
             Class classeVinculada = pObjeto.getClass();

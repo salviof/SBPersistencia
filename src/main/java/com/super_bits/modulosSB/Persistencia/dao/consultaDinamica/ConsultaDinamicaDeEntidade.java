@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.dao.consultaDinamica;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.calculosListagens.FabTipoFiltroCalculo;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class ConsultaDinamicaDeEntidade {
         this.entidadePrincipal = entidadePrincipal;
     }
 
-    public ConsultaDinamicaDeEntidade addCondicaoManyToOneContemNoIntervalo(String pCaminhoCampoCondicao, List<? extends ItfBeanSimples> pEtidadesManyToOne) {
+    public ConsultaDinamicaDeEntidade addCondicaoManyToOneContemNoIntervalo(String pCaminhoCampoCondicao, List<? extends ComoEntidadeSimples> pEtidadesManyToOne) {
         if (pEtidadesManyToOne.isEmpty()) {
             return this;
         }
@@ -58,14 +58,14 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
-    public ConsultaDinamicaDeEntidade addCondicaoManyToOneIgualA(ItfBeanSimples pEtidadeManyToOne) {
+    public ConsultaDinamicaDeEntidade addCondicaoManyToOneIgualA(ComoEntidadeSimples pEtidadeManyToOne) {
         CondicaoConsulta condManyToOneAutoConfig = new CondicaoConsulta(this, FabTipoCondicaoJPQL.MANY_TO_ONE_IGUAL_AUTO);
         condManyToOneAutoConfig.setValorParametro(pEtidadeManyToOne);
         condicoes.add(condManyToOneAutoConfig);
         return this;
     }
 
-    public ConsultaDinamicaDeEntidade addCondicaoManyToOneIgualA(String pCaminhoCampoCondicao, ItfBeanSimples pEtidadeManyToOne) {
+    public ConsultaDinamicaDeEntidade addCondicaoManyToOneIgualA(String pCaminhoCampoCondicao, ComoEntidadeSimples pEtidadeManyToOne) {
         CondicaoConsulta condManyToOneAutoConfig = new CondicaoConsulta(this, FabTipoCondicaoJPQL.MANY_TO_ONE_IGUAL_AUTO);
         condManyToOneAutoConfig.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
         condManyToOneAutoConfig.setValorParametro(pEtidadeManyToOne);
@@ -91,7 +91,7 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
-    public ConsultaDinamicaDeEntidade addCondicaoManyToManyContendoObjeto(String pCaminhoCampoCondicao, ItfBeanSimples pEtidadeManyToOne) {
+    public ConsultaDinamicaDeEntidade addCondicaoManyToManyContendoObjeto(String pCaminhoCampoCondicao, ComoEntidadeSimples pEtidadeManyToOne) {
         CondicaoConsulta condManyToOneAutoConfig = new CondicaoConsulta(this, FabTipoCondicaoJPQL.MANY_TO_MANY_CONTEM_OBJETO);
         condManyToOneAutoConfig.setCaminhoCampoCondicao(pCaminhoCampoCondicao);
         condManyToOneAutoConfig.setValorParametro(pEtidadeManyToOne);

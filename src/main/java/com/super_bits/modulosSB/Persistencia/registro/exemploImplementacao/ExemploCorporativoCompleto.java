@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.registro.exemploImplementacao;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Localizacao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.FetchType;
@@ -47,9 +47,9 @@ public class ExemploCorporativoCompleto {
     private Date dataInsercao;
     //renomear
     @ManyToOne()
-    private ItfUsuario usuarioAlteracao;
+    private ComoUsuario usuarioAlteracao;
     @ManyToOne()
-    private ItfUsuario usuarioInsercao;
+    private ComoUsuario usuarioInsercao;
 
     // propriedades Entidade Contato
     @InfoCampo(tipo = FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL)

@@ -4,22 +4,22 @@
  */
 package com.super_bits.modulosSB.Persistencia.util;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemSimples;
 
 /**
  *
  * @author salvio
  */
-public class ItemFabricaObjeto extends ItemSimples implements ItfBeanSimples {
+public class ItemFabricaObjeto extends ItemSimples implements ComoEntidadeSimples {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
-    private final ItfFabrica fabrica;
+    private final ComoFabrica fabrica;
 
-    private final ItfBeanSimples objeto;
+    private final ComoEntidadeSimples objeto;
     @InfoCampo(tipo = FabTipoAtributoObjeto.QUANTIDADE)
     private int ordemEnum;
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
@@ -27,9 +27,9 @@ public class ItemFabricaObjeto extends ItemSimples implements ItfBeanSimples {
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)
     private String nome;
 
-    public ItemFabricaObjeto(ItfFabrica fabrica) {
+    public ItemFabricaObjeto(ComoFabrica fabrica) {
         this.fabrica = fabrica;
-        this.objeto = (ItfBeanSimples) fabrica.getRegistro();
+        this.objeto = (ComoEntidadeSimples) fabrica.getRegistro();
         this.ordemEnum = ((Enum) fabrica).ordinal();
         this.idEntidade = objeto.getId();
         this.nome = fabrica.toString();
@@ -51,11 +51,11 @@ public class ItemFabricaObjeto extends ItemSimples implements ItfBeanSimples {
         return fabrica.toString();
     }
 
-    public ItfFabrica getFabrica() {
+    public ComoFabrica getFabrica() {
         return fabrica;
     }
 
-    public ItfBeanSimples getObjeto() {
+    public ComoEntidadeSimples getObjeto() {
         return objeto;
     }
 

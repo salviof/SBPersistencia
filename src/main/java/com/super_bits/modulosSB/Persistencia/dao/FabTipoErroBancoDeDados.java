@@ -5,13 +5,15 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeContato;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListas;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilSBCoreErros;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemGenerico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+
 import java.io.NotSerializableException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -102,7 +104,7 @@ public enum FabTipoErroBancoDeDados {
 
     }
 
-    public String getMensagemUsuario(Throwable erro, ItfBeanSimples entidade) {
+    public String getMensagemUsuario(Throwable erro, ComoEntidadeSimples entidade) {
         switch (this) {
             case ERRO_DE_CONEXAO:
                 String nomePropriedade = "indefinido";
@@ -132,8 +134,7 @@ public enum FabTipoErroBancoDeDados {
                 if (entidade == null) {
                     return "Erro inesperado, gravando dados";
                 }
-                return "Erro inesperado, gravando" + UtilSBCoreReflexaoObjeto.getNomeObjeto((Class<? extends ItemGenerico>) entidade.getClass());
-
+                return "Erro inesperado, gravando" + UtilSBCoreReflexaoObjeto.getNomeObjeto((Class<? extends ComoEntidadeGenerica>) entidade.getClass());
             case INDEFINIDO:
                 break;
             case VALOR_INCOMPATIVEL:
@@ -179,7 +180,7 @@ public enum FabTipoErroBancoDeDados {
 
     }
 
-    public String getMensagemProgramador(Throwable erro, ItfBeanSimples entidade) {
+    public String getMensagemProgramador(Throwable erro, ComoEntidadeSimples entidade) {
         String textoMensagem = "";
         switch (this) {
             case ERRO_DE_CONEXAO:

@@ -5,9 +5,9 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
-import com.super_bits.modulosSB.Persistencia.fabrica.ItfFabricaComPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaComPersistencia;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico;
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author desenvolvedor
  */
-public enum FabUnidadesFederativas implements ItfFabricaComPersistencia {
+public enum FabUnidadesFederativas implements ComoFabricaComPersistencia {
     AC, AL, AM, AP, BA, CE, DF, ES, GO, MA, MG, MS, MT, PA, PB, PE, PI, PR, RJ, RN, RO, RR, RS, SC, SE, SP, TO;
 
     public static UnidadeFederativa getUF(String pUF) {
@@ -130,7 +130,7 @@ public enum FabUnidadesFederativas implements ItfFabricaComPersistencia {
 
     public static List<UnidadeFederativa> getTodos() {
         List<UnidadeFederativa> listaTodos = new ArrayList<>();
-        for (ItfFabrica estFab : FabUnidadesFederativas.values()) {
+        for (ComoFabrica estFab : FabUnidadesFederativas.values()) {
             listaTodos.add((UnidadeFederativa) estFab.getRegistro());
         }
         return listaTodos;

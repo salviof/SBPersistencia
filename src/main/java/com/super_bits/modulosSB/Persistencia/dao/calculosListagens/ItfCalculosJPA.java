@@ -14,7 +14,7 @@ import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEn
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.LigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public interface ItfCalculosJPA extends ItfCalculos {
             List<Predicate> condicoes = new ArrayList<>();
             int i = 0;
             for (Object parametro : pParametros) {
-                ItfBeanSimples beanParametro = (ItfBeanSimples) parametro;
+                ComoEntidadeSimples beanParametro = (ComoEntidadeSimples) parametro;
                 Class classePesquisa = null;
                 if (i == 0) {
                     if (calculoExterno) {

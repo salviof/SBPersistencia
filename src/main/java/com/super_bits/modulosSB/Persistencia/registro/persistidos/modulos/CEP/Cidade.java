@@ -1,16 +1,15 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdCidade;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,8 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.GenericGenerator;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
 
 /**
  * The persistent class for the cidade database table.
@@ -34,7 +35,7 @@ import org.hibernate.annotations.GenericGenerator;
  */
 @Entity
 @InfoObjetoSB(tags = {"Cidade"}, plural = "Cidades")
-public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
+public class Cidade extends EntidadeORMNormal implements Serializable, ComoCidade {
 
     @Id
     @GenericGenerator(
@@ -112,7 +113,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public List<ItfBairro> getBairros() {
+    public List<ComoBairro> getBairros() {
         return (List) this.bairros;
     }
 
@@ -140,7 +141,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public void setLocalidade(ItfLocalidade localidade) {
+    public void setLocalidade(ComoLocalidade localidade) {
         this.localidade = (Localidade) localidade;
     }
 
@@ -183,7 +184,7 @@ public class Cidade extends EntidadeNormal implements Serializable, ItfCidade {
     }
 
     @Override
-    public void setUnidadeFederativa(ItfUnidadeFederativa pUnidadeFederativa) {
+    public void setUnidadeFederativa(ComoUnidadeFederativa pUnidadeFederativa) {
         unidadeFederativa = (UnidadeFederativa) pUnidadeFederativa;
     }
 

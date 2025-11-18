@@ -5,7 +5,6 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao.DriversConexao;
 
-import com.super_bits.modulosSB.Persistencia.ConfigGeral.DevOpsPersistencia;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.FabInfoPersistirEntidade;
 import com.super_bits.modulosSB.Persistencia.dao.InfoPerisistirEntidade;
@@ -16,9 +15,10 @@ import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.inici
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanContatoCorporativo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanContatoPessoa;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.contato.ComoContatoCorporativo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.contato.ComoContatoHumano;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Cacheable;
@@ -264,7 +264,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
                             case DELETE:
 
-                                em.remove(em.getReference(entidade.getClass(), ((ItfBeanSimples) entidade).getId()));
+                                em.remove(em.getReference(entidade.getClass(), ((ComoEntidadeSimples) entidade).getId()));
 
                                 sucesso = true;
                                 break;
@@ -370,7 +370,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             return resposta;
 
                         case NOMECURTO:
-                            ItfBeanSimples registroNC = (ItfBeanSimples) pClasseRegisto.newInstance();
+                            ComoEntidadeSimples registroNC = (ComoEntidadeSimples) pClasseRegisto.newInstance();
                             String campoNomeCurtoNC = registroNC.getNomeCampo(FabTipoAtributoObjeto.NOME);
                             String parametroNC = (String) parametros[0];
                             sql = "from " + pClasseRegisto.getSimpleName() + " where "
@@ -378,7 +378,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
                             break;
                         case LIKENOMECURTO:
-                            ItfBeanSimples registro = (ItfBeanSimples) pClasseRegisto.newInstance();
+                            ComoEntidadeSimples registro = (ComoEntidadeSimples) pClasseRegisto.newInstance();
                             String campoNomeCurto = registro.getNomeCampo(FabTipoAtributoObjeto.NOME);
                             String parametro = (String) parametros[0];
                             sql = "from " + pClasseRegisto.getSimpleName() + " where "
@@ -398,7 +398,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             break;
                         case ENCONTRAR_EMPRESA:
 
-                            ItfBeanContatoCorporativo registroCorporativo = (ItfBeanContatoCorporativo) pClasseRegisto.newInstance();
+                            ComoContatoCorporativo registroCorporativo = (ComoContatoCorporativo) pClasseRegisto.newInstance();
                             String telefone = registroCorporativo.getNomeCampo(FabTipoAtributoObjeto.TELEFONE_FIXO_NACIONAL);
 
                             String pr = (String) parametros[0];
@@ -407,7 +407,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
                             break;
                         case ENCONTRAR_PESSOA:
-                            ItfBeanContatoPessoa buscaPessoaFisica;
+                            ComoContatoHumano buscaPessoaFisica;
                             throw new UnsupportedOperationException("A busca de pessoa ainda não foi implementada");
 
                         case QUANTIDADE_REGISTROS:
@@ -418,7 +418,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             return em.createQuery(cq).getSingleResult();
                         case ENCONTRAR_EMPRESA_POR_CNPJ:
 
-                            ItfBeanSimples registroCorporativoCNPJ = (ItfBeanContatoCorporativo) pClasseRegisto.newInstance();
+                            ComoEntidadeSimples registroCorporativoCNPJ = (ComoContatoCorporativo) pClasseRegisto.newInstance();
                             String cnpj = registroCorporativoCNPJ.getNomeCampo(FabTipoAtributoObjeto.CNPJ);
 
                             String prcnpj = (String) parametros[0];
@@ -427,7 +427,7 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
 
                             break;
                         case TIPO_CAMPO_ESPECIFICO_IGUAL_A:
-                            ItfBeanSimples registroSQL = (ItfBeanSimples) pClasseRegisto.newInstance();
+                            ComoEntidadeSimples registroSQL = (ComoEntidadeSimples) pClasseRegisto.newInstance();
                             String campoPersonalizado = registroSQL.getNomeCampo(pCampo);
                             String parametroSQLPersonalizado = (String) parametros[0];
 

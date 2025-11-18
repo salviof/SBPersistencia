@@ -10,8 +10,8 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,12 +42,12 @@ public abstract class UtilSBPersistenciaArquivosDeEntidade {
         peq_, med_, grande_
     }
 
-    private static String getCaminhoLocalImagens(ItfBeanSimples item) {
+    private static String getCaminhoLocalImagens(ComoEntidadeSimples item) {
 
         return caminhoLocalImagens + getCaminhoRelativoImagem(item);
     }
 
-    private static String getCaminhoRelativoImagem(ItfBeanSimplesSomenteLeitura item) {
+    private static String getCaminhoRelativoImagem(ComoEntidadeSimplesSomenteLeitura item) {
         return "/" + item.getClass().getSimpleName() + "/" + item.getId() + "/";
     }
 
@@ -67,7 +67,7 @@ public abstract class UtilSBPersistenciaArquivosDeEntidade {
 
     }
 
-    public static String getURLImagem(ItfBeanSimplesSomenteLeitura item, FabTipoAtributoObjeto tipo) {
+    public static String getURLImagem(ComoEntidadeSimplesSomenteLeitura item, FabTipoAtributoObjeto tipo) {
 
         String pastaRelativaImagens = SBCore.getCentralVisualizacao().getRemotoPastaResource() + SBPersistencia.getPastaImagensJPA() + getCaminhoRelativoImagem(item);
         String urlpadrao = getUrlIMGPadrao(tipo);
@@ -100,7 +100,7 @@ public abstract class UtilSBPersistenciaArquivosDeEntidade {
     }
 
     @SuppressWarnings("unused")
-    public static List<String> getURLImagens(ItfBeanSimples item, String galeria) {
+    public static List<String> getURLImagens(ComoEntidadeSimples item, String galeria) {
 
         String urlbase = caminhoLocalImagens;
         String urlpadrao = getUrlIMGPadrao(FabTipoAtributoObjeto.IMG_GRANDE);
@@ -131,11 +131,11 @@ public abstract class UtilSBPersistenciaArquivosDeEntidade {
         }
     }
 
-    public static void SalvaIMAGEM(ItfBeanSimples entidade, InputStream foto) {
+    public static void SalvaIMAGEM(ComoEntidadeSimples entidade, InputStream foto) {
         SalvaIMAGEM(entidade, foto, null);
     }
 
-    public static void SalvaIMAGEM(ItfBeanSimples entidade, InputStream foto, String categoria) {
+    public static void SalvaIMAGEM(ComoEntidadeSimples entidade, InputStream foto, String categoria) {
         String tabela = entidade.getClass().getSimpleName();
 
         // Gerando Diretorios

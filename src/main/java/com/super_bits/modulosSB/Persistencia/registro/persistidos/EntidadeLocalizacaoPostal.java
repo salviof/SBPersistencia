@@ -7,13 +7,13 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 /**
  *
  * @author desenvolvedor
  */
-public class EntidadeLocalizacaoPostal extends EntidadeLocalizacao implements ItfLocalPostagem {
+public class EntidadeLocalizacaoPostal extends EntidadeLocalizacao implements ComoLocalPostagem {
 
     public EntidadeLocalizacaoPostal() {
         super();

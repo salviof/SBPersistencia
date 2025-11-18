@@ -8,15 +8,17 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCaminhoCampoNaoExiste;
-import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ItfCentralAtributosDeObjetos;
+
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.UtilSBCoreReflecaoIEstruturaEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemGenerico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+
+import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoAtributosDeObjetos;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -30,7 +32,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
-public abstract class EntidadeGenerica extends ItemGenerico implements Serializable {
+public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implements Serializable {
 
     protected Field searchCampoIdentificacao() {
 
@@ -92,7 +94,7 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
     }
 
     @Override
-    protected ItfCentralAtributosDeObjetos getCentraldeAtributosDoObjeto(Field pCampo) {
+    protected ComoServicoAtributosDeObjetos getCentraldeAtributosDoObjeto(Field pCampo) {
         return new CentralAtributosSBPersistencia() {
             @Override
             public EntityManager obterEntityManagerLasyMode() {
@@ -114,7 +116,7 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
 
     public void loadByID(Long pId, EntityManager pEM) {
 
-        Object resultado = UtilSBPersistencia.getRegistroByID((Class<? extends ItfBeanSimples>) this.getClass(), pId, pEM);
+        Object resultado = UtilSBPersistencia.getRegistroByID((Class<? extends ComoEntidadeSimples>) this.getClass(), pId, pEM);
         System.out.println("ATENÇÃO O METODO LOAD BY ID AINDA NÃO SUPORTA CLASSES COM POLIMORFISMO DE ENTIDADE");
         //todo compativel com Extenção de classe
         if (resultado != null) {
@@ -123,7 +125,7 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
 
     }
 
-    protected EntidadeGenerica() {
+    protected EntidadeORMGenerica() {
         super();
     }
 
@@ -272,7 +274,7 @@ public abstract class EntidadeGenerica extends ItemGenerico implements Serializa
         }
 
         @Override
-        public List<ItfBeanSimples> getListaDeOpcoes() {
+        public List<ComoEntidadeSimples> getListaDeOpcoes() {
             return super.getListaDeOpcoes(); //To change body of generated methods, choose Tools | Templates.
         }
 

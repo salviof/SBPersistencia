@@ -3,7 +3,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.CSBNQ;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.ClasseTipada;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @param <T> Classe Extendendo EntidadeSimples
  */
-public class DaoGenerico<T extends ItfBeanSimples> extends ClasseTipada implements Serializable {
+public class DaoGenerico<T extends ComoEntidadeSimples> extends ClasseTipada implements Serializable {
 
     private String nomeTabela;
     private EntityManager em;
@@ -75,7 +75,7 @@ public class DaoGenerico<T extends ItfBeanSimples> extends ClasseTipada implemen
      * @param entity Entidade que será persistida
      * @return Verdadeiro se conseguir salvar
      */
-    public ItfBeanSimples savarRegistro(T entity) {
+    public ComoEntidadeSimples savarRegistro(T entity) {
         return UtilSBPersistencia.persistirRegistro(entity, em);
     }
 

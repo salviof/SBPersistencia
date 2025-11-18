@@ -7,7 +7,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.dinam
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciadoDInamico.CampoInstanciadoDinamico;
 
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeNormal;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNormal;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
@@ -54,7 +54,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "tipoJPAdadoDinamico")
 @EntityListeners(ListenerEntidadePadrao.class)
-public class DadoDinamico extends EntidadeNormal implements ItfDadoDinamico {
+public class DadoDinamico extends EntidadeORMNormal implements ItfDadoDinamico {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

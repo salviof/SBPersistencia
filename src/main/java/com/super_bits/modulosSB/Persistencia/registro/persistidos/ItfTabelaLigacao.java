@@ -1,13 +1,13 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 
-public interface ItfTabelaLigacao extends ItfBeanSimples {
+public interface ItfTabelaLigacao extends ComoEntidadeSimples {
 
-    public ItfBeanSimples getCampo1();
+    public ComoEntidadeSimples getCampo1();
 
-    public ItfBeanSimples getCampo2();
+    public ComoEntidadeSimples getCampo2();
 
-    public ItfBeanSimples getCampoDiferente(String pParamentro);
+    public ComoEntidadeSimples getCampoDiferente(String pParamentro);
 
 }

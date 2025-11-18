@@ -3,9 +3,9 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.ItensGenericos.basico.GrupoUsuariosDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanNormal;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanPermisionado;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeNormal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeTemPermissao;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -13,10 +13,10 @@ import java.util.List;
 import javax.persistence.PostPersist;
 import javax.persistence.PreUpdate;
 
-public abstract class EntidadeNormal extends EntidadeSimples implements ItfBeanNormal, ItfBeanPermisionado {
+public abstract class EntidadeORMNormal extends EntidadeSimplesORM implements ComoEntidadeNormal, ComoEntidadeTemPermissao {
 
     @SuppressWarnings("OverridableMethodCallInConstructor")
-    public EntidadeNormal() {
+    public EntidadeORMNormal() {
         super();
 
 //        adcionaCampoEsperado(new CampoEsperado(FabTipoAtributoObjeto.NOME, getNomeCurto()));
@@ -109,13 +109,13 @@ public abstract class EntidadeNormal extends EntidadeSimples implements ItfBeanN
     }
 
     @Override
-    public ItfUsuario getUsuarioInsersao() {
-        return (ItfUsuario) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO);
+    public ComoUsuario getUsuarioInsersao() {
+        return (ComoUsuario) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_INSERCAO);
     }
 
     @Override
-    public ItfUsuario getUsuarioAlteracao() {
-        return (ItfUsuario) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO);
+    public ComoUsuario getUsuarioAlteracao() {
+        return (ComoUsuario) getValorByTipoCampoEsperado(FabTipoAtributoObjeto.REG_USUARIO_ALTERACAO);
     }
 
     @Override

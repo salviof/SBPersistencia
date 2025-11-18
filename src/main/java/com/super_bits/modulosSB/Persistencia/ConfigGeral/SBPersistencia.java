@@ -14,7 +14,7 @@ import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
 
-import com.super_bits.modulosSB.SBCore.modulos.fabrica.ItfFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.io.File;
@@ -54,7 +54,7 @@ public abstract class SBPersistencia {
     private static ItfDriverBanco driverFWBanco;
     private static final int MAXIMO_REGISTROS = 2000;
 
-    private static Class<? extends ItfFabrica>[] fabricasRegistrosIniciais;
+    private static Class<? extends ComoFabrica>[] fabricasRegistrosIniciais;
 
     public static void configuraJPA(ItfConfigSBPersistencia configurador) {
         configuraJPA(configurador, true, true);
