@@ -8,13 +8,13 @@ import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
 
 /**
  *
  * @author salvio
  */
-public class ItemFabricaObjeto extends ItemSimples implements ComoEntidadeSimples {
+public class ItemFabricaObjeto extends EntidadeSimples implements ComoEntidadeSimples {
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.ENUM_FABRICA)
     private final ComoFabrica fabrica;

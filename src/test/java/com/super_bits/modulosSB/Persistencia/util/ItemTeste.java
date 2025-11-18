@@ -7,13 +7,13 @@ package com.super_bits.modulosSB.Persistencia.util;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimples;
 
 /**
  *
  * @author sfurbino
  */
-public class ItemTeste extends ItemSimples {
+public class ItemTeste extends EntidadeSimples {
 
     private Long id;
     @InfoCampo(tipo = FabTipoAtributoObjeto.NOME)

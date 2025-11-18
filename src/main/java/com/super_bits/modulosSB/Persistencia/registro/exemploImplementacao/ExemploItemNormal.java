@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
  *
  * @author desenvolvedor
  */
-public class ExemploItemNormal {
+public class ExemploEntidadeNormal {
 
     @Id
     @InfoCampo(tipo = FabTipoAtributoObjeto.ID)
