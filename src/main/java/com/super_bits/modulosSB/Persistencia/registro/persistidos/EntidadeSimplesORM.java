@@ -3,6 +3,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 //import com.super_bits.modulosSB.webPaginas.ConfigGeral.CInfo;
 //Simport com.super_bits.modulosSB.webPaginas.JSFBeans.util.OrganizadorDeArquivos;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
@@ -36,7 +37,7 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
     @Override
     public String getImgPequena() {
 
-        return SBCore.getCentralDeArquivos().getEndrRemotoImagem(this, FabTipoAtributoObjeto.IMG_PEQUENA);
+        return CarameloCode.getServicoArquivosDeEntidade().getEndrRemotoImagem(this, FabTipoAtributoObjeto.IMG_PEQUENA);
     }
 
     @Override
@@ -219,23 +220,23 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
 
     @Override
     public boolean uploadFotoTamanhoGrande(InputStream pStream) {
-        return SBCore.getCentralDeArquivos().salvarImagemTamanhoGrande(this, pStream);
+        return CarameloCode.getServicoArquivosDeEntidade().salvarImagemTamanhoGrande(this, pStream);
     }
 
     @Override
     public boolean uploadFotoTamanhoPequeno(InputStream pStream) {
 
-        return SBCore.getCentralDeArquivos().salvarImagemTamanhoPequeno(this, pStream);
+        return CarameloCode.getServicoArquivosDeEntidade().salvarImagemTamanhoPequeno(this, pStream);
     }
 
     @Override
     public boolean uploadFotoTamanhoMedio(InputStream pStream) {
-        return SBCore.getCentralDeArquivos().salvarImagemTamanhoMedio(this, pStream);
+        return CarameloCode.getServicoArquivosDeEntidade().salvarImagemTamanhoMedio(this, pStream);
     }
 
     @Override
     public boolean uploadFotoTodosFormatos(InputStream pStream) {
-        return SBCore.getCentralDeArquivos().salvarImagemTodosOsFormatos(this, pStream);
+        return CarameloCode.getServicoArquivosDeEntidade().salvarImagemTodosOsFormatos(this, pStream);
     }
 
     @Override
