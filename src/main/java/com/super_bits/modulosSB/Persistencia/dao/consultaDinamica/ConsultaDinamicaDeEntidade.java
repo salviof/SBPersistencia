@@ -298,11 +298,11 @@ public class ConsultaDinamicaDeEntidade {
     }
     boolean listarApenasUmRegistro = false;
 
-    public Object getPrimeiroRegistro() {
+    public <T extends ComoEntidadeSimples> T getPrimeiroRegistro() {
         tipoCalculo = FabTipoFiltroCalculo.REGISTRO_UNICO;
         listarApenasUmRegistro = true;
 
-        return obterResultado();
+        return (T) obterResultado();
 
     }
 

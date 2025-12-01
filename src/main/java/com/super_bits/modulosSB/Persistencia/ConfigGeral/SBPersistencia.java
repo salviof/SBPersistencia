@@ -15,7 +15,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
 
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.io.File;
 import java.io.InputStream;
@@ -121,7 +121,7 @@ public abstract class SBPersistencia {
                     classesDeEntidades.add(entidade.getJavaType());
 
                 }
-                UtilSBCoreReflexaoCaminhoCampo.configurarTodasAsClasses(classesDeEntidades);
+                UtilCRCReflexaoCaminhoCampo.configurarTodasAsClasses(classesDeEntidades);
                 System.out.println("Campos de entidade configurados com sucesso" + classesDeEntidades);
             }
 

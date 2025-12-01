@@ -5,8 +5,8 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -72,7 +72,7 @@ public abstract class UtilSBPersistenciaMysql {
 
         codigo = codigo.replace("'", "");
         codigo = codigo.replace("`", "");
-        codigo = UtilSBCoreStringFiltros.removeCaracteresEspeciais(codigo);
+        codigo = UtilCRCStringFiltros.removeCaracteresEspeciais(codigo);
         if (codigo != null) {
 
             List<Object> resp = UtilSBPersistencia.getListaRegistrosBySQL(

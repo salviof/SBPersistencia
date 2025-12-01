@@ -8,8 +8,8 @@ import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
@@ -704,7 +704,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         for (String valor : valores) {
 
             if (valor != null && !valor.isEmpty()) {
-                if (UtilSBCoreStringValidador.isContemApenasNumero(valor)) {
+                if (UtilCRCStringValidador.isContemApenasNumero(valor)) {
 
                     codigosEncontrados.add(Long.valueOf(valor));
                 } else {
@@ -828,7 +828,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             }
             Class classe = pBeanSimples.getClass();
             if (pBeanSimples instanceof HibernateProxy) {
-                classe = UtilSBCoreReflexaoObjeto.getClassExtraindoProxy(pBeanSimples.getClass().getSimpleName());
+                classe = UtilCRCReflexaoObjeto.getClassExtraindoProxy(pBeanSimples.getClass().getSimpleName());
             } else {
                 String caracteres = "_$";
 
@@ -917,7 +917,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     public static List getEmpresas(Class pClasse, String pParametro, EntityManager pEM) {
         boolean isNumerico = false;
 
-        if (UtilSBCoreStringValidador.isContemApenasNumero(pParametro)) {
+        if (UtilCRCStringValidador.isContemApenasNumero(pParametro)) {
             List resposta = new ArrayList();
             Object empresa = UtilSBPersistencia.getRegistroByID(pClasse, Long.parseLong(pParametro), pEM);
             if (empresa != null) {

@@ -5,8 +5,8 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.PrePersist;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
-import org.coletivojava.fw.utilCoreBase.UtilSBCoreComunicacao;
+import org.coletivojava.fw.utilCoreBase.UtilCRCComunicacao;
 
 public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
         ComoEntidadeSimples {
@@ -43,7 +43,7 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
     @Override
     public String getNomeCurto() {
         try {
-            String nomeCurto = UtilSBCoreStringFiltros.getNomeReduzido((String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.NOME).getValor());
+            String nomeCurto = UtilCRCStringFiltros.getNomeReduzido((String) getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.NOME).getValor());
 
             return nomeCurto;
         } catch (Throwable t) {
@@ -54,7 +54,7 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
 
     public String getNomeCurtoURLAmigavel() {
         String nomeCurto = getNomeCurto();
-        return UtilSBCoreStringFiltros.gerarUrlAmigavel(nomeCurto);
+        return UtilCRCStringFiltros.gerarUrlAmigavel(nomeCurto);
     }
 
     @Override
@@ -191,13 +191,13 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
 
     @Override
     public String getIconeDaClasse() {
-        return UtilSBCoreReflexaoObjeto.getIconeDoObjeto(this.getClass());
+        return UtilCRCReflexaoObjeto.getIconeDoObjeto(this.getClass());
     }
 
     @Override
     @Deprecated
     public boolean validar() {
-        return UtilSBCoreComunicacao.isTemMensagemComErro(validarComMensagens());
+        return UtilCRCComunicacao.isTemMensagemComErro(validarComMensagens());
     }
 
     @Override

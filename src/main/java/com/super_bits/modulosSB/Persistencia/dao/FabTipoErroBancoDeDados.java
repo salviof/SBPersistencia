@@ -6,9 +6,9 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeContato;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListas;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilSBCoreErros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListas;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilCRCErros;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
@@ -109,7 +109,7 @@ public enum FabTipoErroBancoDeDados {
             case ERRO_DE_CONEXAO:
                 String nomePropriedade = "indefinido";
                 try {
-                    TransientPropertyValueException t = (TransientPropertyValueException) UtilSBCoreErros.getCausaRaiz(erro);
+                    TransientPropertyValueException t = (TransientPropertyValueException) UtilCRCErros.getCausaRaiz(erro);
                     nomePropriedade = t.getPropertyName();
                 } catch (Throwable tt) {
 
@@ -134,7 +134,7 @@ public enum FabTipoErroBancoDeDados {
                 if (entidade == null) {
                     return "Erro inesperado, gravando dados";
                 }
-                return "Erro inesperado, gravando" + UtilSBCoreReflexaoObjeto.getNomeObjeto((Class<? extends ComoEntidadeGenerica>) entidade.getClass());
+                return "Erro inesperado, gravando" + UtilCRCReflexaoObjeto.getNomeObjeto((Class<? extends ComoEntidadeGenerica>) entidade.getClass());
             case INDEFINIDO:
                 break;
             case VALOR_INCOMPATIVEL:
@@ -159,7 +159,7 @@ public enum FabTipoErroBancoDeDados {
                         objetosVinculados.add(tabela);
                     }
                 }
-                return "Remoção negada, Existem vinculos de registro entre " + UtilSBCoreListas.getValoresSeparadosPorVirgula(objetosVinculados);
+                return "Remoção negada, Existem vinculos de registro entre " + UtilCRCListas.getValoresSeparadosPorVirgula(objetosVinculados);
             case INFORMACAO_DUPLICADA:
                 Throwable causaDuplicado = ExceptionUtils.getRootCause(erro);
                 List<String> campoDuplicado = UtilSBPersistenciaMysql.colunasVinculadas_erro_chaveDB(causaDuplicado.getMessage());
@@ -218,7 +218,7 @@ public enum FabTipoErroBancoDeDados {
             case OBJETO_FILHO_TRANSIENT:
                 String nomePropriedade = "indefinido";
                 try {
-                    TransientPropertyValueException t = (TransientPropertyValueException) UtilSBCoreErros.getCausaRaiz(erro);
+                    TransientPropertyValueException t = (TransientPropertyValueException) UtilCRCErros.getCausaRaiz(erro);
                     nomePropriedade = t.getPropertyName() + " do tipo" + t.getTransientEntityName() + " no objeto " + t.getPropertyOwnerEntityName();
                 } catch (Throwable tt) {
 

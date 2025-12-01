@@ -9,8 +9,8 @@ import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimplesORM;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
@@ -202,7 +202,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     @Override
     public String getIdComponente() {
-        return UtilSBCoreStringFiltros.gerarUrlAmigavel(label);
+        return UtilCRCStringFiltros.gerarUrlAmigavel(label);
     }
 
     @Override
@@ -223,7 +223,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     @Override
     public boolean isTemValidacaoRegex() {
-        return UtilSBCoreStringValidador.isNAO_NuloNemBranco(validacaoRegex);
+        return UtilCRCStringValidador.isNAO_NuloNemBranco(validacaoRegex);
     }
 
     @Override
@@ -238,7 +238,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     @Override
     public boolean isTemMascara() {
-        return UtilSBCoreStringValidador.isNAO_NuloNemBranco(mascara);
+        return UtilCRCStringValidador.isNAO_NuloNemBranco(mascara);
     }
 
     @Override
@@ -268,7 +268,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     @Override
     public String getMascaraJqueryMode() {
-        return UtilSBCoreStringFiltros.getMascaraJavaMaskParaJQueryMask(mascara);
+        return UtilCRCStringFiltros.getMascaraJavaMaskParaJQueryMask(mascara);
     }
 
     @Override

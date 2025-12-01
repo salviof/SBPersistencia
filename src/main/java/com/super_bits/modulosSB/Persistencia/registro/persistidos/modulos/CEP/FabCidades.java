@@ -5,12 +5,12 @@
  */
 package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringsCammelCase;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringsCammelCase;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.coletivojava.fw.utilCoreBase.UtilSBCoreFabrica;
+import org.coletivojava.fw.utilCoreBase.UtilCRCFabrica;
 
 /**
  *
@@ -54,7 +54,7 @@ public enum FabCidades implements ComoFabrica {
     public Cidade getRegistro() {
         Cidade novaCidade = new Cidade();
         novaCidade.setUnidadeFederativa(FabUnidadesFederativas.MG.getRegistro());
-        novaCidade.setNome(UtilSBCoreStringsCammelCase.getTextoByCammelPrimeiraLetraMaiuscula(this.toString()));
+        novaCidade.setNome(UtilCRCStringsCammelCase.getTextoByCammelPrimeiraLetraMaiuscula(this.toString()));
         novaCidade.setId(1l);
         switch (this) {
 
@@ -65,7 +65,7 @@ public enum FabCidades implements ComoFabrica {
 
     public static List<Cidade> getCidadesPorEstado(FabUnidadesFederativas pUnidade) {
         List<Cidade> cidadesListadas = new ArrayList<>();
-        List<Cidade> todasCidades = (List) UtilSBCoreFabrica.listaRegistros(FabCidades.class);
+        List<Cidade> todasCidades = (List) UtilCRCFabrica.listaRegistros(FabCidades.class);
         for (Iterator<Cidade> iterator = todasCidades.iterator(); iterator.hasNext();) {
             Cidade next = iterator.next();
             if (next.getUnidadeFederativa().getSigla().toLowerCase().contains(pUnidade.getRegistro().getSigla().toLowerCase())) {

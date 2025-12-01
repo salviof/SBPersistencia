@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaCampo;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -31,7 +31,7 @@ import org.hibernate.annotations.ManyToAny;
 public abstract class UtilSBPersistenciaValidacao {
 
     private static List<Class> getClassesComHierarquiaAteCotendoEntity(Class pClasse) {
-        return UtilSBCoreReflexao.
+        return UtilCRCReflexao.
                 getClassesComHierarquiaAteCotendoEstaAnotacao(pClasse, Entity.class);
 
     }

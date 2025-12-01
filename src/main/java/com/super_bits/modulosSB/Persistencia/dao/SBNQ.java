@@ -2,7 +2,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.CSBNQ;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import java.io.Serializable;
 import java.util.Map;
 import javax.persistence.EntityManager;
@@ -244,7 +244,7 @@ public class SBNQ implements Serializable {
         if (temParamInfo()) {
             return sql;
         } else {
-            return UtilSBCoreStringValidador.substituiParametrosNomeadosPorInterroga(sql);
+            return UtilCRCStringValidador.substituiParametrosNomeadosPorInterroga(sql);
         }
     }
 

@@ -5,8 +5,8 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao.consultaDinamica;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
@@ -70,12 +70,12 @@ public class CondicaoConsulta {
                 }
                 EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
                 ComoEntidadeSimples beanParametro = (ComoEntidadeSimples) pValorParametro;
-                if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
+                if (UtilCRCStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
                     Optional<ItfLigacaoMuitosParaUm> pesquisa = est
                             .getMuitosParaUm()
                             .stream()
                             .filter((relacao)
-                                    -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(),
+                                    -> (UtilCRCReflexao.isClasseIgualOuExetende(beanParametro.getClass(),
                                     relacao.getClasseObjetoVinculado())))
                             .findFirst();
                     if (pesquisa.isPresent()) {
@@ -98,12 +98,12 @@ public class CondicaoConsulta {
                 }
                 EstruturaDeEntidade estObjPaiDosAtributos = MapaObjetosProjetoAtual.getEstruturaObjeto(getConsulta().getEntidadePrincipal());
                 ComoEntidadeSimples beanP = (ComoEntidadeSimples) pValorParametro;
-                if (UtilSBCoreStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
+                if (UtilCRCStringValidador.isNuloOuEmbranco(caminhoCampoCondicao)) {
                     Optional<ItfListaDeEntidade> pesquisa = estObjPaiDosAtributos
                             .getListas()
                             .stream()
                             .filter((relacao)
-                                    -> (UtilSBCoreReflexao.isClasseIgualOuExetende(beanP.getClass(),
+                                    -> (UtilCRCReflexao.isClasseIgualOuExetende(beanP.getClass(),
                                     MapaObjetosProjetoAtual.getClasseDoObjetoByNome(relacao.getNomeEntidade()))))
                             .findFirst();
                     if (pesquisa.isPresent()) {
@@ -140,7 +140,7 @@ public class CondicaoConsulta {
 
     public String getNomeParametro() {
         if (nomeParametro == null) {
-            if (!UtilSBCoreStringValidador.isNuloOuEmbranco(getCaminhoCampoCondicao())) {
+            if (!UtilCRCStringValidador.isNuloOuEmbranco(getCaminhoCampoCondicao())) {
                 nomeParametro = getCaminhoCampoCondicao().replace(".", "");
             }
         }
@@ -148,7 +148,7 @@ public class CondicaoConsulta {
     }
 
     public void setNomeParametro(String pNomeParametro) {
-        if (!UtilSBCoreStringValidador.isNuloOuEmbranco(pNomeParametro)) {
+        if (!UtilCRCStringValidador.isNuloOuEmbranco(pNomeParametro)) {
             pNomeParametro = pNomeParametro.replace(".", "");
         }
         this.nomeParametro = pNomeParametro;
@@ -156,8 +156,8 @@ public class CondicaoConsulta {
 
     public void setCaminhoCampoCondicao(String pCaminhoCampoCondicao) {
         this.caminhoCampoCondicao = pCaminhoCampoCondicao;
-        if (!UtilSBCoreStringValidador.isNuloOuEmbranco(pCaminhoCampoCondicao)) {
-            if (UtilSBCoreStringValidador.isNuloOuEmbranco(nomeParametro)) {
+        if (!UtilCRCStringValidador.isNuloOuEmbranco(pCaminhoCampoCondicao)) {
+            if (UtilCRCStringValidador.isNuloOuEmbranco(nomeParametro)) {
                 setNomeParametro(pCaminhoCampoCondicao);
             }
         }

@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Cidade;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGeradorDeID;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -29,7 +29,7 @@ public class GeradorIdCidade implements IdentifierGenerator {
             if (cidade.getUnidadeFederativa() == null) {
                 throw new UnsupportedOperationException("Unidade Federativa não definida para " + cidade.getNome());
             }
-            Long id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(cidade.getNome() + cidade.getUnidadeFederativa().getSigla());
+            Long id = UtilCRCGeradorDeID.gerarIdUnicoLetrasDaString(cidade.getNome() + cidade.getUnidadeFederativa().getSigla());
             cidade.setId(id);
             return id;
         } catch (ClassCastException c) {

@@ -11,7 +11,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.util.Map;
 import javax.persistence.EntityManager;
-import org.coletivojava.fw.utilCoreBase.UtilSBCoreFabrica;
+import org.coletivojava.fw.utilCoreBase.UtilCRCFabrica;
 
 /**
  *
@@ -27,7 +27,7 @@ public interface ComoFabricaComPersistencia extends ComoFabrica {
      * @return
      */
     public default Object getRegistro(EntityManager pEm) {
-        InfoObjetoDaFabrica infoItem = UtilSBCoreFabrica.getDadosDoRegistro(this);
+        InfoObjetoDaFabrica infoItem = UtilCRCFabrica.getDadosDoRegistro(this);
         return UtilSBPersistencia.getRegistroByID(infoItem.classeObjeto(), (long) infoItem.id(), pEm);
     }
 
@@ -37,7 +37,7 @@ public interface ComoFabricaComPersistencia extends ComoFabrica {
         }
         Object objeto = objetos.get(pObjeto.toString());
         if (objeto == null) {
-            objetos.put(pObjeto.toString(), UtilSBCoreFabrica.getRegistroPorEnum(pObjeto));
+            objetos.put(pObjeto.toString(), UtilCRCFabrica.getRegistroPorEnum(pObjeto));
         }
         return objetos.get(pObjeto.toString());
     }

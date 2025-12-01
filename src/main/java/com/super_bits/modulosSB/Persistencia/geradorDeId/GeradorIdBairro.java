@@ -5,7 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGeradorDeID;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
@@ -28,7 +28,7 @@ public class GeradorIdBairro implements IdentifierGenerator {
             if (bairro == null) {
                 throw new UnsupportedOperationException("Enviado objeto nulo");
             }
-            Long id = UtilSBCoreGeradorDeID.gerarIdUnicoLetrasDaString(bairro.getNome() + bairro.getCidade().getNome() + bairro.getCidade().getUnidadeFederativa().getSigla());
+            Long id = UtilCRCGeradorDeID.gerarIdUnicoLetrasDaString(bairro.getNome() + bairro.getCidade().getNome() + bairro.getCidade().getUnidadeFederativa().getSigla());
             bairro.setId(id);
 
             return id;

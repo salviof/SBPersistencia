@@ -15,7 +15,7 @@ import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.ItfTokenAcessoDados;
 import java.util.List;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.TokenAcessoDados;
-import com.super_bits.modulosSB.SBCore.modulos.testes.UtilSBCoreTestes;
+import com.super_bits.modulosSB.SBCore.modulos.testes.UtilCRCTestes;
 import javax.persistence.EntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.centralDados.ItfServicoRepositorioEntidades;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
@@ -63,7 +63,7 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
                 }
             } else {
 
-                return new TokenAcessoDados(UtilSBCoreTestes.emContextoTEste);
+                return new TokenAcessoDados(UtilCRCTestes.emContextoTEste);
 
             }
         } else {

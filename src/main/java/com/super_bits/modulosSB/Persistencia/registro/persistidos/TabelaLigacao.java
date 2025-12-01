@@ -1,7 +1,7 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.List;
@@ -12,7 +12,7 @@ public abstract class TabelaLigacao extends EntidadeORMGenerica implements ItfTa
 
     private ComoEntidadeSimples getcampo(int pNumero) {
         String nomeTabela = this.getClass().getSimpleName();
-        List<String> tabelasStr = UtilSBCoreStringValidador.splitMaiuscula(nomeTabela);
+        List<String> tabelasStr = UtilCRCStringValidador.splitMaiuscula(nomeTabela);
         try {
             Field field = this.getClass().getDeclaredField(tabelasStr.get(pNumero - 1).toLowerCase());
             field.setAccessible(true);
@@ -37,7 +37,7 @@ public abstract class TabelaLigacao extends EntidadeORMGenerica implements ItfTa
 
     public ComoEntidadeSimples getCampoDiferente(String pParamentro) {
 
-        List<String> tabelasStr = UtilSBCoreStringValidador.splitMaiuscula(this.getClass().getSimpleName());
+        List<String> tabelasStr = UtilCRCStringValidador.splitMaiuscula(this.getClass().getSimpleName());
 
         if (tabelasStr.get(0).equals(pParamentro)) {
             return getcampo(2);

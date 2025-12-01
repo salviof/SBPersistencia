@@ -10,12 +10,12 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreResources;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreShellBasico;
-import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivoTexto;
-import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilSBCoreArquivos;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
-import com.super_bits.modulosSB.SBCore.modulos.testes.UtilSBCoreTestes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCResources;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCShellBasico;
+import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivoTexto;
+import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivos;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.testes.UtilCRCTestes;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -135,22 +135,22 @@ public class DevOpsPersistencia {
     private long gerarHashBanco() {
         long hashBancoAtual = 0;
         for (Class entidade : UtilSBPersistencia.getTodasEntidades()) {
-            hashBancoAtual += UtilSBCoreResources.getHashCodeClasseDoPacote(entidade);
-            if (UtilSBCoreReflexaoCaminhoCampo.isClasseBasicaSB(entidade)) {
+            hashBancoAtual += UtilCRCResources.getHashCodeClasseDoPacote(entidade);
+            if (UtilCRCReflexaoCaminhoCampo.isClasseBasicaSB(entidade)) {
                 throw new UnsupportedOperationException("O Nome da entidade [" + entidade.getSimpleName() + "] é um nome reservado do sistema");
             }
         }
         for (Class fabrica : configurador.fabricasRegistrosIniciais()) {
-            hashBancoAtual += UtilSBCoreResources.getHashCodeClasseDoPacote(fabrica);
+            hashBancoAtual += UtilCRCResources.getHashCodeClasseDoPacote(fabrica);
         }
-        hashBancoAtual += UtilSBCoreResources.getHashCodeClasseDoPacote(configurador.getClass());
+        hashBancoAtual += UtilCRCResources.getHashCodeClasseDoPacote(configurador.getClass());
 
         hashBancoAtual = Math.abs(hashBancoAtual);
         return hashBancoAtual;
     }
 
     private void limparCodigoHash() {
-        UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, "0000");
+        UtilCRCArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, "0000");
     }
 
     private boolean houveAlteracaoHomologacaoBanco(ItfConfigSBPersistencia configurador) {
@@ -176,8 +176,8 @@ public class DevOpsPersistencia {
         if (!script.exists()) {
             throw new UnsupportedOperationException("O arquivo de script para carregar banco não foi encontrado em " + script);
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
-        String retornoCarrregaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_CARREGA_BANCO);
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
+        String retornoCarrregaBanco = UtilCRCShellBasico.executeCommand(DESTINO_ARQUIVO_CARREGA_BANCO);
         System.out.println("Retorno Carrega Banco" + retornoCarrregaBanco);
         execScriptFinal();
     }
@@ -194,8 +194,8 @@ public class DevOpsPersistencia {
         }
         String retornoApagaBanco = "";
         try {
-            UtilSBCoreArquivoTexto.substituirEstaLinha(caminhosScript, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
-            retornoApagaBanco = UtilSBCoreShellBasico.executeCommand(caminhosScript);
+            UtilCRCArquivoTexto.substituirEstaLinha(caminhosScript, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
+            retornoApagaBanco = UtilCRCShellBasico.executeCommand(caminhosScript);
         } catch (Throwable t) {
             if (!t.getMessage().contains("doesn't exist")) {
                 throw new UnsupportedOperationException("Ocorreu um erro inesperado" + t.getMessage(), t);
@@ -223,10 +223,10 @@ public class DevOpsPersistencia {
             throw new UnsupportedOperationException("O arquivo de script para compilar o banco não foi encontrado em " + script);
         }
 
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
-        String retornoCarrregaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_COMPILA_BANCO);
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 2);
+        String retornoCarrregaBanco = UtilCRCShellBasico.executeCommand(DESTINO_ARQUIVO_COMPILA_BANCO);
         System.out.println("Retorno Carrega Banco" + retornoCarrregaBanco);
-        UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, hashBancoGerado);
+        UtilCRCArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, hashBancoGerado);
 
     }
 
@@ -235,31 +235,31 @@ public class DevOpsPersistencia {
     }
 
     public final void criaScriptsBancoDeDAdos(ItfConfigSBPersistencia pConfigurador) {
-        //UtilSBCore String caminhosScript = (SBCore.getCaminhoGrupoProjetoSource() + "/complaBanco.sh");
+        //UtilCRC String caminhosScript = (SBCore.getCaminhoGrupoProjetoSource() + "/complaBanco.sh");
 
         //  File arquivoApaBanco = new File(DESTINO_ARQUIVO_APAGA_BANCO);
         //   if (!arquivoApaBanco.exists()) {
         Class classeDoResource = pConfigurador.getClass();
         String linha = "source ./" + getPrexinoNomeArquivo() + arqResSBProjeto;
-        UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResSBProjeto, DESTINO_ARQUIVO_CONFIGURACOES);
+        UtilCRCArquivos.copiarArquivoResourceJar(classeDoResource, arqResSBProjeto, DESTINO_ARQUIVO_CONFIGURACOES);
 
-        UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResApagaBanco, DESTINO_ARQUIVO_APAGA_BANCO);
-        if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_APAGA_BANCO)) {
+        UtilCRCArquivos.copiarArquivoResourceJar(classeDoResource, arqResApagaBanco, DESTINO_ARQUIVO_APAGA_BANCO);
+        if (!UtilCRCArquivos.tornarExecutavel(DESTINO_ARQUIVO_APAGA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo apagar banco executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_APAGA_BANCO, linha, 2);
-        UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResCompilaBanco, DESTINO_ARQUIVO_COMPILA_BANCO);
-        if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_COMPILA_BANCO)) {
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_APAGA_BANCO, linha, 2);
+        UtilCRCArquivos.copiarArquivoResourceJar(classeDoResource, arqResCompilaBanco, DESTINO_ARQUIVO_COMPILA_BANCO);
+        if (!UtilCRCArquivos.tornarExecutavel(DESTINO_ARQUIVO_COMPILA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo compilabanco executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, linha, 2);
-        UtilSBCoreArquivos.copiarArquivoResourceJar(classeDoResource, arqResCarregaBanco, DESTINO_ARQUIVO_CARREGA_BANCO);
-        if (!UtilSBCoreArquivos.tornarExecutavel(DESTINO_ARQUIVO_CARREGA_BANCO)) {
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_COMPILA_BANCO, linha, 2);
+        UtilCRCArquivos.copiarArquivoResourceJar(classeDoResource, arqResCarregaBanco, DESTINO_ARQUIVO_CARREGA_BANCO);
+        if (!UtilCRCArquivos.tornarExecutavel(DESTINO_ARQUIVO_CARREGA_BANCO)) {
             throw new UnsupportedOperationException("Erro tornando arquivo carrega executavel");
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, linha, 2);
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, linha, 2);
 
-        //UtilSBCoreShellBasico.executeCommand(false, "chmod u+x " + SBPersistencia.getPastaExecucaoScriptsSQL()+"/*.sh");
+        //UtilCRCShellBasico.executeCommand(false, "chmod u+x " + SBPersistencia.getPastaExecucaoScriptsSQL()+"/*.sh");
         //System.out.println("Retorno CHNOD   "+ getPastaExecucaoScriptsSQL() + "/*.sh>>" + retorno);
     }
 
@@ -269,7 +269,7 @@ public class DevOpsPersistencia {
         }
 
         if (new File(DESTINO_ARQUIVO_SCRIPT_FINAL).exists()) {
-            String retornoCarrregaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_SCRIPT_FINAL);
+            String retornoCarrregaBanco = UtilCRCShellBasico.executeCommand(DESTINO_ARQUIVO_SCRIPT_FINAL);
             System.out.println(retornoCarrregaBanco);
         } else {
             System.out.println("Este projeto não tem script Final para ser executado");
@@ -286,8 +286,8 @@ public class DevOpsPersistencia {
         if (!script.exists()) {
             throw new UnsupportedOperationException("O arquivo de script para carregar banco não foi encontrado em " + script);
         }
-        UtilSBCoreArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
-        String retornoCarrregaBanco = UtilSBCoreShellBasico.executeCommand(DESTINO_ARQUIVO_CARREGA_BANCO);
+        UtilCRCArquivoTexto.substituirEstaLinha(DESTINO_ARQUIVO_CARREGA_BANCO, "source ./" + getARQUIVO_CONFIGURACOES(), 1);
+        String retornoCarrregaBanco = UtilCRCShellBasico.executeCommand(DESTINO_ARQUIVO_CARREGA_BANCO);
         System.out.println("Retorno Carrega Banco" + retornoCarrregaBanco);
         execScriptFinal();
     }
@@ -608,7 +608,7 @@ public class DevOpsPersistencia {
 
                     primeiraConexao = UtilSBPersistencia.getNovoEM();
                     if (SBCore.isEmModoDesenvolvimento()) {
-                        UtilSBCoreTestes.emContextoTEste = UtilSBPersistencia.getEntyManagerPadraoNovo();
+                        UtilCRCTestes.emContextoTEste = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     }
                     UtilSBPersistencia.executaSQL("CREATE TABLE IF NOT EXISTS controle_id_especial (\n"
                             + "    nome_classe VARCHAR(100) NOT NULL PRIMARY KEY,\n"
@@ -634,7 +634,7 @@ public class DevOpsPersistencia {
                     compilaBanco();
                     primeiraConexao.close();
                 } catch (Throwable t) {
-                    UtilSBCoreArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, String.valueOf(0000));
+                    UtilCRCArquivoTexto.escreverEmArquivoSubstituindoArqAnterior(DESTINO_ARQUIVO_HASH_BANCO, String.valueOf(0000));
                     SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro ao construir banco de dados", t);
                     throw new UnsupportedOperationException("Impossível carregar o banco pela primeira vez, cheque as configurações do entityManager" + t.getMessage());
                 }

@@ -6,7 +6,7 @@ package config;
 
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.ItfConfigSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.testes.FabEntidadeSimplesInicio;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 
 /**
@@ -31,12 +31,12 @@ public class ConfigPersistenciaExemplo implements ItfConfigSBPersistencia {
 
     @Override
     public String formatoDataBanco() {
-        return UtilSBCoreDataHora.datahoraSistemaFr.toString();
+        return UtilCRCDataHora.datahoraSistemaFr.toString();
     }
 
     @Override
     public String formatoDataUsuario() {
-        return UtilSBCoreDataHora.horaUsuarioFr.toString();
+        return UtilCRCDataHora.horaUsuarioFr.toString();
     }
 
     @Override

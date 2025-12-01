@@ -7,7 +7,7 @@ package com.super_bits.modulosSB.Persistencia.dao.calculosListagens;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.InfoCalculo;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
@@ -84,7 +84,7 @@ public interface ItfCalculosJPA extends ItfCalculos {
                 if (classePesquisa != null) {
                     EstruturaDeEntidade est = MapaObjetosProjetoAtual.getEstruturaObjeto(classePrincipal);
                     for (ItfLigacaoMuitosParaUm relacao : est.getMuitosParaUm()) {
-                        if (UtilSBCoreReflexao.isClasseIgualOuExetende(beanParametro.getClass(), relacao.getClasseObjetoVinculado())) {
+                        if (UtilCRCReflexao.isClasseIgualOuExetende(beanParametro.getClass(), relacao.getClasseObjetoVinculado())) {
 
                             String nomecampoPesquisa = relacao.getNomeDeclarado();
                             ParameterExpression<Integer> prQuery = criterioBuilder.parameter(Integer.class, nomecampoPesquisa);

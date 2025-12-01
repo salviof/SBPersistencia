@@ -12,7 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta
 import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.comunicacao.RespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeNormal;
 
@@ -87,7 +87,7 @@ public abstract class ControllerAbstratoSBPersistencia extends ControllerAppAbst
             String nomeOperacao = getAcaoDoMetodo().getNomeAcao();
 
             List<CaminhoCampoReflexao> lista = new ArrayList<>();
-            if (!UtilSBCoreReflexaoCaminhoCampo.buildListaSubEntidadesPersistiveis(pEntidade, 0, quantidadeDemanda, lista, null)) {
+            if (!UtilCRCReflexaoCaminhoCampo.buildListaSubEntidadesPersistiveis(pEntidade, 0, quantidadeDemanda, lista, null)) {
                 throw new UnsupportedOperationException("Erro Otendo Lista de entidades vinculadas executando" + nomeOperacao + " para o registro" + nomeRegistroEntidadePrincipal);
             }
             for (CaminhoCampoReflexao campo : lista) {

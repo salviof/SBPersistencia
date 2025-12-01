@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.util;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GERADOR_ID_ESTRATEGIA_CONHECIDA;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.ItfMensagem;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
@@ -40,12 +40,12 @@ public abstract class UtilSBPersistenciaFabricas {
     }
 
     private static void listaOrdenarPorID(List<ItemFabricaObjeto> pLista) {
-        UtilSBCoreListasObjeto.ordernarPorCampo(pLista, "idEntidade");
+        UtilCRCListasObjeto.ordernarPorCampo(pLista, "idEntidade");
 
     }
 
     private static void listaOrdenarOrdem(List<ItemFabricaObjeto> pLista) {
-        UtilSBCoreListasObjeto.ordernarPorCampo(pLista, "ordemEnum");
+        UtilCRCListasObjeto.ordernarPorCampo(pLista, "ordemEnum");
 
     }
 

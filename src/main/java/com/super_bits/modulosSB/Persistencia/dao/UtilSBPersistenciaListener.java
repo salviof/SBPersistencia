@@ -6,7 +6,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreCriptrografia;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCCriptrografia;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
@@ -132,7 +132,7 @@ public class UtilSBPersistenciaListener {
             String senha = (String) cp.get(pEntidade);
             if (senha != null && senha.length() < 60) {
 
-                String senhaCriptografada = UtilSBCoreCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
+                String senhaCriptografada = UtilCRCCriptrografia.criptografarTextoSimetricoSaltAleatorio(senha);
 
                 cp.set(pEntidade, senhaCriptografada);
 

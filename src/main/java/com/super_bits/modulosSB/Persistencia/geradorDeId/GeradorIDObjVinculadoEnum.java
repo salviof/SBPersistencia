@@ -5,7 +5,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreGeradorDeID;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGeradorDeID;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeVinculadoAEnum;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
@@ -23,7 +23,7 @@ public class GeradorIDObjVinculadoEnum implements IdentifierGenerator {
         try {
             ComoEntidadeVinculadoAEnum objVinculado = ((ComoEntidadeVinculadoAEnum) pObj);
 
-            return UtilSBCoreGeradorDeID.gerarIdUnicoObejtoVinculadoAFabrica(objVinculado);
+            return UtilCRCGeradorDeID.gerarIdUnicoObejtoVinculadoAFabrica(objVinculado);
 
         } catch (Throwable t) {
             throw new HibernateException("Erro gerando id do objeto" + pObj + t.getMessage()+"--"+t.getMessage());

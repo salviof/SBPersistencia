@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaControllerEmExecucao;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
@@ -212,7 +212,7 @@ public abstract class RespostaComRegraDeNegocio implements ItfRespostaComExecuca
 
     @Override
     public boolean isTemUrlDestino() {
-        return UtilSBCoreStringValidador.isNAO_NuloNemBranco(getUrlDestino());
+        return UtilCRCStringValidador.isNAO_NuloNemBranco(getUrlDestino());
     }
 
 }

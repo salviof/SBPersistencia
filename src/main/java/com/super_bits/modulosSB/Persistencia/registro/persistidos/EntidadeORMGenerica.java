@@ -3,18 +3,18 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributosSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexao;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCaminhoCampoNaoExiste;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilSBCoreReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.UtilSBCoreReflecaoIEstruturaEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.UtilCRCReflecaoIEstruturaEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 
@@ -38,10 +38,10 @@ public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implement
 
         Class classeDoCampo = this.getClass();
         Field campo;
-        campo = UtilSBCoreReflexaoCaminhoCampo.getSBCampobyTipoCampo(classeDoCampo, FabTipoAtributoObjeto.ID);
+        campo = UtilCRCReflexaoCaminhoCampo.getSBCampobyTipoCampo(classeDoCampo, FabTipoAtributoObjeto.ID);
 
         if (campo == null) {
-            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByClasseAnotacao(classeDoCampo, Id.class);
+            campo = UtilCRCReflexaoCaminhoCampo.getFieldByClasseAnotacao(classeDoCampo, Id.class);
         }
 
         return campo;
@@ -64,7 +64,7 @@ public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implement
                     return cp;
                 }
             }
-            List<Class> classs = UtilSBCoreReflexao.getClasseESubclassesAteClasseBaseDeEntidade(this.getClass());
+            List<Class> classs = UtilCRCReflexao.getClasseESubclassesAteClasseBaseDeEntidade(this.getClass());
             for (Class classe : classs) {
                 for (Field campo : classe.getDeclaredFields()) {
                     if (campo.isAnnotationPresent(Id.class)) {
@@ -184,11 +184,11 @@ public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implement
 
             ItfListas lista;
 
-            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByCaminho(new CaminhoCampoReflexao(nomeCampo, this.getClass()));
+            campo = UtilCRCReflexaoCaminhoCampo.getFieldByCaminho(new CaminhoCampoReflexao(nomeCampo, this.getClass()));
             if (campo == null) {
                 throw new UnsupportedOperationException("o campo " + nomeCampo + "não foi encontrado");
             }
-            lista = UtilSBCoreReflecaoIEstruturaEntidade.getListaByField(campo);
+            lista = UtilCRCReflecaoIEstruturaEntidade.getListaByField(campo);
             if (lista == null) {
                 throw new UnsupportedOperationException("é nessessário anotar o campo do método com o enum de fabrica da lista");
             }
@@ -247,10 +247,10 @@ public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implement
             ItfCalculos calculo;
             CaminhoCampoReflexao caminhoCampo = null;
 
-            caminhoCampo = new CaminhoCampoReflexao(nomeCampo, UtilSBCoreReflexaoObjeto.getClassExtraindoProxy(this.getClass().getSimpleName()));
-            campo = UtilSBCoreReflexaoCaminhoCampo.getFieldByCaminho(caminhoCampo);
+            caminhoCampo = new CaminhoCampoReflexao(nomeCampo, UtilCRCReflexaoObjeto.getClassExtraindoProxy(this.getClass().getSimpleName()));
+            campo = UtilCRCReflexaoCaminhoCampo.getFieldByCaminho(caminhoCampo);
 
-            calculo = UtilSBCoreReflecaoIEstruturaEntidade.getCalculoByField(campo);
+            calculo = UtilCRCReflecaoIEstruturaEntidade.getCalculoByField(campo);
             try {
 
                 campo.set(this, calculo.getValor(this));

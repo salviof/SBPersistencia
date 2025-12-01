@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP;
 import com.super_bits.modulosSB.Persistencia.centralLocalizacao.CentralLocalizacaoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreListasObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeLocalizavel;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
@@ -59,7 +59,7 @@ public class CentraLocalizacaoSBPersistenciaPadrao extends CentralLocalizacaoSBP
             }
             List<ComoCidade> todasCidades = uf.getCidades();
 
-            return UtilSBCoreListasObjeto.filtrarOrdenandoMaisParecidos(todasCidades, pNomePesquisa, 5);
+            return UtilCRCListasObjeto.filtrarOrdenandoMaisParecidos(todasCidades, pNomePesquisa, 5);
 
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro pesquisando cidades da unidade federativa", t);

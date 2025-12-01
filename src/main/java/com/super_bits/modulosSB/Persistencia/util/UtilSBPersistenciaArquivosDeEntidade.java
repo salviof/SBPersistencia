@@ -7,8 +7,8 @@ package com.super_bits.modulosSB.Persistencia.util;
 import com.super_bits.editorImagem.util.UtilSBImagemEdicao;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
@@ -192,7 +192,7 @@ public abstract class UtilSBPersistenciaArquivosDeEntidade {
 
             // write the inputStream to a FileOutputStream
             OutputStream out;
-            out = new FileOutputStream(new File(dir + UtilSBCoreStringFiltros.removeCaracteresEspeciais(nomeArquivo)));
+            out = new FileOutputStream(new File(dir + UtilCRCStringFiltros.removeCaracteresEspeciais(nomeArquivo)));
 
             int read = 0;
             byte[] bytes = new byte[1024];
