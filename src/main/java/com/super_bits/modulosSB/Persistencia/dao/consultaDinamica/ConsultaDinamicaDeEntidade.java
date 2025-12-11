@@ -143,6 +143,11 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
+    public long gerarResultadoSomarQuantidade() {
+        return resultadoSomarQuantidade();
+    }
+
+    @Deprecated
     public long resultadoSomarQuantidade() {
         try {
             tipoCalculo = FabTipoFiltroCalculo.SOMA_QTD;
