@@ -7,7 +7,7 @@ package com.super_bits.modulosSB.Persistencia.registro.exemploImplementacao;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;

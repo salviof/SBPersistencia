@@ -1,6 +1,6 @@
 package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.contato.ComoContatoHumano;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoHumano;
 
 public abstract class EntidadeContatoPessoa extends EntidadeEnderecavel implements
         ComoContatoHumano {

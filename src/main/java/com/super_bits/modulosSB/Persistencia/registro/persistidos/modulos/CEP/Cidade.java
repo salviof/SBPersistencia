@@ -7,8 +7,8 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoVerdadeiroOuFalso;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoCidade;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -26,8 +26,8 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.annotations.GenericGenerator;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoLocalidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoUnidadeFederativa;
 
 /**
  * The persistent class for the cidade database table.

@@ -18,8 +18,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoLocal;
 
 import javax.validation.constraints.Digits;
 import org.coletivojava.fw.api.tratamentoErros.ErroPreparandoObjeto;

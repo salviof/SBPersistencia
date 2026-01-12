@@ -12,7 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.Info
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.InfoGrupoCampo;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoRegiaoDefinida;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoRegiaoDefinida;
 
 import java.math.BigInteger;
 import java.util.Date;

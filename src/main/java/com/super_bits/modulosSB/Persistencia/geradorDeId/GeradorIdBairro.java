@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCGeradorDeID;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoBairro;
 import java.io.Serializable;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

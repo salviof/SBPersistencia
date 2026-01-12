@@ -14,9 +14,8 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.comunicacao.RespostaAc
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CaminhoCampoReflexao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeNormal;
-
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeNormal;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

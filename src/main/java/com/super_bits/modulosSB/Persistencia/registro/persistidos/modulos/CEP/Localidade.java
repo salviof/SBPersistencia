@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoLocalidade;
 
 /**
  * The persistent class for the localidade database table.

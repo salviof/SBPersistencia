@@ -9,8 +9,8 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeSimple
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoUnidadeFederativa;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoUnidadeFederativa;
 import java.util.List;
 import javax.persistence.Cacheable;
 import javax.persistence.Entity;

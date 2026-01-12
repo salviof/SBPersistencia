@@ -9,7 +9,7 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.getNovoEM;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import javax.persistence.EntityManager;
 
 import org.coletivojava.fw.api.tratamentoErros.FabErro;

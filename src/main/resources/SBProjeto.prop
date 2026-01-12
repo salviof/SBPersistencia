@@ -6,6 +6,6 @@ TIPO_PROJETO=${pom.packaging}
 ENDERECO_WEB=http://salviof.github.io/SuperBits_FrameWork
 NOME_CLIENTE=${projetoSB.cliente}
 GRUPO_PROJETO=${projetoSB.grupoProjeto}
+GROUP_ID_MAVEN=${project.groupId}
 DIRETORIO_BASE=
 NOME_BANCO=${projetoSB.nomeBanco}
-

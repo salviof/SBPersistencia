@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.util;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GERADOR_ID_ESTRATEGIA_CONHECIDA;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GeradorIdNomeUnico;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.lang.reflect.Field;
 import java.util.List;
 import javax.persistence.Entity;

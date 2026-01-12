@@ -16,7 +16,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoA
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.UtilCRCReflecaoIEstruturaEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ComoEntidadeGenerica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoAtributosDeObjetos;
 import java.io.Serializable;

@@ -14,8 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoCidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoCidade;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 /**

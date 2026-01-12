@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.dao.consultaDinamica;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.calculosListagens.FabTipoFiltroCalculo;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

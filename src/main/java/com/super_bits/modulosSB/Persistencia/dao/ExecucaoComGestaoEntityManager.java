@@ -6,9 +6,13 @@
 package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.entidadeEscuta.ComoListenerGestaoDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import java.util.List;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
@@ -86,6 +90,7 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
         if (!executouAcoesFinais) {
             executouAcoesFinais = true;
             try {
+
                 if (getEm().getTransaction().isActive()) {
                     getEm().getTransaction().commit();
                 }
@@ -113,9 +118,18 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
         super(em);
     }
 
-    public Object atualizarEntidade(Object pObjeto) throws ErroEmBancoDeDados {
+    public Object atualizarEntidade(ComoEntidadeSimples pObjeto) throws ErroEmBancoDeDados {
+        if (pObjeto.getId() == null) {
+            //throw new ErroEmBancoDeDados(FabTipoErroBancoDeDados.VALOR_INCOMPATIVEL, "Impossível atualizar registro com o id nulo! utilize Merg, ou Persistir");
+        }
+        return merge((ComoEntidadeSimples) pObjeto);
+    }
 
-        return merge(pObjeto);
+    public Object criar(ComoEntidadeSimples pObjeto) throws ErroEmBancoDeDados {
+        if (pObjeto.getId() != null) {
+            throw new ErroEmBancoDeDados(FabTipoErroBancoDeDados.VALOR_INCOMPATIVEL, "Impossível criar Registro com id definido");
+        }
+        return merge((ComoEntidadeSimples) pObjeto);
     }
 
     protected void iniciarEntityManagerETransacao() {
@@ -132,24 +146,44 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
         }
     }
 
-    public void excluirEntidade(Object pObjeto) {
-
-        if (!UtilSBPersistencia.exluirRegistro(pObjeto, getEm())) {
-            throw new UnsupportedOperationException("Erro excluindo Entidade" + pObjeto);
-        }
+    private List<ComoListenerGestaoDeEntidade> getListener(ComoEntidadeSimples pEntidade) {
+        Class classeEntidade = MapaObjetosProjetoAtual.getClasseDoObjetoByNome(pEntidade.getClass().getSimpleName());
+        EstruturaDeEntidade estrutura = MapaObjetosProjetoAtual.getEstruturaObjeto(classeEntidade);
+        return estrutura.getListenerPersistencia();
 
     }
 
-    public Object merge(Object pObjeto) throws ErroEmBancoDeDados {
+    public boolean excluirEntidade(ComoEntidadeSimples pEntidade) throws ErroEmBancoDeDados {
 
+        return remover(pEntidade);
+
+    }
+
+    public Object merge(ComoEntidadeSimples pEntidade) throws ErroEmBancoDeDados {
+        boolean novoRegistro = pEntidade.getId() == null;
+        List<ComoListenerGestaoDeEntidade> listeners = getListener(pEntidade);
+        for (ComoListenerGestaoDeEntidade escuta : listeners) {
+            if (novoRegistro) {
+                escuta.acaoAntesDePersistir(pEntidade, getEm());
+            } else {
+                escuta.acaoAntesDeAtualizar(pEntidade, getEm());
+            }
+        }
         try {
-            Object retornoMerge = getEm().merge(pObjeto);
-
+            Object retornoMerge = getEm().merge(pEntidade);
+            for (ComoListenerGestaoDeEntidade escuta : listeners) {
+                if (novoRegistro) {
+                    escuta.acaoAposPersistir(pEntidade, getEm());
+                } else {
+                    escuta.acaoAposAtualizar(pEntidade, getEm());
+                }
+            }
             return retornoMerge;
+
         } catch (Throwable t) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Executando merge em " + pObjeto, t);
-            if (pObjeto != null) {
-                throw new ErroEmBancoDeDados(t, (ComoEntidadeSimples) pObjeto);
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Executando merge em " + pEntidade, t);
+            if (pEntidade != null) {
+                throw new ErroEmBancoDeDados(t, (ComoEntidadeSimples) pEntidade);
             } else {
                 throw new ErroEmBancoDeDados(t, null);
             }
@@ -157,19 +191,25 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
 
     }
 
-    public boolean remover(Object pObjeto) throws ErroEmBancoDeDados {
-
+    public boolean remover(ComoEntidadeSimples pEntidade) throws ErroEmBancoDeDados {
+        List<ComoListenerGestaoDeEntidade> listeners = getListener(pEntidade);
         try {
-            pObjeto = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) pObjeto, getEm());
-            if (pObjeto != null) {
-                getEm().remove(pObjeto);
+            for (ComoListenerGestaoDeEntidade escuta : listeners) {
+                escuta.acaoAntesRemover(pEntidade, getEm());
+            }
+            pEntidade = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) pEntidade, getEm());
+            if (pEntidade != null) {
+                getEm().remove(pEntidade);
+            }
+            for (ComoListenerGestaoDeEntidade escuta : listeners) {
+                escuta.acaoAposRemover(pEntidade, getEm());
             }
             return true;
 
         } catch (Throwable t) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Executando merge em " + pObjeto, t);
-            if (pObjeto != null) {
-                throw new ErroEmBancoDeDados(t, (ComoEntidadeSimples) pObjeto);
+
+            if (pEntidade != null) {
+                throw new ErroEmBancoDeDados(t, pEntidade);
             } else {
                 throw new ErroEmBancoDeDados(t, null);
             }

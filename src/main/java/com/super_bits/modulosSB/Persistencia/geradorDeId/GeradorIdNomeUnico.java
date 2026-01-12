@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.io.Serializable;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 import org.hibernate.HibernateException;

@@ -13,9 +13,9 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
-
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCBytes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCInputOutputConversoes;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import java.io.File;
 import java.io.InputStream;
@@ -111,27 +111,27 @@ public abstract class SBPersistencia {
         try {
 
             if (!MapaObjetosProjetoAtual.isObjetosConfigurados()) {
-                EntityManager teste = UtilSBPersistencia.getNovoEM();
-                Metamodel mm = teste.getEntityManagerFactory().getMetamodel();
-                Set<EntityType<?>> entidades = mm.getEntities();
-                List<Class> classesDeEntidades = new ArrayList<>();
-                System.out.println("Configurando Campos de entidades");
-                for (EntityType<?> entidade : entidades) {
+                EntityManager teste = UtilSBPersistencia.getEMPadraoNovo();
+                try {
 
-                    classesDeEntidades.add(entidade.getJavaType());
-
+                    Metamodel mm = teste.getEntityManagerFactory().getMetamodel();
+                    Set<EntityType<?>> entidades = mm.getEntities();
+                    List<Class> classesDeEntidades = new ArrayList<>();
+                    System.out.println("Configurando Campos de entidades");
+                    for (EntityType<?> entidade : entidades) {
+                        classesDeEntidades.add(entidade.getJavaType());
+                    }
+                    MapaObjetosProjetoAtual.configuraraTodasAsClasses(classesDeEntidades);
+                    System.out.println("Campos de entidade configurados com sucesso" + classesDeEntidades);
+                } finally {
+                    UtilSBPersistencia.fecharEM(teste);
                 }
-                UtilCRCReflexaoCaminhoCampo.configurarTodasAsClasses(classesDeEntidades);
-                System.out.println("Campos de entidade configurados com sucesso" + classesDeEntidades);
+
             }
 
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Ouve um erro configurando os campos de entidade ", t);
         }
-    }
-
-    public static void defineFacturyPadrao() {
-
     }
 
     /**
@@ -152,12 +152,11 @@ public abstract class SBPersistencia {
         configurado = true;
 
         devBanco = new DevOpsPersistencia(configurador);
-
-        devBanco.iniciarBanco(pRecriarBanco);
-
+        devBanco.configurarJPA();
         if (pCriarTodosCampos) {
             configurarCamposDeEntidade();
         }
+        devBanco.iniciarBanco(pRecriarBanco);
 
     }
 

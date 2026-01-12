@@ -8,15 +8,15 @@ package com.super_bits.modulosSB.Persistencia.dao.gestaoEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfResposta;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoController;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.gestaoObjeto.ItfGestaoObjeto;
 import java.util.List;
 import javax.persistence.EntityManager;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.gestaoObjeto.ItfGestaoEntidade;
 
 /**
  *
  * @author desenvolvedor
  */
-public class GestaoEntidade<T> implements ItfGestaoObjeto<T> {
+public class GestaoEntidade<T> implements ItfGestaoEntidade<T> {
 
     private EntityManager em;
     private List<T> entidadesListadas;

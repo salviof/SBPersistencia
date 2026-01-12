@@ -8,7 +8,7 @@ package com.super_bits.modulosSB.Persistencia.fabrica;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoDaFabrica;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.utilCoreBase.UtilCRCFabrica;

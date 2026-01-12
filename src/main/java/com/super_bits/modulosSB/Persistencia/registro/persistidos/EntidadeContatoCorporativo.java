@@ -7,7 +7,7 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.Lo
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.modulos.CEP.UnidadeFederativa;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.contato.ComoContatoCorporativo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.contato.ComoContatoCorporativo;
 
 import javax.persistence.EntityManager;
 

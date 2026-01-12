@@ -2,7 +2,7 @@ package com.super_bits.modulosSB.Persistencia.dao;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;

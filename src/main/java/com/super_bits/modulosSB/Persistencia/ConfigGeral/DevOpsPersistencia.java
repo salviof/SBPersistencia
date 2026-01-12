@@ -15,6 +15,7 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCShellBasico;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivoTexto;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivos;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.testes.UtilCRCTestes;
 import java.io.File;
 import java.util.ArrayList;
@@ -534,12 +535,11 @@ public class DevOpsPersistencia {
         }
     }
 
-    public void iniciarBanco(boolean pRecriarBanco) {
-
+    public Map<String, Object> configurarJPA() {
         Map<String, Object> propriedades = new HashMap<>();
         carregarConfiguracaoBasicaPadraoMysql(propriedades);
         carregarDadosConexaoPadrao(propriedades);
-
+        carregarAutoLoadPadrao(propriedades);
         //Habilita funcionamento do lasy com persistencia fechada, foge do padrão da JCP,
         //TODO: analizar qual deve ser o padrão, e se deve fazer parte do config de persistencia
         ///propriedades.put("hibernate.enable_lazy_load_no_trans", true);
@@ -550,7 +550,6 @@ public class DevOpsPersistencia {
         logColection.stream().forEach(loggers::add);
 //        loggers.add(LogManager.getRootLogger());
 
-        carregarAutoLoadPadrao(propriedades);
         if (!SBCore.isEmModoProducao()) {
             for (Logger loggerAtual : loggers) {
                 if (loggerAtual.getName().contains("hibernate")) {
@@ -568,28 +567,39 @@ public class DevOpsPersistencia {
 
         }
 
+        EntityManagerFactory emFacturePadrao = null;
+        try {
+            loadEstrategiaConexaohikari(propriedades);
+            System.out.println("iniciando EntityManagerFactory com:");
+
+            for (String chave : propriedades.keySet()) {
+                System.out.println(chave + "->" + propriedades.get(chave));
+            }
+            //jdbc:
+            //mysql://localhost:3306/teste?useSSL=false&serverTimezone=UTC
+            emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
+            UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
+            configuracaoInicialImplementada = true;
+        } catch (Throwable t) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo Configurações de Persistencia", t);
+        }
+        if (emFacturePadrao == null) {
+            throw new UnsupportedOperationException("Impossível criar a fabrica de EntityManager");
+        }
+
+        return propriedades;
+    }
+    boolean configuracaoInicialImplementada = false;
+
+    public void iniciarBanco(boolean pRecriarBanco) {
+        Map<String, Object> propriedades = new HashMap<>();
+        if (!configuracaoInicialImplementada) {
+
+            configurarJPA();
+        }
+        propriedades = UtilSBPersistencia.getEmfabricaPadrao().getProperties();
         if (SBCore.isEmModoDesenvolvimento() && pRecriarBanco) {
 
-            EntityManagerFactory emFacturePadrao = null;
-
-            try {
-                loadEstrategiaConexaohikari(propriedades);
-                System.out.println("iniciando EntityManagerFactory com:");
-
-                for (String chave : propriedades.keySet()) {
-                    System.out.println(chave + "->" + propriedades.get(chave));
-                }
-                jdbc:
-                mysql://localhost:3306/teste?useSSL=false&serverTimezone=UTC
-                emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
-            } catch (Throwable t) {
-                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo Configurações de Persistencia", t);
-            }
-            if (emFacturePadrao == null) {
-                throw new UnsupportedOperationException("Impossível criar a fabrica de EntityManager");
-            }
-
-            UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
             hashBancoGerado = String.valueOf(gerarHashBanco());
 
             if (houveAlteracaoHomologacaoBanco(configurador)) {
@@ -599,14 +609,19 @@ public class DevOpsPersistencia {
                     System.out.println("Erro tentnaod fechar entitymanager factury para criação de novo banco");
                 }
                 limparBanco();
-                propriedades.put("hibernate.hbm2ddl.auto", "create");
+
+                Map<String, Object> propriedadesNovoBanco = new HashMap<>();
+
                 EntityManager primeiraConexao = null;
                 try {
-                    emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
-
-                    UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
-
-                    primeiraConexao = UtilSBPersistencia.getNovoEM();
+                    carregarConfiguracaoBasicaPadraoMysql(propriedadesNovoBanco);
+                    carregarDadosConexaoPadrao(propriedadesNovoBanco);
+                    carregarAutoLoadPadrao(propriedadesNovoBanco);
+                    loadEstrategiaConexaohikari(propriedadesNovoBanco);
+                    propriedadesNovoBanco.put("hibernate.hbm2ddl.auto", "create");
+                    EntityManagerFactory emFactureBancoNovo = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedadesNovoBanco);
+                    UtilSBPersistencia.defineFabricaEntityManager(emFactureBancoNovo, propriedadesNovoBanco);
+                    primeiraConexao = UtilSBPersistencia.getEMPadraoNovo();
                     if (SBCore.isEmModoDesenvolvimento()) {
                         UtilCRCTestes.emContextoTEste = UtilSBPersistencia.getEntyManagerPadraoNovo();
                     }
@@ -654,18 +669,14 @@ public class DevOpsPersistencia {
             // SENÃO (ESTÁDO DIFERENTE DE EM DESENVOLVIMENTO): (A FUNÇÃO DE LIMPAR E SUBIR O BANCO CABE AO SCRIPT DE IMPLANTAÇÃO , E NAÕ DURANTE EXECUÇÃO DO CODIGO)
             // TODO remover essa caixa alta..
         } else {
-            loadEstrategiaConexaohikari(propriedades);
-            System.out.println("Iniciando Hibernate arquivo de persistencia:" + nomeArquivoPersistencia);
-            EntityManagerFactory emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
+            propriedades = UtilSBPersistencia.getEmfabricaPadrao().getProperties();
             System.out.println("Proipriedades:");
             for (Map.Entry<String, Object> entry : propriedades.entrySet()) {
                 Object key = entry.getKey();
                 Object val = entry.getValue();
                 System.out.println(key + "->" + val);
             }
-
-            UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
-            if (emFacturePadrao != null) {
+            if (UtilSBPersistencia.getEmfabricaPadrao() != null) {
                 System.out.println("########### Fabrica de EntityManager construída com sucesso");
             }
 

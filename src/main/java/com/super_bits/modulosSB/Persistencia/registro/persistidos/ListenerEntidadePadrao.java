@@ -7,9 +7,9 @@ package com.super_bits.modulosSB.Persistencia.registro.persistidos;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistenciaListener;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemStatus;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.PostLoad;
@@ -20,12 +20,13 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.entidadeEscuta.ComoListenerPersistenciaEntidade;
 
 /**
  *
  * @author desenvolvedor
  */
-public class ListenerEntidadePadrao {
+public class ListenerEntidadePadrao implements ComoListenerPersistenciaEntidade {
 
     @Transient
     protected transient Map<String, Object> propriedadesEstadoAnterior = new HashMap<>();
@@ -43,7 +44,6 @@ public class ListenerEntidadePadrao {
                 propriedadesEstadoAnterior.put(campoId, pEntidade.getNome());
             }
         }
-
     }
 
     public void protegerSenhas(ComoEntidadeSimples pEntidade) {
@@ -52,33 +52,41 @@ public class ListenerEntidadePadrao {
     }
 
     @PrePersist
+    @Override
     public void acaoAntesDePersistir(ComoEntidadeSimples pEntidade) {
         UtilSBPersistenciaListener.acaoPadraoAntesPersistirNovoRegistro(pEntidade);
 
     }
 
     @PreUpdate
+    @Override
     public void acaoAntesDeAtualizar(ComoEntidadeSimples pEntidade) {
         UtilSBPersistenciaListener.acaoPadraoAntesDeAtualizar(pEntidade);
+
     }
 
     @PostUpdate
+    @Override
     public void acaoAposAtualizar(ComoEntidadeSimples emp) {
 
         UtilSBPersistenciaListener.acaoPadraoDepoisDeAtualizar(emp);
+
     }
 
     @PostPersist
+    @Override
     public void acaoAposPersistir(ComoEntidadeSimples emp) {
         UtilSBPersistenciaListener.acaoPadraoAposPersistirNovo(emp);
     }
 
     @PreRemove
-    private void acaoAntesRemover(ComoEntidadeSimples emp) {
+    @Override
+    public void acaoAntesRemover(ComoEntidadeSimples emp) {
 
     }
 
     @PostRemove
+    @Override
     public void acaoAposRemover(ComoEntidadeSimples emp) {
 
     }

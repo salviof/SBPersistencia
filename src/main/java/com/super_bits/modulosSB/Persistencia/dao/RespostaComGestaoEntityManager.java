@@ -9,8 +9,8 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.ItfRespostaComGestaoDeEntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroRegraDeNegocio;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoTemEndereco;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoTemEndereco;
 import static java.lang.Thread.sleep;
 import javax.persistence.EntityManager;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
@@ -66,7 +66,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
     public <T> T atualizarEntidade(T pObjeto) {
         try {
 
-            return (T) getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
+            return (T) getExecucaoGestaoEMCompleta().atualizarEntidade((ComoEntidadeSimples) pObjeto);
         } catch (ErroEmBancoDeDados ex) {
             addErro(ex.getMensagemUsuario());
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, ex.getMensagemProgrador(), ex);
@@ -77,7 +77,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
     public Object atualizarEntidadeConfigRetorno(Object pObjeto) {
         try {
 
-            Object registroAtualizado = getExecucaoGestaoEMCompleta().atualizarEntidade(pObjeto);
+            Object registroAtualizado = getExecucaoGestaoEMCompleta().atualizarEntidade((ComoEntidadeSimples) pObjeto);
             if (registroAtualizado != null) {
                 setRetorno(registroAtualizado);
             }

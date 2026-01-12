@@ -9,7 +9,7 @@ import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoA
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.CampoEsperado;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoStatus;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
 import java.util.List;
 
 /**

@@ -9,6 +9,7 @@ import com.super_bits.modulosSB.Persistencia.dao.ItfRespostaComExecucaoDeRegraDe
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaControllerEmExecucao;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
@@ -18,13 +19,19 @@ import com.super_bits.modulosSB.SBCore.modulos.fonteDados.TokenAcessoDados;
 import com.super_bits.modulosSB.SBCore.modulos.testes.UtilCRCTestes;
 import javax.persistence.EntityManager;
 import com.super_bits.modulosSB.SBCore.modulos.centralDados.ItfServicoRepositorioEntidades;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoEntidadeSimples;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
+import java.util.HashMap;
+import java.util.Map;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.entidadeEscuta.ComoListenerPersistenciaEntidade;
 
 /**
  *
  * @author SalvioF
  */
 public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
+
+    private static Map<Class, List<ComoListenerPersistenciaEntidade>> operacoesEntidade = new HashMap<>();
+    private static boolean listenersIniciado = false;
 
     @Override
     public List<?> selecaoRegistros(ItfTokenAcessoDados pEM, String pSQL, String pPQL, Integer maximo, Class tipoRegisto, FabTipoSelecaoRegistro pTipoSelecao, Object... parametros) {
@@ -36,7 +43,7 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     }
 
     @Override
-    public <T extends ComoEntidadeSimples> T getRegistroByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
+    public <T extends ComoEntidadeSimples> T getEntidadeByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
         if (pToken == null) {
             return UtilSBPersistencia.getRegistroByID((Class<T>) pClasse, id);
         } else {
@@ -77,6 +84,14 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     @Override
     public EntityManager gerarNovoEntityManagerPadrao() {
         return UtilSBPersistencia.getEntyManagerPadraoNovo();
+    }
+
+    @Override
+    public List<ComoListenerPersistenciaEntidade> getListenerDeEntidade(Class<? extends ComoEntidadeSimples> classe) {
+        if (!listenersIniciado) {
+            //UtilCRCReflexao.getClassesComEstaAnotacao(classe, classe)
+        }
+        return null;
     }
 
 }
