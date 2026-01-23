@@ -96,6 +96,7 @@ public abstract class RespostaComGestaoEntityManager extends RespostaComRegraDeN
      * @return
      */
     public <T extends ComoEntidadeSimples> T loadEntidade(T pEntidade) {
+
         T regAtualizado = UtilSBPersistencia.loadEntidade(pEntidade, getEmResposta());
         if (regAtualizado == null) {
             addErro("Falha: " + pEntidade + " não encontrada");

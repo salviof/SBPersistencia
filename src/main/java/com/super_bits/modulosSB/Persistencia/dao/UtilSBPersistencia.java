@@ -4,7 +4,6 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
-import com.google.common.collect.Lists;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -133,7 +132,65 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     }
 
+    /**
+     *
+     * @param <T>
+     * @param pClasse Classe do registro
+     * @param id id do registro
+     * @param pEM
+     * @param pNomeEM nome da entidade
+     * @return registro encontrado
+     */
+    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
+        return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
+
+    }
+
+    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id) {
+        return getRegistroByID(pClasse, id, null);
+    }
+
+    private static boolean executarSQLComGestaoTerceirizada(EntityManager entityManager, String pSQl) {
+        try {
+
+            Query q = entityManager.createNativeQuery(pSQl);
+            int resgistrosAlterados = q.executeUpdate();
+
+            return true;
+        } //catch (Op e) {
+        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+        //      return false;
+        //  }
+        catch (OptimisticLockException esperavaumRegsitro) {
+            return false;
+        } catch (Exception e) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+            return false;
+        }
+    }
+
+    public static Long getQuantidadeRegistrosNaTabela(Class pClasse) {
+        return (Long) selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
+    }
+
+    public static Long getQuantidadeRegistrosNaTabela(Class pClasse, EntityManager pEM) {
+        return (Long) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
+    }
     private static final Map<String, EntityManagerFactory> BANCO_EXTRA = new HashMap<>();
+
+    private static boolean executaSQLcmd(EntityManager pEm, String pSQl) {
+
+        boolean entityManagerEnviado = pEm != null;
+        if (!SBCore.isEmModoProducao()) {
+            System.out.println("Executando: \n " + pSQl);
+        }
+        if (entityManagerEnviado) {
+            return executarSQLComGestaoTerceirizada(pEm, pSQl);
+        } else {
+            return executarSQLComGestaoEntidade(pSQl);
+        }
+
+    }
 
     /**
      *
@@ -175,6 +232,38 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
             return null;
         }
         return null;
+    }
+
+    public static boolean executaSQL(String pSql) {
+        return executarSQLComGestaoEntidade(pSql);
+    }
+
+    public static boolean executaSQL(EntityManager pEm, String pSql) {
+        return executaSQLcmd(pEm, pSql);
+    }
+
+    private static boolean executarSQLComGestaoEntidade(String pSQl) {
+        EntityManager entityManager = UtilSBPersistencia.getEMPadraoNovo();
+        try {
+
+            entityManager.getTransaction().begin();
+
+            Query q = entityManager.createNativeQuery(pSQl);
+            int resgistrosAlterados = q.executeUpdate();
+
+            return UtilSBPersistencia.finzalizaTransacaoEFechaEM(entityManager);
+        } //catch (Op e) {
+        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+        //      return false;
+        //  }
+        catch (OptimisticLockException esperavaumRegsitro) {
+            return false;
+        } catch (Exception e) {
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
+            return false;
+        } finally {
+            UtilSBPersistencia.fecharEM(entityManager);
+        }
     }
 
     /**
@@ -438,10 +527,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return SBPersistencia.getDriverFWBanco().selecaoRegistros(pEM, pSQL, pPQL, maximo, tipoRegisto, pTipoSelecao, parametros);
     }
 
-    private static List<?> selecaoRegistros(EntityManager pEM, String pSQL, String pPQL, Integer pMaximoPagina, int pPagina, Class tipoRegisto, TIPO_SELECAO_REGISTROS pTipoSelecao, Object... parametros) {
-        return SBPersistencia.getDriverFWBanco().selecaoRegistros(pEM, pSQL, pPQL, pMaximoPagina, pPagina, tipoRegisto, pTipoSelecao, parametros);
-    }
-
     /**
      *
      * @param pNomeEM Nome do Entity Manager especial (Não é obrigatório)
@@ -455,12 +540,8 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @return O registro encontrado, ou um null caso não encontre ou aconteça
      * algum erro em sql
      */
-    private static Object selecaoRegistro(EntityManager pEM, String pSQL, String pPQL, Class pClasseRegisto, FabTipoSelecaoRegistro pTipoSelecao, Object... parametros) {
-        return SBPersistencia.getDriverFWBanco().selecaoRegistro(pEM, pSQL, pPQL, pClasseRegisto, pTipoSelecao, null, parametros);
-    }
-
-    private static Object selecaoRegistro(EntityManager pEM, String pSQL, String pPQL, Class pClasseRegisto, FabTipoSelecaoRegistro pTipoSelecao, FabTipoAtributoObjeto pCampo, Object... parametros) {
-        return SBPersistencia.getDriverFWBanco().selecaoRegistro(pEM, pSQL, pPQL, pClasseRegisto, pTipoSelecao, pCampo, parametros);
+    private static <T> T selecaoRegistro(EntityManager pEM, String pSQL, String pPQL, Class<T> pClasseRegisto, FabTipoSelecaoRegistro pTipoSelecao, Object... parametros) {
+        return (T) SBPersistencia.getDriverFWBanco().selecaoRegistro(pEM, pSQL, pPQL, pClasseRegisto, pTipoSelecao, null, parametros);
     }
 
     /**
@@ -649,6 +730,22 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     /**
      *
+     * Localiza um único registro do tipo empresa procurando por: _____________
+     * Em caso de numero: Telefones CNPJ e ID __1______________________________
+     * Em caso de String pelo nome, site, e e-mail
+     *
+     * @param pClasse
+     * @param pParametro
+     * @param pEM
+     * @return
+     */
+    public static Object getEmpresa(Class pClasse, String pParametro, EntityManager pEM) {
+        return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ENCONTRAR_EMPRESA, pParametro);
+
+    }
+
+    /**
+     *
      *
      * @param pHQl HQO (Comando no formato Hibernate query language)
      * @param pMaximo
@@ -680,7 +777,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      * @param parametro nome curto que será localizado
      * @return registro encontrado
      */
-    public static Object getRegistroByNomeCurto(Class pClasse, String parametro) {
+    public static <T> T getRegistroByNomeCurto(Class<T> pClasse, String parametro) {
         return selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.NOMECURTO, parametro);
     }
 
@@ -692,57 +789,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return (T) selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.LIKENOMECURTO, parametro);
     }
 
-    public static Object getRegistroByNomeSlug(Class pClasse, String parametro, EntityManager pEm) {
-
-        List<Long> codigosEncontrados = new ArrayList<>();
-        List<String> textosEncontrados = new ArrayList<>();
-        if (parametro == null) {
-            return null;
-        }
-        String[] valores = parametro.split("-");
-
-        for (String valor : valores) {
-
-            if (valor != null && !valor.isEmpty()) {
-                if (UtilCRCStringValidador.isContemApenasNumero(valor)) {
-
-                    codigosEncontrados.add(Long.valueOf(valor));
-                } else {
-                    textosEncontrados.add(valor);
-                }
-            }
-        }
-
-        for (Long codigo : Lists.reverse(codigosEncontrados)) {
-            Object resp = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, codigo);
-            if (resp != null) {
-                return resp;
-            }
-        }
-        for (String texto : textosEncontrados) {
-            if (texto != null && !texto.isEmpty()) {
-                Object valor = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.LIKENOMECURTO, texto);
-                if (valor != null) {
-                    return valor;
-                }
-            }
-
-        }
-
-        return null;
-    }
-
-    /**
-     *
-     * @param pClasse Classe referente
-     * @param parametro nome curto localizado
-     * @param pNomeEM Entity Manager especial (diferente da entidade padrão)
-     * @return registro encontrado
-     */
-    public static Object getRegistroByNomeCurto(Class pClasse, String parametro, EntityManager pEM) {
-        return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.NOMECURTO, parametro);
-    }
-
     /**
      *
      * @param pSQL String SQL que será executado
@@ -751,6 +797,41 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      */
     public static Object getRegistroBySQL(String pSQL, EntityManager pEM) {
         return selecaoRegistro(pEM, pSQL, null, null, FabTipoSelecaoRegistro.SQL);
+    }
+
+    public static Object getRegistroByNomeSlug(Class pClasse, String parametro, EntityManager pEm) {
+
+        TipoEntradaParametroUrl tipoEntrada = TipoEntradaParametroUrl.getTipoEntrada(parametro);
+
+        switch (tipoEntrada) {
+
+            case TEXTO_E_NUMERO_POSITIVO:
+            case TEXTO_E_NUMERO_NEGATIVO:
+                int idx = parametro.indexOf('-');
+                String antes = parametro.substring(0, idx);
+                String depois = parametro.substring(idx + 1);
+                Object resp = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, Long.parseLong(depois));
+                if (resp != null) {
+                    return resp;
+                }
+                break;
+            case SOMENTE_TEXTO:
+                Object valor = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.LIKENOMECURTO, parametro);
+                if (valor != null) {
+                    return valor;
+                }
+                break;
+            case SOMENTE_NUMERO:
+                Object objetoPeloID = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, Long.parseLong(parametro));
+                if (objetoPeloID != null) {
+                    return objetoPeloID;
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+
+        return null;
     }
 
     /**
@@ -792,18 +873,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     /**
      *
-     * @param pClasse Classe do registro
-     * @param id id do registro
-     * @param pNomeEM nome da entidade
-     * @return registro encontrado
-     */
-    public static Object getRegistroByTipoCampoIgualA(Class pClasse, FabTipoAtributoObjeto pCampo, Object valorParametro) {
-        return selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.TIPO_CAMPO_ESPECIFICO_IGUAL_A, pCampo, valorParametro);
-
-    }
-
-    /**
-     *
      * Carrega uma entidade apartir de um Bean Simples
      *
      * -> Um objeto que ainda não foi carregado pelo hibernate possui as funções
@@ -817,6 +886,7 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
      */
     public static <I extends ComoEntidadeSimples> I loadEntidade(ComoEntidadeSimplesSomenteLeitura pBeanSimples, EntityManager pEM) {
         try {
+
             if (pBeanSimples == null) {
                 throw new UnsupportedOperationException("Tentativa de carregar o Registro JPA enviando o valor nulo");
             }
@@ -862,6 +932,65 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     }
 
+    public static Class getEntidadeByNomeClasse(String nomeEntidade) {
+        return getEntidadeByNomeClasse(nomeEntidade, getNovoEM());
+    }
+
+    public static Class getEntidadeByNomeClasse(String nomeEntidade, EntityManager pEm) {
+        if (nomeEntidade == null) {
+            throw new UnsupportedOperationException("Erro tentativa de obter entidade com nome com parametro nulo");
+        }
+
+        //((Dados) BeansUtil.getAppBean("dados")).getEm();
+        Set<EntityType<?>> lista = pEm.getMetamodel().getEntities();
+        for (EntityType<?> entidade : lista) {
+            Class<?> classe = entidade.getJavaType();
+            if (classe.getSimpleName().equals(nomeEntidade)) {
+                return classe;
+            }
+        }
+        pEm.close();
+        return null;
+    }
+
+    public static List<Class> getTodasEntidades() {
+        EntityManager em = UtilSBPersistencia.getNovoEM();
+        //((Dados) BeansUtil.getAppBean("dados")).getEm();
+        Set<EntityType<?>> lista = em.getMetamodel().getEntities();
+        List<Class> entidades = new ArrayList<>();
+        for (EntityType<?> entidade : lista) {
+            System.out.println(entidade.getJavaType().toString());
+            Class<?> classe = entidade.getJavaType();
+            System.out.println(entidade.getClass().getName());
+            entidades.add(entidade.getJavaType());
+        }
+        em.close();
+        return entidades;
+    }
+
+    /**
+     *
+     * @param pClasse Classe referente
+     * @param parametro nome curto localizado
+     * @param pNomeEM Entity Manager especial (diferente da entidade padrão)
+     * @return registro encontrado
+     */
+    public static Object getRegistroByNomeCurto(Class pClasse, String parametro, EntityManager pEM) {
+        return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.NOMECURTO, parametro);
+    }
+
+    /**
+     *
+     * @param pClasse Classe do registro
+     * @param id id do registro
+     * @param pNomeEM nome da entidade
+     * @return registro encontrado
+     */
+    public static ComoEntidadeSimples getRegistroByTipoCampoIgualA(Class pClasse, FabTipoAtributoObjeto pCampo, Object valorParametro) {
+        return (ComoEntidadeSimples) selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.TIPO_CAMPO_ESPECIFICO_IGUAL_A, pCampo, valorParametro);
+
+    }
+
     /**
      *
      * Retorna o primeiro registro da tabela
@@ -875,58 +1004,8 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
 
     }
 
-    /**
-     *
-     * @param <T>
-     * @param pClasse Classe do registro
-     * @param id id do registro
-     * @param pEM
-     * @param pNomeEM nome da entidade
-     * @return registro encontrado
-     */
-    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id, EntityManager pEM) {
-        return (T) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ID, id);
-
-    }
-
-    public static <T extends ComoEntidadeSimples> T getRegistroByID(Class<T> pClasse, Long id) {
-        return getRegistroByID(pClasse, id, null);
-    }
-
-    /**
-     *
-     * Localiza um único registro do tipo empresa procurando por: _____________
-     * Em caso de numero: Telefones CNPJ e ID __1______________________________
-     * Em caso de String pelo nome, site, e e-mail
-     *
-     * @param pClasse
-     * @param pParametro
-     * @param pEM
-     * @return
-     */
-    public static Object getEmpresa(Class pClasse, String pParametro, EntityManager pEM) {
-        return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ENCONTRAR_EMPRESA, pParametro);
-
-    }
-
     public static Object getEmpresaPorCNPJ(Class pClasse, String pParametro, EntityManager pEM) {
         return selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.ENCONTRAR_EMPRESA_POR_CNPJ, pParametro);
-
-    }
-
-    public static List getEmpresas(Class pClasse, String pParametro, EntityManager pEM) {
-        boolean isNumerico = false;
-
-        if (UtilCRCStringValidador.isContemApenasNumero(pParametro)) {
-            List resposta = new ArrayList();
-            Object empresa = UtilSBPersistencia.getRegistroByID(pClasse, Long.parseLong(pParametro), pEM);
-            if (empresa != null) {
-                resposta.add(empresa);
-            }
-            return resposta;
-        } else {
-            return UtilSBPersistencia.getListaRegistrosLikeNomeCurto(pParametro, pClasse, pEM);
-        }
 
     }
 
@@ -954,42 +1033,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return null;
     }
 
-    public static List<Class> getTodasEntidades() {
-        EntityManager em = UtilSBPersistencia.getNovoEM();
-        //((Dados) BeansUtil.getAppBean("dados")).getEm();
-        Set<EntityType<?>> lista = em.getMetamodel().getEntities();
-        List<Class> entidades = new ArrayList<>();
-        for (EntityType<?> entidade : lista) {
-            System.out.println(entidade.getJavaType().toString());
-            Class<?> classe = entidade.getJavaType();
-            System.out.println(entidade.getClass().getName());
-            entidades.add(entidade.getJavaType());
-        }
-        em.close();
-        return entidades;
-    }
-
-    public static Class getEntidadeByNomeClasse(String nomeEntidade) {
-        return getEntidadeByNomeClasse(nomeEntidade, getNovoEM());
-    }
-
-    public static Class getEntidadeByNomeClasse(String nomeEntidade, EntityManager pEm) {
-        if (nomeEntidade == null) {
-            throw new UnsupportedOperationException("Erro tentativa de obter entidade com nome com parametro nulo");
-        }
-
-        //((Dados) BeansUtil.getAppBean("dados")).getEm();
-        Set<EntityType<?>> lista = pEm.getMetamodel().getEntities();
-        for (EntityType<?> entidade : lista) {
-            Class<?> classe = entidade.getJavaType();
-            if (classe.getSimpleName().equals(nomeEntidade)) {
-                return classe;
-            }
-        }
-        pEm.close();
-        return null;
-    }
-
     public static List<Class> getTodasEntidades(String nomePersistenceUnit) {
         EntityManager em = UtilSBPersistencia.getNovoEM(nomePersistenceUnit);
         //((Dados) BeansUtil.getAppBean("dados")).getEm();
@@ -1008,79 +1051,6 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
     public static List<?> getListaBySBNQ(SBNQ pSBNQ) {
         return pSBNQ.getQueryHibernate().getResultList();
 
-    }
-
-    private static boolean executarSQLComGestaoEntidade(String pSQl) {
-        EntityManager entityManager = UtilSBPersistencia.getEMPadraoNovo();
-        try {
-
-            entityManager.getTransaction().begin();
-
-            Query q = entityManager.createNativeQuery(pSQl);
-            int resgistrosAlterados = q.executeUpdate();
-
-            return UtilSBPersistencia.finzalizaTransacaoEFechaEM(entityManager);
-        } //catch (Op e) {
-        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
-        //      return false;
-        //  }
-        catch (OptimisticLockException esperavaumRegsitro) {
-            return false;
-        } catch (Exception e) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
-            return false;
-        } finally {
-            UtilSBPersistencia.fecharEM(entityManager);
-        }
-    }
-
-    private static boolean executarSQLComGestaoTerceirizada(EntityManager entityManager, String pSQl) {
-        try {
-
-            Query q = entityManager.createNativeQuery(pSQl);
-            int resgistrosAlterados = q.executeUpdate();
-
-            return true;
-        } //catch (Op e) {
-        //      SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
-        //      return false;
-        //  }
-        catch (OptimisticLockException esperavaumRegsitro) {
-            return false;
-        } catch (Exception e) {
-            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro executando comando SQL" + pSQl, e);
-            return false;
-        }
-    }
-
-    private static boolean executaSQLcmd(EntityManager pEm, String pSQl) {
-
-        boolean entityManagerEnviado = pEm != null;
-        if (!SBCore.isEmModoProducao()) {
-            System.out.println("Executando: \n " + pSQl);
-        }
-        if (entityManagerEnviado) {
-            return executarSQLComGestaoTerceirizada(pEm, pSQl);
-        } else {
-            return executarSQLComGestaoEntidade(pSQl);
-        }
-
-    }
-
-    public static boolean executaSQL(String pSql) {
-        return executarSQLComGestaoEntidade(pSql);
-    }
-
-    public static boolean executaSQL(EntityManager pEm, String pSql) {
-        return executaSQLcmd(pEm, pSql);
-    }
-
-    public static Long getQuantidadeRegistrosNaTabela(Class pClasse) {
-        return (Long) selecaoRegistro(null, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
-    }
-
-    public static Long getQuantidadeRegistrosNaTabela(Class pClasse, EntityManager pEM) {
-        return (Long) selecaoRegistro(pEM, null, null, pClasse, FabTipoSelecaoRegistro.QUANTIDADE_REGISTROS);
     }
 
     public static Object superMerge(ComoEntidadeSimples pEntidade, EntityManager em) {

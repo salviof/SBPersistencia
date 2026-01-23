@@ -9,7 +9,6 @@ import com.super_bits.modulosSB.Persistencia.dao.ItfRespostaComExecucaoDeRegraDe
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.MapaControllerEmExecucao;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.acoes.ComoAcaoDoSistema;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.UtilSBController;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
@@ -45,10 +44,14 @@ public class CentralDadosJPAPadrao implements ItfServicoRepositorioEntidades {
     @Override
     public <T extends ComoEntidadeSimples> T getEntidadeByID(ItfTokenAcessoDados pToken, Class<T> pClasse, Long id) {
         if (pToken == null) {
-            return UtilSBPersistencia.getRegistroByID((Class<T>) pClasse, id);
-        } else {
 
-            return (T) UtilSBPersistencia.getRegistroByID(pClasse, id, pToken.getEntitiManager());
+            return UtilSBPersistencia.getRegistroByID(pClasse, id);
+        } else {
+            return UtilSBPersistencia.getRegistroByID(
+                    pClasse,
+                    id,
+                    pToken.getEntitiManager()
+            );
         }
 
     }

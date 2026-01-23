@@ -145,16 +145,6 @@ public class DaoGenerico<T extends ComoEntidadeSimples> extends ClasseTipada imp
      * @param parametro
      * @return
      */
-    public T getRegistroPeloNomeCurto(String parametro) {
-        T registro = (T) UtilSBPersistencia.getRegistroByNomeCurto(classe, parametro, em);
-        return registro;
-    }
-
-    /**
-     *
-     * @param parametro
-     * @return
-     */
     public List<T> getListaLikeNomeCurto(String parametro) {
 
         List<T> registros = (List<T>) UtilSBPersistencia.getListaRegistrosLikeNomeCurto(parametro, classe, em);
@@ -220,11 +210,6 @@ public class DaoGenerico<T extends ComoEntidadeSimples> extends ClasseTipada imp
 
     private void setNomeTabela(String nomeTabela) {
         this.nomeTabela = nomeTabela;
-    }
-
-    public Object getRegistroBySQL(String pSql) {
-        return (List<T>) UtilSBPersistencia.getRegistroByJPQL(pSql, em);
-
     }
 
     /**

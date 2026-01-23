@@ -197,7 +197,8 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
             for (ComoListenerGestaoDeEntidade escuta : listeners) {
                 escuta.acaoAntesRemover(pEntidade, getEm());
             }
-            pEntidade = UtilSBPersistencia.loadEntidade((ComoEntidadeSimplesSomenteLeitura) pEntidade, getEm());
+
+            pEntidade = UtilSBPersistencia.loadEntidade((ComoEntidadeSimples) pEntidade, getEm());
             if (pEntidade != null) {
                 getEm().remove(pEntidade);
             }
