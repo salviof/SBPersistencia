@@ -178,7 +178,10 @@ public class ConsultaDinamicaDeEntidade {
         boolean entityEnviado = true;
         if (em == null) {
             em = UtilSBPersistencia.getEMDoContexto();
-            entityEnviado = false;
+            if (em == null) {
+                em = UtilSBPersistencia.getEMPadraoNovo();
+                entityEnviado = false;
+            }
         }
         try {
 

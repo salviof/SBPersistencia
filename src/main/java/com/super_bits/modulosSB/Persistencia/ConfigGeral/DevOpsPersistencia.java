@@ -6,6 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.google.common.collect.Lists;
+import com.mysql.cj.jdbc.exceptions.CommunicationsException;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -14,10 +15,12 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCResources;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCShellBasico;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivoTexto;
 import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.UtilCRCArquivos;
+import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.UtilCRCErros;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.UtilCRCReflexaoCaminhoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.testes.UtilCRCTestes;
 import java.io.File;
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +35,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import org.hibernate.service.spi.ServiceException;
 
 /**
  *
@@ -232,6 +236,9 @@ public class DevOpsPersistencia {
     }
 
     public String getHashBancoGerado() {
+        if (hashBancoGerado == null) {
+            hashBancoGerado = String.valueOf(gerarHashBanco());
+        }
         return hashBancoGerado;
     }
 
@@ -580,6 +587,20 @@ public class DevOpsPersistencia {
             emFacturePadrao = Persistence.createEntityManagerFactory(nomeArquivoPersistencia, propriedades);
             UtilSBPersistencia.defineFabricaEntityManager(emFacturePadrao, propriedades);
             configuracaoInicialImplementada = true;
+        } catch (ServiceException erro) {
+            Throwable causaRaiz = UtilCRCErros.getCausaRaiz(erro);
+            if (UtilCRCErros.temCausa(erro, ConnectException.class)) {
+
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha conectando " + propriedades.get("javax.persistence.jdbc.url") + causaRaiz.getMessage(), erro);
+            }
+            if (UtilCRCErros.temCausa(erro, java.net.UnknownHostException.class)) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Host  do banco não encontrado" + propriedades.get("javax.persistence.jdbc.url"), erro);
+            } else if (UtilCRCErros.temCausa(erro, CommunicationsException.class)) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha comunicando com o banco de dados verifique o serviço de banco de dados em: " + propriedades.get("javax.persistence.jdbc.url"), erro);
+            } else {
+
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Analizando configuração JPA", erro);
+            }
         } catch (Throwable t) {
             SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro Obtendo Configurações de Persistencia", t);
         }

@@ -4,6 +4,7 @@
  */
 package com.super_bits.modulosSB.Persistencia.dao;
 
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.TipoEntradaParametroUrl;
 import com.super_bits.modulosSB.Persistencia.ConfigGeral.SBPersistencia;
 import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
@@ -14,6 +15,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoA
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimplesSomenteLeitura;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.EntidadeSimplesOffilineApartirDeSlugDeObjeto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -799,39 +801,23 @@ public class UtilSBPersistencia implements Serializable, ItfDados {
         return selecaoRegistro(pEM, pSQL, null, null, FabTipoSelecaoRegistro.SQL);
     }
 
-    public static Object getRegistroByNomeSlug(Class pClasse, String parametro, EntityManager pEm) {
+    public static Object getRegistroByNomeSlug(Class pClasse, EntidadeSimplesOffilineApartirDeSlugDeObjeto parametro, EntityManager pEm) {
 
-        TipoEntradaParametroUrl tipoEntrada = TipoEntradaParametroUrl.getTipoEntrada(parametro);
-
-        switch (tipoEntrada) {
-
-            case TEXTO_E_NUMERO_POSITIVO:
-            case TEXTO_E_NUMERO_NEGATIVO:
-                int idx = parametro.indexOf('-');
-                String antes = parametro.substring(0, idx);
-                String depois = parametro.substring(idx + 1);
-                Object resp = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, Long.parseLong(depois));
-                if (resp != null) {
-                    return resp;
-                }
-                break;
-            case SOMENTE_TEXTO:
-                Object valor = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.LIKENOMECURTO, parametro);
-                if (valor != null) {
-                    return valor;
-                }
-                break;
-            case SOMENTE_NUMERO:
-                Object objetoPeloID = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, Long.parseLong(parametro));
-                if (objetoPeloID != null) {
-                    return objetoPeloID;
-                }
-                break;
-            default:
-                throw new AssertionError();
+        if (parametro.getId() == null) {
+            Object valor = selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.LIKENOMECURTO, parametro);
+            if (valor != null) {
+                return valor;
+            }
+        } else {
+            return selecaoRegistro(pEm, null, null, pClasse, FabTipoSelecaoRegistro.ID, parametro.getId());
         }
 
         return null;
+    }
+
+    public static Object getRegistroByNomeSlug(Class pClasse, String pParametro, EntityManager pEm) {
+
+        return getRegistroByNomeSlug(pClasse, new EntidadeSimplesOffilineApartirDeSlugDeObjeto(pParametro), pEm);
     }
 
     /**

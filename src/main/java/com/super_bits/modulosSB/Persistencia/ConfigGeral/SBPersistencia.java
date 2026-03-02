@@ -10,13 +10,17 @@ package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 import com.super_bits.modulosSB.Persistencia.dao.DriversConexao.DriverFWBancoJPANativo;
 import com.super_bits.modulosSB.Persistencia.dao.DriversConexao.ItfDriverBanco;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.fabrica.ComoFabricaStatusComPersistencia;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaFabricas;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCBytes;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCInputOutputConversoes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabrica;
+import com.super_bits.modulosSB.SBCore.modulos.fabrica.ComoFabricaStatus;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoStatus;
 import java.io.File;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -32,6 +36,7 @@ import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 import org.apache.commons.io.IOUtils;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import org.hibernate.engine.spi.Status;
 
 public abstract class SBPersistencia {
 
@@ -58,7 +63,13 @@ public abstract class SBPersistencia {
 
     public static void configuraJPA(ItfConfigSBPersistencia configurador) {
         configuraJPA(configurador, true, true);
+        if (!checarConexao()) {
 
+        }
+    }
+
+    private static boolean checarConexao() {
+        return true;
     }
 
     /**
@@ -155,6 +166,14 @@ public abstract class SBPersistencia {
         devBanco.configurarJPA();
         if (pCriarTodosCampos) {
             configurarCamposDeEntidade();
+        }
+        for (Class<? extends ComoFabrica> fabrica : fabricasRegistrosIniciais) {
+            //Vale a pena registrar todas automaticamente ou só os status?
+            if (UtilCRCReflexao.isInterfaceImplementadaNaClasse(fabrica, ComoFabricaStatus.class)) {
+                SBCore.adicionarFabricaObjetoEstatico(fabrica);
+            } else {
+                SBCore.adicionarFabricaObjetoEstatico(fabrica);
+            }
         }
         devBanco.iniciarBanco(pRecriarBanco);
 
