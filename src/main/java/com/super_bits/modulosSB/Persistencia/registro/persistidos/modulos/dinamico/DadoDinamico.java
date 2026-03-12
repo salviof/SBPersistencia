@@ -20,8 +20,9 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.ItfDadoD
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.ItfTipoAtributoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.TipoAtributoMetodosBase;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.CampoNaoImplementado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ComoAtributoObjetoSB;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoEditavel;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfAtributoObjetoSB;
+
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
 import java.lang.reflect.Field;
 import java.util.Date;
@@ -194,7 +195,7 @@ public class DadoDinamico extends EntidadeORMNormal implements ItfDadoDinamico {
         }
 
         @Override
-        public ItfAtributoObjetoSB getAtributosCampoDinamico() {
+        public ComoAtributoObjetoSB getAtributosCampoDinamico() {
             return getTipoDadoDinamico();
         }
 
