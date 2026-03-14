@@ -69,7 +69,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
     @InfoCampoValidadorLogico
     private FabTipoAtributoObjeto fabricaTipoAtributo;
 
-    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, obrigatorio = true)
+    @InfoCampo(tipo = FabTipoAtributoObjeto.NOME, obrigatorio = true, label = "Nome")
     private String nome;
 
     @InfoCampo(tipo = FabTipoAtributoObjeto.TEXTO_SIMPLES, obrigatorio = true)

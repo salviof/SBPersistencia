@@ -11,6 +11,7 @@ import com.super_bits.modulosSB.Persistencia.registro.persistidos.EntidadeORMNor
 import com.super_bits.modulosSB.Persistencia.registro.persistidos.ListenerEntidadePadrao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringSlugs;
 
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampo;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoCampoValidadorLogico;
@@ -174,6 +175,16 @@ public class DadoDinamico extends EntidadeORMNormal implements ItfDadoDinamico {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro set-valor atributo dinamico" + this.toString(), ex);
 
             }
+        }
+
+        @Override
+        public String getNomeClasseAtributoDeclarado() {
+            return super.getNomeClasseAtributoDeclarado(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        }
+
+        @Override
+        public String getNomeCompostoIdentificador() {
+            return DadoDinamico.class.getSimpleName() + "." + UtilCRCStringSlugs.gerarSlugCaixaAlta(getTipoDadoDinamico().getNome());
         }
 
         @Override
