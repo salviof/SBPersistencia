@@ -97,6 +97,7 @@ public class DadoDinamico extends EntidadeORMNormal implements ItfDadoDinamico {
 
     @Override
     public ItfCampoInstanciado getCampoInstanciado() {
+
         try {
             if (campoCRMInstanciado == null) {
                 if (campoValorReflection == null) {
