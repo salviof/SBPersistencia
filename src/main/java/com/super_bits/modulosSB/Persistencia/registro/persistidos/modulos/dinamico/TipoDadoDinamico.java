@@ -158,6 +158,7 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     public void setUnicaColeta(boolean unicaColeta) {
         this.unicaColeta = unicaColeta;
+
     }
 
     @Override
