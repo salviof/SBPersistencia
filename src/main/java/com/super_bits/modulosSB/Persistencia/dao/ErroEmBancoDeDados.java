@@ -27,6 +27,40 @@ public class ErroEmBancoDeDados extends Throwable {
     private final Map<String, String> mapaTrechoFrase = new HashMap();
     private ComoEntidadeSimples entidade;
 
+    public ErroEmBancoDeDados(String pErro) {
+        super(pErro);
+        mensagemProgrador = pErro;
+        mensagemUsuario = pErro;
+
+    }
+
+    public ErroEmBancoDeDados(Throwable t) {
+        super(t);
+        try {
+
+            tipoErro = FabTipoErroBancoDeDados.getTipoErroViaMensagem(t);
+            if (tipoErro != null) {
+
+                mensagemProgrador = tipoErro.getMensagemProgramador(t, entidade);
+                mensagemUsuario = tipoErro.getMensagemUsuario(t, entidade);
+            } else {
+                Throwable causa = ExceptionUtils.getRootCause(t);
+                String causaStr = "";
+                if (causa != null) {
+                    causaStr = causa.getMessage() + "\n";
+                }
+
+                mensagemProgrador = t.getMessage() + "\n" + causaStr;
+                mensagemUsuario = "O correu um erro inesperado ao tentar salvar a informação";
+
+            }
+        } catch (Throwable tt) {
+
+            SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro tentando interprentar mensagem de erro de JPA", tt);
+            throw new UnsupportedOperationException(t);
+        }
+    }
+
     public ErroEmBancoDeDados(Throwable t, ComoEntidadeSimples entidade) {
 
         super(t);

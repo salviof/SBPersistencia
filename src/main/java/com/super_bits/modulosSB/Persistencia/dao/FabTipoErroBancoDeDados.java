@@ -197,9 +197,11 @@ public enum FabTipoErroBancoDeDados {
                 textoMensagem += "O tipo do objeto não é reconhecido pelo hibernate "
                         + " é possível que o Objeto não possua anotações de relacionamento adequadas, como manytoOne, Manytomany"
                         + " ou que um objeto transient não tenha sido anotado com Transient ";
-                List<String> nomes = UtilSBPersistenciaValidacao.getCamposNaoIdentificadosHibernate(entidade);
-                if (!nomes.isEmpty()) {
-                    textoMensagem += "\n é provavel que  os campos incompativeis sejam " + Arrays.toString(nomes.toArray());
+                if (entidade != null) {
+                    List<String> nomes = UtilSBPersistenciaValidacao.getCamposNaoIdentificadosHibernate(entidade);
+                    if (!nomes.isEmpty()) {
+                        textoMensagem += "\n é provavel que  os campos incompativeis sejam " + Arrays.toString(nomes.toArray());
+                    }
                 }
 
                 break;
