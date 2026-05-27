@@ -6,15 +6,19 @@
 package com.super_bits.modulosSB.Persistencia.centralOrigemDados;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
+import com.super_bits.modulosSB.Persistencia.dao.consultaDinamica.ConsultaDinamicaDeEntidade;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.CentralAtributosDeObjetosSemPersistencia;
+import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.ItfPropriedadesReflexaoCampos;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTAR_POR_SUBLISTA;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_ENTIDADE;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_FABRICA_DE_REGISTROS;
 import static com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoLisgagemOpcoesCampo.LISTA_POR_LISTAGEM_DE_ENTIDADE;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campoInstanciado.ItfCampoInstanciado;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.servicosCore.ComoServicoAtributosDeObjetos;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +73,15 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
                 throw new UnsupportedOperationException("Para listar a partir de sublista, é nescessário utilizar um campo instanciado");
 
             case LISTA_POR_ENTIDADE:
-                return UtilSBPersistencia.getListaTodos(pPropriedades.getClasseDeclaracaoAtributo(), getEm());
+                EstruturaDeEntidade estrutura = MapaObjetosProjetoAtual.getEstruturaObjeto(pPropriedades.getClasseDeclaracaoAtributo());
+                if (estrutura.getCampos().stream().filter(cp -> cp.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.REG_ATIVO_INATIVO)).findFirst().isPresent()) {
+
+                    return new ConsultaDinamicaDeEntidade(pPropriedades.getClasseDeclaracaoAtributo(), getEm()).addCondicaoPositivo(estrutura.getCampos().stream()
+                            .filter(cp -> cp.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.REG_ATIVO_INATIVO)).findFirst().get().getNomeDeclarado())
+                            .gerarResultados();
+                } else {
+                    return UtilSBPersistencia.getListaTodos(pPropriedades.getClasseDeclaracaoAtributo(), getEm());
+                }
 
             case LISTA_POR_LISTAGEM_DE_ENTIDADE:
                 return UtilSBPersistencia.getListaTodos(pPropriedades.getEntidadeLista(), getEm());
