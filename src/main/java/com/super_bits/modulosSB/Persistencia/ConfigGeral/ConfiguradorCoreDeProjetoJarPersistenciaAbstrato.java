@@ -33,6 +33,7 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
         super.defineClassesBasicas(pConfiguracao); //To change body of generated methods, choose Tools | Templates.
         setIgnorarConfiguracaoPermissoes(false);
         setIgnorarConfiguracaoAcoesDoSistema(false);
+
         if (SBCore.isEmModoDesenvolvimento()) {
             pConfiguracao.setCentralComunicacao(CentralComunicacaoDesktop.class);
         }
