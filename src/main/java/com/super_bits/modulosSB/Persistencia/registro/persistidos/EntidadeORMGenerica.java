@@ -5,7 +5,8 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexaoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogico;
+
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.listas.ItfListas;
 import com.super_bits.modulosSB.SBCore.modulos.TratamentoDeErros.ErroCaminhoCampoNaoExiste;
 
@@ -244,7 +245,7 @@ public abstract class EntidadeORMGenerica extends ComoEntidadeGenerica implement
         Field campo;
         try {
 
-            ItfCalculos calculo;
+            ComoValorLogico calculo;
             CaminhoCampoReflexao caminhoCampo = null;
 
             caminhoCampo = new CaminhoCampoReflexao(nomeCampo, UtilCRCReflexaoObjeto.getClassExtraindoProxy(this.getClass().getSimpleName()));

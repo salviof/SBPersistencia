@@ -6,7 +6,7 @@
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktop;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktopTransient;
 
 /**
  *
@@ -25,7 +25,7 @@ public class ConfigCoreJunitPadraoDesenvolvedorComPersistencia extends Configura
 
     @Override
     public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
-        pConfig.setCentralComunicacao(CentralComunicacaoDesktop.class);
+        pConfig.setCentralComunicacao(CentralComunicacaoDesktopTransient.class);
 
     }
 

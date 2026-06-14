@@ -8,10 +8,9 @@ package com.super_bits.modulosSB.Persistencia.dao.calculosListagens;
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCReflexao;
+import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ComoValorLogico;
 import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.InfoCalculo;
-import com.super_bits.modulosSB.SBCore.modulos.Controller.Interfaces.calculos.ItfCalculos;
 import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.EstruturaDeEntidade;
-import com.super_bits.modulosSB.SBCore.modulos.geradorCodigo.model.LigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.MapaObjetosProjetoAtual;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.estrutura.ItfLigacaoMuitosParaUm;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoEntidadeSimples;
@@ -34,7 +33,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  *
  * @author SalvioF
  */
-public interface ItfCalculosJPA extends ItfCalculos {
+public interface ItfCalculosJPA extends ComoValorLogico {
 
     public default Object getCalculoPorCriteriaAPI(Object[] pParametros, FabTipoFiltroCalculo pTipo) {
 

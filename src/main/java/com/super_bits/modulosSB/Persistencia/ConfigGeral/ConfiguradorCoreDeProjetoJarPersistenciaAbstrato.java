@@ -11,7 +11,7 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreDeProjetoJarA
 import com.super_bits.modulosSB.SBCore.ConfigGeral.FabTipoProjeto;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktop;
+import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktopTransient;
 
 /**
  *
@@ -35,7 +35,7 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
         setIgnorarConfiguracaoAcoesDoSistema(false);
 
         if (SBCore.isEmModoDesenvolvimento()) {
-            pConfiguracao.setCentralComunicacao(CentralComunicacaoDesktop.class);
+            pConfiguracao.setCentralComunicacao(CentralComunicacaoDesktopTransient.class);
         }
 
         pConfiguracao.setCentralDados(CentralDadosJPAPadrao.class);
