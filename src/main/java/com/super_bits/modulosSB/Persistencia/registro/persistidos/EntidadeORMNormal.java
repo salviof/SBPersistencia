@@ -10,9 +10,11 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.EntityListeners;
 import javax.persistence.PostPersist;
 import javax.persistence.PreUpdate;
 
+@EntityListeners(ListenerEntidadePadrao.class)
 public abstract class EntidadeORMNormal extends EntidadeSimplesORM implements ComoEntidadeNormal, ComoEntidadeTemPermissao {
 
     @SuppressWarnings("OverridableMethodCallInConstructor")
