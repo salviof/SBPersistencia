@@ -5,7 +5,6 @@
 package com.super_bits.modulosSB.Persistencia.geradorDeId;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
-import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivel;
 import com.super_bits.modulosSB.Persistencia.util.UtilSBPersistenciaReflexao;
 import java.io.Serializable;
 import java.sql.Connection;
@@ -18,6 +17,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 
 import org.hibernate.id.IdentifierGenerator;
+import com.super_bits.modulosSB.Persistencia.registro.persistidos.ItfEntidadeExtensivelMultiplasSequencias;
 
 /**
  *
@@ -31,35 +31,36 @@ public class GeradorIdDuploControleIncremental implements IdentifierGenerator {
     public synchronized Serializable generate(SharedSessionContractImplementor session, Object entity) throws HibernateException {
         // Obtém o valor do discriminador
 
-        String nomeEntidade = UtilSBPersistenciaReflexao.getNomeEntidade(entity);
-
+        String nomeSeqeunciaEntidade = UtilSBPersistenciaReflexao.getNomeEntidade(entity);
+        if (entity instanceof ItfEntidadeExtensivelMultiplasSequencias) {
+            nomeSeqeunciaEntidade = ((ItfEntidadeExtensivelMultiplasSequencias) entity).nomeSequenciaIdentificacao();
+        }
         try {
             Connection conn = session.connection();
-            if (!chavesExistentes.contains(nomeEntidade)) {
+            if (!chavesExistentes.contains(nomeSeqeunciaEntidade)) {
                 PreparedStatement selectStmt = conn.prepareStatement(
                         "SELECT proximo_id FROM controle_id_especial WHERE nome_classe = ?");
-                selectStmt.setString(1, nomeEntidade);
+                selectStmt.setString(1, nomeSeqeunciaEntidade);
                 ResultSet rs = selectStmt.executeQuery();
                 if (!rs.next()) {
-                    if (entity instanceof ItfEntidadeExtensivel) {
-                        if (((ItfEntidadeExtensivel) entity).isEntidadeExtendida()) {
-                            UtilSBPersistencia.executaSQL("INSERT IGNORE INTO controle_id_especial (nome_classe, proximo_id) VALUES ('" + nomeEntidade + "', 1000000);");
-                        } else {
-                            UtilSBPersistencia.executaSQL("INSERT IGNORE INTO controle_id_especial (nome_classe, proximo_id) VALUES ('" + nomeEntidade + "', 1);");
-                        }
+                    if (entity instanceof ItfEntidadeExtensivelMultiplasSequencias) {
+                        Long idInicial = ((ItfEntidadeExtensivelMultiplasSequencias) entity).getIdSequenciaInicial();
+
+                        UtilSBPersistencia.executaSQL("INSERT IGNORE INTO controle_id_especial (nome_classe, proximo_id) VALUES ('" + nomeSeqeunciaEntidade + "', " + idInicial + ");");
+
                     } else {
-                        UtilSBPersistencia.executaSQL("INSERT IGNORE INTO controle_id_especial (nome_classe, proximo_id) VALUES ('" + nomeEntidade + "', 1);");
+                        UtilSBPersistencia.executaSQL("INSERT IGNORE INTO controle_id_especial (nome_classe, proximo_id) VALUES ('" + nomeSeqeunciaEntidade + "', 1);");
                     }
                 }
-                chavesExistentes.add(nomeEntidade);
+                chavesExistentes.add(nomeSeqeunciaEntidade);
             }
             PreparedStatement selectStmt = conn.prepareStatement(
                     "SELECT proximo_id FROM controle_id_especial WHERE nome_classe = ? FOR UPDATE");
-            selectStmt.setString(1, nomeEntidade);
+            selectStmt.setString(1, nomeSeqeunciaEntidade);
             ResultSet rs = selectStmt.executeQuery();
 
             if (!rs.next()) {
-                throw new HibernateException("Registro de controle_id_especial não encontrado para: " + nomeEntidade);
+                throw new HibernateException("Registro de controle_id_especial não encontrado para: " + nomeSeqeunciaEntidade);
             }
 
             long proximoId = rs.getLong(1);
@@ -69,7 +70,7 @@ public class GeradorIdDuploControleIncremental implements IdentifierGenerator {
             PreparedStatement updateStmt = conn.prepareStatement(
                     "UPDATE controle_id_especial SET proximo_id = ? WHERE nome_classe = ?");
             updateStmt.setLong(1, proximoId + 1);
-            updateStmt.setString(2, nomeEntidade);
+            updateStmt.setString(2, nomeSeqeunciaEntidade);
             updateStmt.executeUpdate();
             updateStmt.close();
 
