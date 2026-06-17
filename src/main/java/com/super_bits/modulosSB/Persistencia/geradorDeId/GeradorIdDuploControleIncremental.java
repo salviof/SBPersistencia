@@ -35,6 +35,7 @@ public class GeradorIdDuploControleIncremental implements IdentifierGenerator {
         if (entity instanceof ItfEntidadeExtensivelMultiplasSequencias) {
             nomeSeqeunciaEntidade = ((ItfEntidadeExtensivelMultiplasSequencias) entity).nomeSequenciaIdentificacao();
         }
+
         try {
             Connection conn = session.connection();
             if (!chavesExistentes.contains(nomeSeqeunciaEntidade)) {
