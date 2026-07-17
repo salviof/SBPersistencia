@@ -32,6 +32,7 @@ public enum FabTipoCondicaoJPQL {
     MANY_TO_ONE_NESTE_INTERVALO,
     MANY_TO_MANY_CONTEM_OBJETO,
     CAMINHO_CAMPO_IGUAL_VALOR,
+    CAMINHO_CAMPO_DIFERENTE_VALOR,
     DATA_HORA_MAIOR_OU_IGUAL,
     DATA_HORA_MENUR_OU_IGUAL,
     VALOR_POSITIVO;
@@ -174,6 +175,27 @@ public enum FabTipoCondicaoJPQL {
                 pCondicao.getConsulta().getValoresParametro().put(pCondicao.getNomeParametro(), beanParametroMC);
                 pCondicao.getConsulta().adicionarPredicado(predPets);
 
+                break;
+            case CAMINHO_CAMPO_DIFERENTE_VALOR:
+                Object valorParametroDif = pCondicao.getValorParametro();
+
+                ParameterExpression prCampoDif = null;
+
+                if (valorParametroDif instanceof Long) {
+                    prCampoDif = pBuilder.parameter(Long.class, nomeCampoPesquisa);
+
+                    Predicate condicaoCaminhoCampoIgualValor = pBuilder.notEqual(entidadePrincipal.get(nomeCampoPesquisa), prCampoDif);
+
+                    pCondicao.getConsulta().getValoresParametro().put(nomeCampoPesquisa, valorParametroDif);
+                    pCondicao.getConsulta().adicionarPredicado(condicaoCaminhoCampoIgualValor);
+                } else if (valorParametroDif instanceof String) {
+                    prCampoDif = pBuilder.parameter(String.class, nomeCampoPesquisa);
+                    Predicate condicaoCaminhoCampoIgualValor = pBuilder.notEqual(entidadePrincipal.get(nomeCampoPesquisa), prCampoDif);
+                    pCondicao.getConsulta().getValoresParametro().put(nomeCampoPesquisa, valorParametroDif);
+                    pCondicao.getConsulta().adicionarPredicado(condicaoCaminhoCampoIgualValor);
+                } else {
+                    throw new UnsupportedOperationException("a consulta ainda não suporta parametros do tipo " + valorParametroDif.getClass().getSimpleName());
+                }
                 break;
 
             default:

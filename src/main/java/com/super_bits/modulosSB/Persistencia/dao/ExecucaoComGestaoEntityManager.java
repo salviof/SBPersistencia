@@ -162,11 +162,13 @@ public abstract class ExecucaoComGestaoEntityManager extends GestaoEntityManager
     public Object merge(ComoEntidadeSimples pEntidade) throws ErroEmBancoDeDados {
         boolean novoRegistro = pEntidade.getId() == null;
         List<ComoListenerGestaoDeEntidade> listeners = getListener(pEntidade);
-        for (ComoListenerGestaoDeEntidade escuta : listeners) {
-            if (novoRegistro) {
-                escuta.acaoAntesDePersistir(pEntidade, getEm());
-            } else {
-                escuta.acaoAntesDeAtualizar(pEntidade, getEm());
+        if (listeners != null) {
+            for (ComoListenerGestaoDeEntidade escuta : listeners) {
+                if (novoRegistro) {
+                    escuta.acaoAntesDePersistir(pEntidade, getEm());
+                } else {
+                    escuta.acaoAntesDeAtualizar(pEntidade, getEm());
+                }
             }
         }
         try {

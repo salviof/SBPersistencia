@@ -89,6 +89,7 @@ public class CondicaoConsulta {
             case MANY_TO_ONE_NESTE_INTERVALO:
                 break;
             case CAMINHO_CAMPO_IGUAL_VALOR:
+            case CAMINHO_CAMPO_DIFERENTE_VALOR:
                 break;
             case VALOR_POSITIVO:
                 break;

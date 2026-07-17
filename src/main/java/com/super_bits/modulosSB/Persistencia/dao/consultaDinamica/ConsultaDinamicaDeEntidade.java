@@ -125,6 +125,14 @@ public class ConsultaDinamicaDeEntidade {
         return this;
     }
 
+    public ConsultaDinamicaDeEntidade addcondicaoCampoDiferenteDe(String pCampo, Object pValor) {
+        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_IGUAL_VALOR);
+        condicaoSimples.setCaminhoCampoCondicao(pCampo);
+        condicaoSimples.setValorParametro(pValor);
+        condicoes.add(condicaoSimples);
+        return this;
+    }
+
     @SuppressWarnings({"BooleanConstructorCall", "UnnecessaryBoxing"})
     public ConsultaDinamicaDeEntidade addCondicaoPositivo(String pCampo) {
         CondicaoConsulta condPositivo = new CondicaoConsulta(this, FabTipoCondicaoJPQL.VALOR_POSITIVO);
