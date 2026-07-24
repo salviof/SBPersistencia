@@ -28,7 +28,7 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
  */
 public class ConsultaDinamicaDeEntidade {
 
-    private final Class entidadePrincipal;
+    private Class entidadePrincipal;
     private List<CondicaoConsulta> condicoes = new ArrayList<>();
     private FabTipoFiltroCalculo tipoCalculo;
     private boolean retornarValorUnico = true;
@@ -40,6 +40,10 @@ public class ConsultaDinamicaDeEntidade {
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal, EntityManager pEm) {
         this.entidadePrincipal = entidadePrincipal;
         em = pEm;
+    }
+
+    public void setEntidadePrincipal(Class entidadePrincipal) {
+        this.entidadePrincipal = entidadePrincipal;
     }
 
     public ConsultaDinamicaDeEntidade(Class entidadePrincipal) {
