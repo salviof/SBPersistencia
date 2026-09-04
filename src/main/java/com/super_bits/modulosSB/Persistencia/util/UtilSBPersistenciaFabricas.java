@@ -7,6 +7,7 @@ package com.super_bits.modulosSB.Persistencia.util;
 
 import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.geradorDeId.GERADOR_ID_ESTRATEGIA_CONHECIDA;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCListasObjeto;
 import com.super_bits.modulosSB.SBCore.modulos.Mensagens.FabMensagens;
@@ -55,6 +56,7 @@ public abstract class UtilSBPersistenciaFabricas {
             SBCore.getServicoMensagens().enviaMensagem(msg);
             return;
         }
+
         List<ItemFabricaObjeto> lista = listaRegistros(pFabrica);
         switch (pTipoOrdem) {
             case ORDERNAR_POR_ID:
@@ -97,9 +99,10 @@ public abstract class UtilSBPersistenciaFabricas {
      */
     public static void persistirRegistrosDaFabrica(Class pFabrica, EntityManager pEM, TipoOrdemGravacao pTipoOrdem) {
         System.out.println("___________________ PERISTINDO REGISTROS DA FABRICA " + pFabrica.getSimpleName() + " _______________");
+
         if (pFabrica.getEnumConstants() == null) {
             ItfMensagem msg = FabMensagens.ERRO.getMsgSistema("Nenum Enum foi encontrado para persistir nesta fabrica" + pFabrica.getSimpleName());
-            SBCore.getServicoMensagens().enviaMensagem(msg);
+            CarameloCode.getServicoMensagemFireForget().enviaMensagem(msg);
             return;
         }
         List<ItemFabricaObjeto> lista = listaRegistros(pFabrica);

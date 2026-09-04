@@ -61,8 +61,8 @@ public abstract class DriverBancoFWAbstrato implements ItfDriverBanco {
 
                 case TODOS:
                     ComoEntidadeSimples registroTodos = (ComoEntidadeSimples) tipoRegisto.newInstance();
-                    String campoNomeCurtoTodos = registroTodos.getNomeCampo(FabTipoAtributoObjeto.NOME);
-                    return "from " + tipoRegisto.getSimpleName() + " order by " + campoNomeCurtoTodos;
+                    String campoID = registroTodos.getNomeCampo(FabTipoAtributoObjeto.ID);
+                    return "from " + tipoRegisto.getSimpleName() + " ent ORDER BY ent." + campoID + " DESC ";
                 case NAMED_QUERY:
                     break;
                 case SBNQ:
