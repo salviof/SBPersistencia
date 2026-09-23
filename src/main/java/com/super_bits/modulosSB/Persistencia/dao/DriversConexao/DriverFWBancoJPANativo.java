@@ -12,6 +12,7 @@ import com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.finalizarTransacao;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.getNovoEM;
 import static com.super_bits.modulosSB.Persistencia.dao.UtilSBPersistencia.iniciarTransacao;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.CarameloCode;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.fonteDados.FabTipoSelecaoRegistro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
@@ -302,15 +303,21 @@ public class DriverFWBancoJPANativo extends DriverBancoFWAbstrato {
                             /// FabMensagens.enviarMensagemUsuario("Registro Alterado com Sucesso", FabMensagens.AVISO);
                             return novoRegistro;
                         } else {
-                            SBCore.getServicoMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Atualizar o registro");
+                            CarameloCode.getServicoMensagemFireForget().enviarMsgErroAoUsuario("Ocorreu um erro Ao Atualizar o registro");
                             //FabMensagens.enviarMensagemUsuario("Ocorreu um erro Ao Atualizar o registro", FabMensagens.ERRO);
                             return null;
                         }
                     } else {
                         if (sucesso) {
+                            if (pTipoAlteracao == FabInfoPersistirEntidade.DELETE) {
+                                return true;
+                            }
                             //  FabMensagens.enviarMensagemUsuario("Registro Cadastrado com sucesso", FabMensagens.AVISO);
                         } else {
-                            SBCore.getServicoMensagens().enviarMsgErroAoUsuario("Ocorreu um erro Ao Inserir o registro");
+                            if (pTipoAlteracao == FabInfoPersistirEntidade.DELETE) {
+                                return false;
+                            }
+                            CarameloCode.getServicoMensagemFireForget().enviarMsgErroAoUsuario("Ocorreu um erro Ao Inserir o registro");
                         }
                         return novoRegistro;
                     }

@@ -86,7 +86,7 @@ public interface ItfCalculosJPA extends ComoValorLogico {
                         if (UtilCRCReflexao.isClasseIgualOuExetende(beanParametro.getClass(), relacao.getClasseObjetoVinculado())) {
 
                             String nomecampoPesquisa = relacao.getNomeDeclarado();
-                            ParameterExpression<Integer> prQuery = criterioBuilder.parameter(Integer.class, nomecampoPesquisa);
+                            ParameterExpression<Long> prQuery = criterioBuilder.parameter(Long.class, nomecampoPesquisa);
                             valoresParametro.put(nomecampoPesquisa, beanParametro.getId());
                             Predicate condicao = criterioBuilder.equal(entidadePrincipal.get(nomecampoPesquisa).get("id"), prQuery);
                             condicoes.add(condicao);

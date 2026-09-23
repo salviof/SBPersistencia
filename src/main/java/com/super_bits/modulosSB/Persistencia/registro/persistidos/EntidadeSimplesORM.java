@@ -212,7 +212,9 @@ public abstract class EntidadeSimplesORM extends EntidadeORMGenerica implements
 
         if (CarameloCode.getServicoArquivosDeEntidade().salvarArquivo(prcampo, pStream, pNomeArquivo)) {
             prcampo.setValor(pNomeArquivo);
-            UtilSBPersistencia.mergeRegistro(prcampo.getObjetoRaizDoAtributo());
+            if (prcampo.getObjetoRaizDoAtributo().getId() != null) {
+                UtilSBPersistencia.mergeRegistro(prcampo.getObjetoRaizDoAtributo());
+            }
             return true;
         }
 
