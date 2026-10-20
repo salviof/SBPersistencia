@@ -130,7 +130,7 @@ public class ConsultaDinamicaDeEntidade {
     }
 
     public ConsultaDinamicaDeEntidade addcondicaoCampoDiferenteDe(String pCampo, Object pValor) {
-        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_IGUAL_VALOR);
+        CondicaoConsulta condicaoSimples = new CondicaoConsulta(this, FabTipoCondicaoJPQL.CAMINHO_CAMPO_DIFERENTE_VALOR);
         condicaoSimples.setCaminhoCampoCondicao(pCampo);
         condicaoSimples.setValorParametro(pValor);
         condicoes.add(condicaoSimples);
@@ -195,6 +195,9 @@ public class ConsultaDinamicaDeEntidade {
                 entityEnviado = false;
             }
         }
+        // cada execução monta a consulta do zero, sem predicados e parâmetros da execução anterior
+        predicadosCriteriaAPIGerados.clear();
+        valoresParametro.clear();
         try {
 
             //  if (!retornarValorUnico) {
@@ -243,12 +246,7 @@ public class ConsultaDinamicaDeEntidade {
                     return consulta.getSingleResult();
 
                 case REGISTRO_UNICO:
-                    consulta.setMaxResults(1);
-                    try {
-                        return consulta.getSingleResult();
-                    } catch (Throwable t) {
-                        return null;
-                    }
+                    return getPrimeiroDaLista(consulta);
                 case MAIOR:
                     return consulta.getSingleResult();
 
@@ -256,7 +254,7 @@ public class ConsultaDinamicaDeEntidade {
                     return consulta.getSingleResult();
                 case LISTAGENS:
                     if (listarApenasUmRegistro) {
-                        return consulta.getSingleResult();
+                        return getPrimeiroDaLista(consulta);
                     }
 
                     return consulta.getResultList();
@@ -277,6 +275,19 @@ public class ConsultaDinamicaDeEntidade {
 
     }
 
+    /**
+     * Sem registro retorna nulo; erros seguem para o tratamento de
+     * obterResultado(), que relata o erro
+     */
+    private Object getPrimeiroDaLista(Query pConsulta) {
+        pConsulta.setMaxResults(1);
+        List resultado = pConsulta.getResultList();
+        if (resultado.isEmpty()) {
+            return null;
+        }
+        return resultado.get(0);
+    }
+
     public List gerarResultados() {
         return gerarResultados(-1);
     }
@@ -287,9 +298,10 @@ public class ConsultaDinamicaDeEntidade {
             limite = pLimite;
             tipoCalculo = FabTipoFiltroCalculo.LISTAGENS;
             retornarValorUnico = false;
+            listarApenasUmRegistro = false;
             Object result = obterResultado();
             if (result instanceof List) {
-                return (List) obterResultado();
+                return (List) result;
             } else {
                 if (result != null) {
                     List lista = new ArrayList();
@@ -311,6 +323,7 @@ public class ConsultaDinamicaDeEntidade {
         try {
             tipoCalculo = FabTipoFiltroCalculo.LISTAGENS;
             retornarValorUnico = false;
+            listarApenasUmRegistro = false;
             return (List) obterResultado();
         } catch (Throwable t) {
             return new ArrayList();

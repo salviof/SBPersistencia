@@ -7,9 +7,9 @@ package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
 import com.super_bits.modulosSB.Persistencia.centralLocalizacao.CentralLocalizacaoSBPersistencia;
 import com.super_bits.modulosSB.Persistencia.centralOrigemDados.CentralAtributosSBPersistencia;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreDeProjetoJarAbstrato;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.FabTipoProjeto;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktopTransient;
 
@@ -29,7 +29,7 @@ public abstract class ConfiguradorCoreDeProjetoJarPersistenciaAbstrato extends C
     }
 
     @Override
-    public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
+    public void defineClassesBasicas(ComoContextoExecCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao); //To change body of generated methods, choose Tools | Templates.
         setIgnorarConfiguracaoPermissoes(false);
         setIgnorarConfiguracaoAcoesDoSistema(false);

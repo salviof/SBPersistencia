@@ -5,7 +5,8 @@
  */
 package com.super_bits.modulosSB.Persistencia.ConfigGeral;
 
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
+
 import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDesktopTransient;
 
 /**
@@ -17,14 +18,14 @@ import com.super_bits.modulosSB.SBCore.modulos.comunicacao.CentralComunicacaoDes
 public class ConfigCoreJunitPadraoDesenvolvedorComPersistencia extends ConfiguradorCoreDeProjetoJarPersistenciaAbstrato {
 
     @Override
-    public void defineClassesBasicas(ItfConfiguracaoCoreCustomizavel pConfiguracao) {
+    public void defineClassesBasicas(ComoContextoExecCustomizavel pConfiguracao) {
         super.defineClassesBasicas(pConfiguracao);
         setIgnorarConfiguracaoPermissoes(true);
         setIgnorarConfiguracaoAcoesDoSistema(true);
     }
 
     @Override
-    public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
+    public void defineFabricasDeACao(ComoContextoExecCustomizavel pConfig) {
         pConfig.setCentralComunicacao(CentralComunicacaoDesktopTransient.class);
 
     }

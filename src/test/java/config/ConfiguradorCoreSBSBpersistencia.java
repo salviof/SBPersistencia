@@ -4,8 +4,8 @@
  */
 package config;
 
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreDeProjetoJarAbstrato;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
 
 /**
  *
@@ -19,7 +19,7 @@ public class ConfiguradorCoreSBSBpersistencia extends ConfiguradorCoreDeProjetoJ
     }
 
     @Override
-    public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
+    public void defineFabricasDeACao(ComoContextoExecCustomizavel pConfig) {
 
     }
 
