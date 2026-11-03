@@ -75,10 +75,11 @@ public class CentralAtributosSBPersistencia extends CentralAtributosDeObjetosSem
             case LISTA_POR_ENTIDADE:
                 EstruturaDeEntidade estrutura = MapaObjetosProjetoAtual.getEstruturaObjeto(pPropriedades.getClasseDeclaracaoAtributo());
                 if (estrutura.getCampos().stream().filter(cp -> cp.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.REG_ATIVO_INATIVO)).findFirst().isPresent()) {
-
-                    return new ConsultaDinamicaDeEntidade(pPropriedades.getClasseDeclaracaoAtributo(), getEm()).addCondicaoPositivo(estrutura.getCampos().stream()
-                            .filter(cp -> cp.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.REG_ATIVO_INATIVO)).findFirst().get().getNomeDeclarado())
-                            .gerarResultados();
+                    String campoPOsitivo = estrutura.getCampos().stream()
+                            .filter(cp -> cp.getFabricaTipoAtributo().equals(FabTipoAtributoObjeto.REG_ATIVO_INATIVO)).findFirst().get().getNomeDeclarado();
+                    ConsultaDinamicaDeEntidade consulta = new ConsultaDinamicaDeEntidade(pPropriedades.getClasseDeclaracaoAtributo(), getEm())
+                            .addCondicaoPositivo(campoPOsitivo);
+                    return consulta.gerarResultados();
                 } else {
                     return UtilSBPersistencia.getListaTodos(pPropriedades.getClasseDeclaracaoAtributo(), getEm());
                 }
