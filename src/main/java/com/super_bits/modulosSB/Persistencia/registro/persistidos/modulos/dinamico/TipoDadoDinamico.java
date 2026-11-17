@@ -619,4 +619,9 @@ public class TipoDadoDinamico extends EntidadeSimplesORM implements ItfAtributoO
 
     }
 
+    @Override
+    public boolean isVisivel() {
+        return true;
+    }
+
 }
